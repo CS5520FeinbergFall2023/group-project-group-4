@@ -3,9 +3,11 @@
 **Before Starting New Work:**
 
 - Switch to your personal branch (e.g., Rupert, Sahil, etc.).
-- Pull the latest changes from testdev to your branch:
 
   git checkout [YourBranchName]
+
+- Pull the latest changes from testdev to your branch:
+
   git pull origin testdev
 
 **Working on Your Tasks:**
@@ -13,7 +15,8 @@
 - Make changes in your branch.
 - Commit regularly to save your progress:
 
-  git add .
+  git add <fileName.extension>
+
   git commit -m "Description of changes"
 
 **Pushing Changes & Pull Requests:**
