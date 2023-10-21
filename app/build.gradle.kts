@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace = "edu.northeastern.groupproject_outandabout"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "edu.northeastern.groupproject_outandabout"
