@@ -1,6 +1,6 @@
-***Git Workflow for Our Project***
+****Git Workflow for Our Project****
 
-**Before Starting New Work:**
+***Before Starting New Work:***
 
 - Switch to your personal branch (e.g., Rupert, Sahil, etc.).
 
