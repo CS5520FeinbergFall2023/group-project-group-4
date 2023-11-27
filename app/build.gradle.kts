@@ -1,3 +1,7 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+// Get API key from local.properties
+val apiKey: String = gradleLocalProperties(rootDir).getProperty("GOOGLE_API_KEY")
+
 plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
@@ -22,6 +26,12 @@ android {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             signingConfig = signingConfigs.getByName("debug")
+
+            buildConfigField("String", "apiKey", apiKey)
+        }
+
+        debug {
+            buildConfigField("String", "GOOGLE_API_KEY", apiKey)
         }
     }
     compileOptions {
@@ -30,6 +40,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
