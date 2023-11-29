@@ -54,14 +54,14 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
         TextView nameTextView;
         TextView addressTextView;
         TextView ratingTextView;
-        CheckBox selectCheckBox; // Added CheckBox
+        CheckBox selectCheckBox;
 
         ActivityViewHolder(View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.activityName);
             addressTextView = itemView.findViewById(R.id.activityAddress);
             ratingTextView = itemView.findViewById(R.id.activityRating);
-            selectCheckBox = itemView.findViewById(R.id.selectCheckBox); // Initialize CheckBox
+            selectCheckBox = itemView.findViewById(R.id.selectCheckBox);
         }
     }
 
