@@ -1,4 +1,4 @@
-package edu.northeastern.groupproject_outandabout;
+package edu.northeastern.groupproject_outandabout.ui.plan;
 
 /**
  * This class represents an option presented to the user that they can select as one of the as part
