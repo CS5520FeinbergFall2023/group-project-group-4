@@ -7,6 +7,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import edu.northeastern.groupproject_outandabout.R;
+import java.io.Serializable;
 
 public class ActivitySelectionActivity extends AppCompatActivity {
 
@@ -32,21 +33,38 @@ public class ActivitySelectionActivity extends AppCompatActivity {
     }
 
     private void onConfirmSelection() {
-        // Collect selected options
-        boolean isRestaurantSelected = checkboxRestaurant.isChecked();
-        boolean isEntertainmentSelected = checkboxEntertainment.isChecked();
-        boolean isNightlifeSelected = checkboxNightlife.isChecked();
-        boolean isOutdoorSelected = checkboxOutdoor.isChecked();
+        // Create a user preferences object with the selected options
+        UserPreferences preferences = new UserPreferences(
+                checkboxRestaurant.isChecked(),
+                checkboxEntertainment.isChecked(),
+                checkboxNightlife.isChecked(),
+                checkboxOutdoor.isChecked()
+        );
 
-        // TODO: Use these selections to fetch data from the Places API
+        // Navigate to the next activity with the user's preferences
+        navigateToActivityList(preferences);
+    }
 
-        // For now, just navigate to the next activity (e.g., a summary or list plan activity)
-        // Replace 'NextActivity.class' with the actual class of your next activity
-        Intent nextActivityIntent = new Intent(ActivitySelectionActivity.this, NextActivity.class);
-        nextActivityIntent.putExtra("RestaurantSelected", isRestaurantSelected);
-        nextActivityIntent.putExtra("EntertainmentSelected", isEntertainmentSelected);
-        nextActivityIntent.putExtra("NightlifeSelected", isNightlifeSelected);
-        nextActivityIntent.putExtra("OutdoorSelected", isOutdoorSelected);
-        startActivity(nextActivityIntent);
+    private void navigateToActivityList(UserPreferences preferences) {
+        Intent activityListIntent = new Intent(ActivitySelectionActivity.this, ActivityListActivity.class);
+        activityListIntent.putExtra("UserPreferences", preferences);
+        startActivity(activityListIntent);
+    }
+
+    // Inner class for user preferences, implementing Serializable
+    static class UserPreferences implements Serializable {
+        boolean restaurant;
+        boolean entertainment;
+        boolean nightlife;
+        boolean outdoor;
+
+        public UserPreferences(boolean restaurant, boolean entertainment, boolean nightlife, boolean outdoor) {
+            this.restaurant = restaurant;
+            this.entertainment = entertainment;
+            this.nightlife = nightlife;
+            this.outdoor = outdoor;
+        }
+
+        // Getters for the properties, if needed
     }
 }
