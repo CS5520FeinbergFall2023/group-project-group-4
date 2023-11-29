@@ -1,4 +1,4 @@
-package edu.northeastern.groupproject_outandabout;
+package edu.northeastern.groupproject_outandabout.ui.plan;
 
 import android.os.Parcel;
 import android.os.Parcelable;
