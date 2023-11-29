@@ -79,8 +79,7 @@ public class ActivityListActivity extends AppCompatActivity {
         if (id == R.id.action_finalize_plan) {
             // Retrieve selected activities
             Set<ActivityOption> selectedActivities = adapter.getSelectedActivities();
-            // TODO: Navigate to PlanSummaryActivity or PlanCreationActivity with selectedActivities
-            Intent intent = new Intent(this, PlanSummaryActivity.class); // Replace with actual class
+            Intent intent = new Intent(this, PlanSummaryActivity.class);
             // Pass selectedActivities to the next activity (may require serialization or a different approach)
             startActivity(intent);
             return true;
