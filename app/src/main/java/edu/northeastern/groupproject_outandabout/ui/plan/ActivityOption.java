@@ -1,11 +1,12 @@
 package edu.northeastern.groupproject_outandabout.ui.plan;
+import java.io.Serializable;
 
 /**
  * This class represents an option presented to the user that they can select as one of the as part
  * of their plan. It encapsulates point of interest data from API calls so that the application
  * can use it for UI and plan building.
  */
-public class ActivityOption {
+public class ActivityOption implements Serializable{
 
     final String name;
     final String id;

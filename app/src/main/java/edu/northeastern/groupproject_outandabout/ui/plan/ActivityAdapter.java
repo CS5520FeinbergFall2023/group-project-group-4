@@ -34,7 +34,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
         holder.addressTextView.setText(activityOption.getAddress());
         holder.ratingTextView.setText("Rating: " + activityOption.getRating() + " / 5");
 
-        holder.selectCheckBox.setOnCheckedChangeListener(null);
+        // Set the checked state of the checkbox
         holder.selectCheckBox.setChecked(selectedActivities.contains(activityOption));
         holder.selectCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -66,6 +66,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
     }
 
     public Set<ActivityOption> getSelectedActivities() {
-        return selectedActivities;
+        return new HashSet<>(selectedActivities); // Return a copy to avoid external modification
     }
 }
