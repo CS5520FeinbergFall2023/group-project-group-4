@@ -4,35 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ApiTestActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/testTitleTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="API Test"
+        app:layout_constraintBottom_toTopOf="@+id/osmApiCallButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/apiTestButton"
+        android:id="@+id/osmApiCallButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="API TEST"
+        android:text="OSM API Test Call"
+        app:layout_constraintBottom_toTopOf="@+id/googleApiCallButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/testTitleTV" />
+
+    <Button
+        android:id="@+id/googleApiCallButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Google API Test Call"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <Button
-        android:id="@+id/btnNewPlan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start New Plan"
-        tools:layout_editor_absoluteX="134dp"
-        tools:layout_editor_absoluteY="216dp" />
-
-
+        app:layout_constraintTop_toBottomOf="@+id/osmApiCallButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>
