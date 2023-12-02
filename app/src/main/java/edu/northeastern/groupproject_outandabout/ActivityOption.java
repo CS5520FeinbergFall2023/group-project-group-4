@@ -16,6 +16,7 @@ public class ActivityOption implements Parcelable {
     final String address;
     final String websiteUri;
     final float rating;
+    private boolean isSelected;
 
     public ActivityOption(String name, String id, String address, String websiteUri, float rating) {
         this.name = name;
@@ -23,6 +24,7 @@ public class ActivityOption implements Parcelable {
         this.address = address;
         this.websiteUri = websiteUri;
         this.rating = rating;
+        this.isSelected = false;
     }
 
     public String getName() {
@@ -41,10 +43,19 @@ public class ActivityOption implements Parcelable {
         return this.websiteUri;
     }
 
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
     public float getRating() {
         return this.rating;
     }
 
+    // Added this code to be able to pass a list of ActivityOptions as an intent extra
     @Override
     public int describeContents() {
         return 0;
