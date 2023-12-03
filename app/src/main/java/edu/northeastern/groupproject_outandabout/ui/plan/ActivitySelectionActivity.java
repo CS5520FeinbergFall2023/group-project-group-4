@@ -20,36 +20,39 @@ public class ActivitySelectionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection);
 
-        // Initialize checkboxes
+        initializeComponents();
+        setupConfirmButton();
+    }
+
+    private void initializeComponents() {
         checkboxRestaurant = findViewById(R.id.checkbox_restaurant);
         checkboxEntertainment = findViewById(R.id.checkbox_entertainment);
         checkboxNightlife = findViewById(R.id.checkbox_nightlife);
         checkboxOutdoor = findViewById(R.id.checkbox_outdoor);
-
-        // Initialize confirm button
         confirmButton = findViewById(R.id.confirmButton);
+    }
 
-        // Set up confirm button click listener
+    private void setupConfirmButton() {
         confirmButton.setOnClickListener(view -> onConfirmSelection());
     }
 
     private void onConfirmSelection() {
         if (!isAnyCheckboxChecked()) {
-            // Show a toast message if no option is selected
             Toast.makeText(this, "Please select at least one category", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Create a user preferences object with the selected options
-        UserPreferences preferences = new UserPreferences(
+        UserPreferences preferences = createUserPreferences();
+        navigateToActivityList(preferences);
+    }
+
+    private UserPreferences createUserPreferences() {
+        return new UserPreferences(
                 checkboxRestaurant.isChecked(),
                 checkboxEntertainment.isChecked(),
                 checkboxNightlife.isChecked(),
                 checkboxOutdoor.isChecked()
         );
-
-        // Navigate to the next activity with the user's preferences
-        navigateToActivityList(preferences);
     }
 
     private boolean isAnyCheckboxChecked() {
@@ -58,12 +61,11 @@ public class ActivitySelectionActivity extends AppCompatActivity {
     }
 
     private void navigateToActivityList(UserPreferences preferences) {
-        Intent activityListIntent = new Intent(ActivitySelectionActivity.this, ActivityListActivity.class);
+        Intent activityListIntent = new Intent(this, ActivityListActivity.class);
         activityListIntent.putExtra("UserPreferences", preferences);
         startActivity(activityListIntent);
     }
 
-    // Inner class for user preferences, implementing Serializable
     static class UserPreferences implements Serializable {
         boolean restaurant;
         boolean entertainment;

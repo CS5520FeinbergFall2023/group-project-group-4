@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+import android.util.Log;
+
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.appcompat.app.AppCompatActivity;
+
 import edu.northeastern.groupproject_outandabout.R;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -27,41 +30,62 @@ public class ActivityListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
+        setupRecyclerView();
+        setupButtons();
+    }
+
+    private void setupRecyclerView() {
         activitiesRecyclerView = findViewById(R.id.activitiesRecyclerView);
         activitiesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Retrieve user preferences and filter activities accordingly
-        ActivitySelectionActivity.UserPreferences preferences = (ActivitySelectionActivity.UserPreferences) getIntent().getSerializableExtra("UserPreferences");
-        List<ActivityOption> filteredActivities = filterActivitiesBasedOnPreferences(preferences, createMockActivities());
+        List<ActivityOption> filteredActivities = filterActivitiesBasedOnPreferences(getUserPreferences(), createMockActivities());
         adapter = new ActivityAdapter(filteredActivities);
         activitiesRecyclerView.setAdapter(adapter);
+    }
 
+    private ActivitySelectionActivity.UserPreferences getUserPreferences() {
+        return (ActivitySelectionActivity.UserPreferences) getIntent().getSerializableExtra("UserPreferences");
+    }
 
-        // "Add to Plan" button
+    private void addSelectedActivitiesToPlan() {
+        Set<ActivityOption> activitiesToAdd = adapter.getSelectedActivities();
+        selectedActivities.addAll(activitiesToAdd);
+        Toast.makeText(this, "Activities added to plan", Toast.LENGTH_SHORT).show();
+
+        // Log the size and contents of the selectedActivities set
+        Log.d("ActivityListActivity", "Selected Activities Added: " + activitiesToAdd.size());
+        for (ActivityOption activity : activitiesToAdd) {
+            Log.d("ActivityListActivity", "Activity: " + activity.getName());
+        }
+    }
+
+    private void setupButtons() {
         Button btnAddToPlan = findViewById(R.id.btnAddToPlan);
-        btnAddToPlan.setOnClickListener(view -> {
-            // Get selected activities
-            Set<ActivityOption> activitiesToAdd = adapter.getSelectedActivities();
+        btnAddToPlan.setOnClickListener(view -> addSelectedActivitiesToPlan());
 
-            // Add selected activities to the InitialPlanActivity
-            InitialPlanActivity.addActivitiesToInitialPlan(activitiesToAdd);
-
-            // Finish the current activity
-            finish();
-        });
-
-        // "View Current Plan" button
         Button btnViewPlan = findViewById(R.id.btnViewPlan);
         btnViewPlan.setOnClickListener(view -> {
-            // View the current plan
-            Intent viewPlanIntent = new Intent(ActivityListActivity.this, InitialPlanActivity.class);
-            startActivity(viewPlanIntent);
+            // Log the size and contents of the selectedActivities set before sending
+            Log.d("ActivityListActivity", "Preparing to view plan with Activities Count: " + selectedActivities.size());
+            for (ActivityOption activity : selectedActivities) {
+                Log.d("ActivityListActivity", "Sending Activity: " + activity.getName());
+            }
+
+            // Create an intent to start InitialPlanActivity
+            Intent intent = new Intent(this, InitialPlanActivity.class);
+            intent.putExtra("selectedActivities", new ArrayList<>(selectedActivities));
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+            // Start InitialPlanActivity with the intent
+            startActivity(intent);
         });
 
     }
 
+
+
     private List<ActivityOption> filterActivitiesBasedOnPreferences(ActivitySelectionActivity.UserPreferences preferences, List<ActivityOption> allActivities) {
-        if (preferences == null) return allActivities; // If no preferences are passed, return all activities
+        if (preferences == null) return allActivities;
         List<ActivityOption> filteredActivities = new ArrayList<>();
         for (ActivityOption activity : allActivities) {
             if ((preferences.restaurant && activity.getType().equals("Restaurant")) ||
@@ -84,15 +108,13 @@ public class ActivityListActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.activity_list_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_finalize_plan) {
+        if (item.getItemId() == R.id.action_finalize_plan) {
             returnSelectedActivitiesToInitialPlanActivity();
             return true;
         }
@@ -100,18 +122,10 @@ public class ActivityListActivity extends AppCompatActivity {
     }
 
     private void returnSelectedActivitiesToInitialPlanActivity() {
-        // Get selected activities
         Set<ActivityOption> activitiesToReturn = adapter.getSelectedActivities();
-
-        // Prepare data to send back to InitialPlanActivity
         Intent returnIntent = new Intent();
         returnIntent.putExtra("addedActivities", new ArrayList<>(activitiesToReturn));
         setResult(RESULT_OK, returnIntent);
-
-        // Finish ActivityListActivity and return to InitialPlanActivity
         finish();
     }
-
-
-
 }
