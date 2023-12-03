@@ -1,4 +1,9 @@
 package edu.northeastern.groupproject_outandabout.ui.plan;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 import android.os.Parcel;
@@ -44,14 +49,6 @@ public class ActivityOption implements Serializable, Parcelable {
         return this.websiteUri;
     }
 
-    public boolean isSelected() {
-        return isSelected;
-    }
-
-    public void setSelected(boolean selected) {
-        isSelected = selected;
-    }
-
     public float getRating() {
         return this.rating;
     }
@@ -69,6 +66,14 @@ public class ActivityOption implements Serializable, Parcelable {
         dest.writeString(address);
         dest.writeString(websiteUri);
         dest.writeFloat(rating);
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 
     public static final Parcelable.Creator<ActivityOption> CREATOR = new Parcelable.Creator<ActivityOption>() {

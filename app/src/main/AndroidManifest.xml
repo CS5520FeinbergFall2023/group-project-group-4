@@ -27,15 +27,6 @@
             android:name=".OptionsActivity"
             android:exported="false" />
         <activity
-            android:name=".RemovedActivity"
-            android:exported="false" />
-        <activity
-            android:name=".removedActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SavedActivity"
-            android:exported="false" />
-        <activity
             android:name=".SwipeActivity"
             android:exported="false" />
         <activity
@@ -59,7 +50,6 @@
         <activity
             android:name=".ui.plan.PlanSummaryActivity"
             android:exported="false" />
-
 
 
     </application>
