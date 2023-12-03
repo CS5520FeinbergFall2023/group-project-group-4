@@ -4,11 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.appcompat.app.AppCompatActivity;
 import edu.northeastern.groupproject_outandabout.R;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -16,6 +20,7 @@ public class ActivityListActivity extends AppCompatActivity {
 
     private RecyclerView activitiesRecyclerView;
     private ActivityAdapter adapter;
+    private Set<ActivityOption> selectedActivities = new HashSet<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,16 +30,31 @@ public class ActivityListActivity extends AppCompatActivity {
         activitiesRecyclerView = findViewById(R.id.activitiesRecyclerView);
         activitiesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Retrieve user preferences passed from the previous activity
-        ActivitySelectionActivity.UserPreferences preferences =
-                (ActivitySelectionActivity.UserPreferences) getIntent().getSerializableExtra("UserPreferences");
-
         // Mock data for testing, replace with actual data later
         List<ActivityOption> mockActivities = createMockActivities();
-
-        // Set up the RecyclerView with the mock data
         adapter = new ActivityAdapter(mockActivities);
         activitiesRecyclerView.setAdapter(adapter);
+
+        // Add to Plan button
+        Button btnAddToPlan = findViewById(R.id.btnAddToPlan);
+        btnAddToPlan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedActivities.addAll(adapter.getSelectedActivities());
+            }
+        });
+
+        // View Current Plan button
+        Button btnViewPlan = findViewById(R.id.btnViewPlan);
+        btnViewPlan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ActivityListActivity.this, PlanSummaryActivity.class);
+                // Pass the selected activities to PlanSummaryActivity
+                intent.putExtra("selectedActivities", new ArrayList<>(selectedActivities));
+                startActivity(intent);
+            }
+        });
     }
 
     private List<ActivityOption> createMockActivities() {

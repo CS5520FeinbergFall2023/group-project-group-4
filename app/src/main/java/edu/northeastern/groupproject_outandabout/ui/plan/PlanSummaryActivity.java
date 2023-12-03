@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.appcompat.app.AppCompatActivity;
 import edu.northeastern.groupproject_outandabout.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,16 +22,16 @@ public class PlanSummaryActivity extends AppCompatActivity {
         planSummaryRecyclerView = findViewById(R.id.planSummaryRecyclerView);
         planSummaryRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // TODO: Retrieve the selected activities
-        List<ActivityOption> selectedActivities = getSelectedActivities(); // Implement this method
+        // Retrieve the selected activities passed from ActivityListActivity
+        List<ActivityOption> selectedActivities = getSelectedActivities();
 
         adapter = new PlanSummaryAdapter(selectedActivities);
         planSummaryRecyclerView.setAdapter(adapter);
     }
 
     private List<ActivityOption> getSelectedActivities() {
-        // Implement logic to retrieve selected activities
-        // Placeholder for demonstration
-        return new ArrayList<>(); // Replace with actual implementation
+        // Retrieve the list of selected activities from the Intent
+        List<ActivityOption> selectedActivities = (List<ActivityOption>) getIntent().getSerializableExtra("selectedActivities");
+        return selectedActivities != null ? selectedActivities : new ArrayList<>();
     }
 }

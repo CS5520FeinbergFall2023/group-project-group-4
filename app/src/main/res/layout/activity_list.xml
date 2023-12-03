@@ -5,8 +5,25 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- RecyclerView for displaying the list of activities -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activitiesRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Button for adding selected activities to the plan -->
+    <Button
+        android:id="@+id/btnAddToPlan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add to Plan" />
+
+    <!-- Button for viewing the current plan -->
+    <Button
+        android:id="@+id/btnViewPlan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View Current Plan" />
+
 </LinearLayout>

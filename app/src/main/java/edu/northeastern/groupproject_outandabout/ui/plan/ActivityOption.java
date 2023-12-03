@@ -1,4 +1,5 @@
 package edu.northeastern.groupproject_outandabout.ui.plan;
+import java.io.Serializable;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -9,7 +10,7 @@ import androidx.annotation.NonNull;
  * of their plan. It encapsulates point of interest data from API calls so that the application
  * can use it for UI and plan building.
  */
-public class ActivityOption implements Parcelable {
+public class ActivityOption implements Serializable, Parcelable {
 
     final String name;
     final String id;
