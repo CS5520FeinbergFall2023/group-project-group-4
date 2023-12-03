@@ -24,6 +24,12 @@
 
 
         <activity
+            android:name=".OptionsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SwipeActivity"
+            android:exported="false" />=
+        <activity
             android:name=".ApiTestActivity"
             android:exported="false" />
         <activity

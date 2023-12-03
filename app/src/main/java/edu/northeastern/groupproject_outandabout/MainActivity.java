@@ -32,5 +32,12 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, ApiTestActivity.class);
             startActivity(intent);
         });
+
+        // BUTTON FOR SWIPE TEST ACTIVITY
+        Button swipeTest = findViewById(R.id.swipeTestButton);
+        swipeTest.setOnClickListener(view -> {
+            Intent intent = new Intent(this, SwipeActivity.class);
+            startActivity(intent);
+        });
     }
 }
