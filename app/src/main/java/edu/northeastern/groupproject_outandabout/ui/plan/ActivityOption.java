@@ -2,13 +2,11 @@ package edu.northeastern.groupproject_outandabout.ui.plan;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
-
 import java.io.Serializable;
 
 /**
- * This class represents an option presented to the user that they can select as one of the as part
- * of their plan. It encapsulates point of interest data from API calls so that the application
+ * This class represents an option presented to the user that they can select as part of their plan.
+ * It encapsulates point of interest data from API calls so that the application
  * can use it for UI and plan building.
  */
 public class ActivityOption implements Serializable, Parcelable {
@@ -17,36 +15,32 @@ public class ActivityOption implements Serializable, Parcelable {
     final String address;
     final String websiteUri;
     final float rating;
+    private final String type;
     private boolean isSelected;
 
-    public ActivityOption(String name, String id, String address, String websiteUri, float rating) {
+    public ActivityOption(String name, String id, String address, String websiteUri, float rating, String type) {
         this.name = name;
         this.id = id;
         this.address = address;
         this.websiteUri = websiteUri;
         this.rating = rating;
+        this.type = type;
         this.isSelected = false;
     }
 
-    public String getName() {
-        return this.name;
+    // Rest of your getters
+
+    public String getType() { return this.type; }
+
+    public boolean isSelected() {
+        return isSelected;
     }
 
-    public String getId() {
-        return this.id;
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 
-    public String getAddress() {
-        return this.address;
-    }
-
-    public String getWebsiteUri() {
-        return this.websiteUri;
-    }
-
-    public float getRating() {
-        return this.rating;
-    }
+    // Parcelable implementation
 
     @Override
     public int describeContents() {
@@ -60,14 +54,8 @@ public class ActivityOption implements Serializable, Parcelable {
         dest.writeString(address);
         dest.writeString(websiteUri);
         dest.writeFloat(rating);
-    }
-
-    public boolean isSelected() {
-        return isSelected;
-    }
-
-    public void setSelected(boolean selected) {
-        isSelected = selected;
+        dest.writeString(type);
+        dest.writeByte((byte) (isSelected ? 1 : 0)); // Handling boolean for Parcelable
     }
 
     public static final Parcelable.Creator<ActivityOption> CREATOR = new Parcelable.Creator<ActivityOption>() {
@@ -88,5 +76,7 @@ public class ActivityOption implements Serializable, Parcelable {
         address = in.readString();
         websiteUri = in.readString();
         rating = in.readFloat();
+        type = in.readString();
+        isSelected = in.readByte() != 0; // Handling boolean for Parcelable
     }
 }
