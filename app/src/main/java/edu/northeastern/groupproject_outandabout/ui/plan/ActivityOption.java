@@ -13,13 +13,16 @@ public class ActivityOption implements Serializable{
     final String address;
     final String websiteUri;
     final float rating;
+    private final String type;
 
-    public ActivityOption(String name, String id, String address, String websiteUri, float rating) {
+
+    public ActivityOption(String name, String id, String address, String websiteUri, float rating, String type) {
         this.name = name;
         this.id = id;
         this.address = address;
         this.websiteUri = websiteUri;
         this.rating = rating;
+        this.type = type;
     }
 
     public String getName() { return this.name; }
@@ -31,5 +34,8 @@ public class ActivityOption implements Serializable{
     public String getWebsiteUri() { return this.websiteUri; }
 
     public float getRating() { return this.rating; }
+
+    public String getType() { return this.type; }
+
 
 }

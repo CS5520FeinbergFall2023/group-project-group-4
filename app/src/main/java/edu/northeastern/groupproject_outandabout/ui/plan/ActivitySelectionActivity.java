@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.CheckBox;
 import android.widget.Button;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import edu.northeastern.groupproject_outandabout.R;
@@ -33,6 +34,12 @@ public class ActivitySelectionActivity extends AppCompatActivity {
     }
 
     private void onConfirmSelection() {
+        if (!isAnyCheckboxChecked()) {
+            // Show a toast message if no option is selected
+            Toast.makeText(this, "Please select at least one category", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         // Create a user preferences object with the selected options
         UserPreferences preferences = new UserPreferences(
                 checkboxRestaurant.isChecked(),
@@ -43,6 +50,11 @@ public class ActivitySelectionActivity extends AppCompatActivity {
 
         // Navigate to the next activity with the user's preferences
         navigateToActivityList(preferences);
+    }
+
+    private boolean isAnyCheckboxChecked() {
+        return checkboxRestaurant.isChecked() || checkboxEntertainment.isChecked() ||
+                checkboxNightlife.isChecked() || checkboxOutdoor.isChecked();
     }
 
     private void navigateToActivityList(UserPreferences preferences) {

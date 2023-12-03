@@ -61,7 +61,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
 
 
-
+    implementation("com.google.android.material:material:1.4.0")
 
     implementation("androidx.annotation:annotation:1.6.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")

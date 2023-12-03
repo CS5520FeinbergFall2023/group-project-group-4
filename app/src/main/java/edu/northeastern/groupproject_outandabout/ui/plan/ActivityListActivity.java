@@ -30,37 +30,54 @@ public class ActivityListActivity extends AppCompatActivity {
         activitiesRecyclerView = findViewById(R.id.activitiesRecyclerView);
         activitiesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Mock data for testing, replace with actual data later
-        List<ActivityOption> mockActivities = createMockActivities();
-        adapter = new ActivityAdapter(mockActivities);
+        // Retrieve user preferences and filter activities accordingly
+        ActivitySelectionActivity.UserPreferences preferences = (ActivitySelectionActivity.UserPreferences) getIntent().getSerializableExtra("UserPreferences");
+        List<ActivityOption> filteredActivities = filterActivitiesBasedOnPreferences(preferences, createMockActivities());
+        adapter = new ActivityAdapter(filteredActivities);
         activitiesRecyclerView.setAdapter(adapter);
 
-        // Add to Plan button
+
+        // "Add to Plan" button
         Button btnAddToPlan = findViewById(R.id.btnAddToPlan);
-        btnAddToPlan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedActivities.addAll(adapter.getSelectedActivities());
-            }
+        btnAddToPlan.setOnClickListener(view -> {
+            // Get selected activities
+            Set<ActivityOption> activitiesToAdd = adapter.getSelectedActivities();
+
+            // Add selected activities to the InitialPlanActivity
+            InitialPlanActivity.addActivitiesToInitialPlan(activitiesToAdd);
+
+            // Finish the current activity
+            finish();
         });
 
-        // View Current Plan button
+        // "View Current Plan" button
         Button btnViewPlan = findViewById(R.id.btnViewPlan);
-        btnViewPlan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ActivityListActivity.this, PlanSummaryActivity.class);
-                // Pass the selected activities to PlanSummaryActivity
-                intent.putExtra("selectedActivities", new ArrayList<>(selectedActivities));
-                startActivity(intent);
-            }
+        btnViewPlan.setOnClickListener(view -> {
+            // View the current plan
+            Intent viewPlanIntent = new Intent(ActivityListActivity.this, InitialPlanActivity.class);
+            startActivity(viewPlanIntent);
         });
+
+    }
+
+    private List<ActivityOption> filterActivitiesBasedOnPreferences(ActivitySelectionActivity.UserPreferences preferences, List<ActivityOption> allActivities) {
+        if (preferences == null) return allActivities; // If no preferences are passed, return all activities
+        List<ActivityOption> filteredActivities = new ArrayList<>();
+        for (ActivityOption activity : allActivities) {
+            if ((preferences.restaurant && activity.getType().equals("Restaurant")) ||
+                    (preferences.entertainment && activity.getType().equals("Entertainment")) ||
+                    (preferences.nightlife && activity.getType().equals("Nightlife")) ||
+                    (preferences.outdoor && activity.getType().equals("Outdoor"))) {
+                filteredActivities.add(activity);
+            }
+        }
+        return filteredActivities;
     }
 
     private List<ActivityOption> createMockActivities() {
         List<ActivityOption> mockActivities = new ArrayList<>();
-        mockActivities.add(new ActivityOption("Cafe Mocha", "cafe123", "123 Coffee Street", "http://cafemocha.com", 4.5f));
-        mockActivities.add(new ActivityOption("Night Club", "club456", "456 Party Lane", "http://nightclub.com", 4.0f));
+        mockActivities.add(new ActivityOption("Cafe Mocha", "cafe123", "123 Coffee Street", "http://cafemocha.com", 4.5f, "Restaurant"));
+        mockActivities.add(new ActivityOption("Night Club", "club456", "456 Party Lane", "http://nightclub.com", 4.0f, "Nightlife"));
         // Add more mock items as needed
         return mockActivities;
     }
@@ -74,16 +91,27 @@ public class ActivityListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here.
         int id = item.getItemId();
         if (id == R.id.action_finalize_plan) {
-            // Retrieve selected activities
-            Set<ActivityOption> selectedActivities = adapter.getSelectedActivities();
-            Intent intent = new Intent(this, PlanSummaryActivity.class);
-            // Pass selectedActivities to the next activity (may require serialization or a different approach)
-            startActivity(intent);
+            returnSelectedActivitiesToInitialPlanActivity();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void returnSelectedActivitiesToInitialPlanActivity() {
+        // Get selected activities
+        Set<ActivityOption> activitiesToReturn = adapter.getSelectedActivities();
+
+        // Prepare data to send back to InitialPlanActivity
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("addedActivities", new ArrayList<>(activitiesToReturn));
+        setResult(RESULT_OK, returnIntent);
+
+        // Finish ActivityListActivity and return to InitialPlanActivity
+        finish();
+    }
+
+
+
 }
