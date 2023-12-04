@@ -2,6 +2,8 @@ package edu.northeastern.groupproject_outandabout.ui.plan;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 /**
@@ -29,6 +31,9 @@ public class ActivityOption implements Serializable, Parcelable {
     }
 
     // Rest of your getters
+    public String getName() { return this.name; }
+    public String getAddress() { return this.address; }
+    public float getRating() { return this.rating; }
 
     public String getType() { return this.type; }
 
