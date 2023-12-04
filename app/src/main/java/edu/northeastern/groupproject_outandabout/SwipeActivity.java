@@ -106,7 +106,8 @@ public class SwipeActivity extends AppCompatActivity {
             String websiteUri = "https://example.com/" + (i + 1);
             float rating = 4.0f;
 
-            ActivityOption activityOption = new ActivityOption(name, id, address, websiteUri, rating);
+            // ADDED EMPTY STRING FOR TYPE FIELD TO TEST IF APP WOULD BUILD
+            ActivityOption activityOption = new ActivityOption(name, id, address, websiteUri, rating, "");
             dummyData.add(activityOption);
         }
 
