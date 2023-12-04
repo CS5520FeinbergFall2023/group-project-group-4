@@ -1,0 +1,49 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/planDisplay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your Plan"
+        android:textSize="24sp"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- RecyclerView for displaying the list of activities -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/initialPlanRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/planDisplay"
+        android:layout_above="@id/addActivitiesButton"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp" />
+
+
+    <!-- Floating Action Button for adding activities -->
+    <Button
+        android:id="@+id/finalizePlanButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/initialPlanRecyclerView"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="9dp"
+        android:text="Finalize Plan" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addActivitiesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:src="@android:drawable/ic_input_add"
+        app:backgroundTint="@color/fab_background_color" />
+
+
+</RelativeLayout>

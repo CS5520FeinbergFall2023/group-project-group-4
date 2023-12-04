@@ -24,6 +24,12 @@
 
 
         <activity
+            android:name=".OptionsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SwipeActivity"
+            android:exported="false" />=
+        <activity
             android:name=".ApiTestActivity"
             android:exported="false" />
         <activity
@@ -36,6 +42,9 @@
             android:name=".ui.plan.NewPlanActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.plan.InitialPlanActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.plan.ActivitySelectionActivity"
             android:exported="false" />
         <activity
@@ -44,6 +53,7 @@
         <activity
             android:name=".ui.plan.PlanSummaryActivity"
             android:exported="false" />
+
 
 
 
