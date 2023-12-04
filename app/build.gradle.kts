@@ -27,11 +27,11 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             signingConfig = signingConfigs.getByName("debug")
 
-            buildConfigField("String", "apiKey", apiKey)
+            buildConfigField("String", "GOOGLE_API_KEY", apiKey)
         }
 
         debug {
-            buildConfigField("String", "GOOGLE_API_KEY", apiKey)
+           buildConfigField("String", "GOOGLE_API_KEY", apiKey)
         }
     }
     compileOptions {
