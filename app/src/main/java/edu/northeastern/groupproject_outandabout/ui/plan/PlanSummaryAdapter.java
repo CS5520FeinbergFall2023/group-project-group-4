@@ -20,6 +20,12 @@ public class PlanSummaryAdapter extends RecyclerView.Adapter<PlanSummaryAdapter.
         this.activities = activities;
     }
 
+    // New method to add activities
+    public void addActivities(List<ActivityOption> newActivities) {
+        activities.addAll(newActivities);
+        notifyDataSetChanged();  // Notify the adapter that the data set has changed
+    }
+
     @Override
     public PlanViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.plan_summary_item, parent, false);

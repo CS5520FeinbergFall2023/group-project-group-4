@@ -16,11 +16,10 @@ public class NewPlanActivity extends AppCompatActivity {
         findViewById(R.id.startPlanningButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navigate to ActivitySelectionActivity
-                Intent intent = new Intent(NewPlanActivity.this, ActivitySelectionActivity.class);
+                // Navigate to InitialPlanActivity
+                Intent intent = new Intent(NewPlanActivity.this, InitialPlanActivity.class);
                 startActivity(intent);
             }
         });
-
     }
 }
