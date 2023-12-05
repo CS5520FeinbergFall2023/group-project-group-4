@@ -67,9 +67,10 @@ public class OptionsActivity extends AppCompatActivity {
             }
 
             if (selectedOption != null) {
-                Intent intent = new Intent(this, SwipeActivity.class);
-                intent.putExtra("SelectedActivity", (Parcelable) selectedOption);
-                startActivity(intent);
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("SelectedActivity", (Parcelable) selectedOption);
+                setResult(RESULT_OK, returnIntent);
+                finish();
             } else {
                 // Handle the case where no activity is selected
             }

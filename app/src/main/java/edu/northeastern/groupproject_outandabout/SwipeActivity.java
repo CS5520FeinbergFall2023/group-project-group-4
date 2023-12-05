@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.widget.Button;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import edu.northeastern.groupproject_outandabout.ui.plan.ActivityOption;
  * This is the activity where users swipe through the given activity options
  */
 public class SwipeActivity extends AppCompatActivity {
+    private static final int REQUEST_CODE_OPTIONS_ACTIVITY = 100;
     private List<ActivityOption> activities;
     private List<ActivityOption> savedActivities;
     private List<ActivityOption> removedActivities;
@@ -33,6 +35,13 @@ public class SwipeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe);
 
+        // Retrieve the passed types and times
+        List<String> selectedTypes = getIntent().getStringArrayListExtra("selectedTypes");
+        List<String> selectedTimes = getIntent().getStringArrayListExtra("selectedTimes");
+
+        // Use these parameters to filter API calls
+        activities = fetchDataBasedOnParameters(selectedTypes, selectedTimes);
+
         savedActivities = new ArrayList<>();
         removedActivities = new ArrayList<>();
 
@@ -41,19 +50,13 @@ public class SwipeActivity extends AppCompatActivity {
         updateButtonState();
 
         savedButton.setOnClickListener(view -> {
-            Intent intent = new Intent(this, OptionsActivity.class);
-            intent.putParcelableArrayListExtra("activityList", new ArrayList<>(savedActivities));
-            startActivity(intent);
+            startOptionsActivityForResult(savedActivities);
         });
 
         removedButton.setOnClickListener(view -> {
-            Intent intent = new Intent(this, OptionsActivity.class);
-            intent.putParcelableArrayListExtra("activityList", new ArrayList<>(removedActivities));
-            startActivity(intent);
+            startOptionsActivityForResult(removedActivities);
         });
 
-        // Initialize the list of dummy ActivityOption objects
-        // To be replaced later with the results of the API call
         activities = generateDummyData();
 
         recyclerView = findViewById(R.id.activityCards);
@@ -91,26 +94,45 @@ public class SwipeActivity extends AppCompatActivity {
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
+    private void startOptionsActivityForResult(List<ActivityOption> activities) {
+        Intent intent = new Intent(this, OptionsActivity.class);
+        intent.putParcelableArrayListExtra("activityList", new ArrayList<>(activities));
+        startActivityForResult(intent, REQUEST_CODE_OPTIONS_ACTIVITY);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_OPTIONS_ACTIVITY && resultCode == RESULT_OK) {
+            Intent returnIntent = new Intent();
+            ActivityOption selectedActivity = data.getParcelableExtra("SelectedActivity");
+            returnIntent.putExtra("SelectedActivity", (Parcelable) selectedActivity);
+            setResult(RESULT_OK, returnIntent);
+            finish();
+        }
+    }
+
     private void updateButtonState() {
         savedButton.setEnabled(!savedActivities.isEmpty());
         removedButton.setEnabled(!removedActivities.isEmpty());
     }
 
+    private List<ActivityOption> fetchDataBasedOnParameters(List<String> types, List<String> times) {
+        //Need to implement api filtering logic here based on types and times
+        return generateDummyData(); // Placeholder for your data fetching logic
+    }
+
     private List<ActivityOption> generateDummyData() {
         List<ActivityOption> dummyData = new ArrayList<>();
-
         for (int i = 0; i < 20; i++) {
             String name = "Activity " + (i + 1);
             String id = "ID " + (i + 1);
             String address = "Address " + (i + 1);
             String websiteUri = "https://example.com/" + (i + 1);
             float rating = 4.0f;
-
-            // ADDED EMPTY STRING FOR TYPE FIELD TO TEST IF APP WOULD BUILD
             ActivityOption activityOption = new ActivityOption(name, id, address, websiteUri, rating, ActivityType.NONE);
             dummyData.add(activityOption);
         }
-
         return dummyData;
     }
 }
