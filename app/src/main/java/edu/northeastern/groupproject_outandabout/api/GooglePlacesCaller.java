@@ -87,7 +87,7 @@ public class GooglePlacesCaller {
      * @param type The type of points of interests contained in the response (Restaurant, Entertainment, etc.)
      * @return ArrayList of ActivityOption objects for each point of interest in API response.
      */
-    public ArrayList<ActivityOption> parseApiResponse(String response, String type) {
+    public ArrayList<ActivityOption> parseApiResponse(String response, ActivityType type) {
         ArrayList<ActivityOption> activityOptions = new ArrayList<>();
 
         JSONArray jsonResponse;
@@ -104,7 +104,7 @@ public class GooglePlacesCaller {
                 String address = "";
                 float rating = 0f;
 
-                ActivityOption option = new ActivityOption(name, "", address, "", rating, ActivityType.valueOf(type));
+                ActivityOption option = new ActivityOption(name, address, rating, type);
                 activityOptions.add(option);
             }
         }

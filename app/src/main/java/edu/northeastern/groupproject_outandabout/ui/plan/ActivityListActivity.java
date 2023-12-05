@@ -53,8 +53,8 @@ public class ActivityListActivity extends AppCompatActivity {
     private List<ActivityOption> createMockActivities() {
         // Mock activities for testing. Replace with real data fetching logic.
         List<ActivityOption> mockActivities = new ArrayList<>();
-        mockActivities.add(new ActivityOption("Cafe Mocha", "cafe123", "123 Coffee Street", "http://cafemocha.com", 4.5f, ActivityType.RESTAURANT));
-        mockActivities.add(new ActivityOption("Night Club", "club456", "456 Party Lane", "http://nightclub.com", 4.0f, ActivityType.NIGHTLIFE));
+        mockActivities.add(new ActivityOption("Cafe Mocha","123 Coffee Street", 4.5f, ActivityType.RESTAURANT));
+        mockActivities.add(new ActivityOption("Night Club", "456 Party Lane", 4.0f, ActivityType.NIGHTLIFE));
         // Add more mock items as needed
         return mockActivities;
     }
