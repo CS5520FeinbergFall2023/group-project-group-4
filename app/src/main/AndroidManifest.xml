@@ -45,12 +45,6 @@
             android:name=".ui.plan.InitialPlanActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.plan.ActivitySelectionActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.plan.ActivityListActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.plan.PlanSummaryActivity"
             android:exported="false" />
 

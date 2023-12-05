@@ -16,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import edu.northeastern.groupproject_outandabout.ActivityType;
 import edu.northeastern.groupproject_outandabout.ui.plan.ActivityOption;
 
 /**
@@ -92,7 +93,7 @@ public class OpenStreetMapCaller {
                 String address = "";
                 float rating = 0f;
 
-                ActivityOption option = new ActivityOption(name, "", address, "", rating, type);
+                ActivityOption option = new ActivityOption(name, "", address, "", rating, ActivityType.valueOf(type));
                 activityOptions.add(option);
             }
         }
