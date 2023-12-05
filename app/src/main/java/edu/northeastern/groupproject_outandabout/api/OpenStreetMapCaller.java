@@ -2,6 +2,10 @@ package edu.northeastern.groupproject_outandabout.api;
 
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -9,7 +13,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import edu.northeastern.groupproject_outandabout.ui.plan.ActivityOption;
 
 /**
  * Utility class used to call the OpenStreetMap Overpass API and retrieve point of interest data.
@@ -59,6 +66,41 @@ public class OpenStreetMapCaller {
         }
 
         return response;
+    }
+
+    /**
+     * Parses json formatted response from OpenStreetMap Overpass API and puts the point of interest data
+     * into ActivityOption objects.
+     * @param response JSON formatted string containing a OpenStreetMap Overpass API response.
+     * @param type The type of points of interests contained in the response (Restaurant, Entertainment, etc.)
+     * @return ArrayList of ActivityOption objects for each point of interest in API response.
+     */
+    public ArrayList<ActivityOption> parseApiResponse(String response, String type) {
+        ArrayList<ActivityOption> activityOptions = new ArrayList<>();
+
+        JSONArray jsonResponse;
+        try {
+            // Convert response to JSON
+            jsonResponse = new JSONArray(response);
+
+            // Populate arraylist with POI ActivityOption objects
+            for(int i = 0; i < jsonResponse.length(); i++) {
+                JSONObject pointOfInterest = jsonResponse.getJSONObject(i);
+
+                //TODO Figure out and update api response formatting to get these fields
+                String name = "";
+                String address = "";
+                float rating = 0f;
+
+                ActivityOption option = new ActivityOption(name, "", address, "", rating, type);
+                activityOptions.add(option);
+            }
+        }
+        catch (JSONException e) {
+            Log.d("OSM_CALLER_ERROR", "parseApiResponse: JSONException");
+        }
+
+        return activityOptions;
     }
 
     private static String convertStreamToString(InputStream inputStream) {
