@@ -1,11 +1,12 @@
 package edu.northeastern.groupproject_outandabout.ui.plan;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * This class represents the plan that user is building throughout the app progression
  */
-public class Plan {
+public class Plan implements Serializable {
 
     private String name;
     private ArrayList<ActivityBuilderSlot> activityBuilderSlots;
