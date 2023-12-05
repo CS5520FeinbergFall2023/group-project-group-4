@@ -34,7 +34,7 @@ public class InitialPlanActivity extends AppCompatActivity {
 
         // Initialize with one placeholder activity
         selectedActivities = new ArrayList<>();
-        selectedActivities.add(new ActivityOption("Activity 1", "", "", "", 0, ActivityType.NONE));
+        selectedActivities.add(new ActivityOption("Activity 1", "",0, ActivityType.NONE));
 
         adapter = new PlanSummaryAdapter(selectedActivities);
         initialPlanRecyclerView.setAdapter(adapter);
@@ -50,7 +50,7 @@ public class InitialPlanActivity extends AppCompatActivity {
         addActivitiesButton.setOnClickListener(v -> {
             // Add a new placeholder activity
             int newActivityNumber = selectedActivities.size() + 1;
-            selectedActivities.add(new ActivityOption("Activity " + newActivityNumber, "", "", "", 0, ActivityType.NONE));
+            selectedActivities.add(new ActivityOption("Activity " + newActivityNumber, "", 0, ActivityType.NONE));
             adapter.notifyDataSetChanged();
         });
     }

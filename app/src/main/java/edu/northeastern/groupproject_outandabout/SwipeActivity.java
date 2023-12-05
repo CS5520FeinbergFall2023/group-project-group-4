@@ -130,7 +130,7 @@ public class SwipeActivity extends AppCompatActivity {
             String address = "Address " + (i + 1);
             String websiteUri = "https://example.com/" + (i + 1);
             float rating = 4.0f;
-            ActivityOption activityOption = new ActivityOption(name, id, address, websiteUri, rating, ActivityType.NONE);
+            ActivityOption activityOption = new ActivityOption(name, address, rating, ActivityType.NONE);
             dummyData.add(activityOption);
         }
         return dummyData;

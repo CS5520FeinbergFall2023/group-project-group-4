@@ -13,19 +13,15 @@ import java.io.Serializable;
  */
 public class ActivityOption implements Serializable, Parcelable {
     final String name;
-    final String id;
     final String address;
-    final String websiteUri;
     final float rating;
     private ActivityType type;
     private String selectedTime;
     private boolean isSelected;
 
-    public ActivityOption(String name, String id, String address, String websiteUri, float rating, ActivityType type) {
+    public ActivityOption(String name, String address, float rating, ActivityType type) {
         this.name = name;
-        this.id = id;
         this.address = address;
-        this.websiteUri = websiteUri;
         this.rating = rating;
         this.type = type;
         this.isSelected = false;
@@ -60,9 +56,7 @@ public class ActivityOption implements Serializable, Parcelable {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(name);
-        dest.writeString(id);
         dest.writeString(address);
-        dest.writeString(websiteUri);
         dest.writeFloat(rating);
         dest.writeString(type != null ? type.name() : null);
         dest.writeString(selectedTime);
@@ -83,9 +77,7 @@ public class ActivityOption implements Serializable, Parcelable {
 
     private ActivityOption(Parcel in) {
         name = in.readString();
-        id = in.readString();
         address = in.readString();
-        websiteUri = in.readString();
         rating = in.readFloat();
         String typeString = in.readString();
         type = typeString != null ? ActivityType.valueOf(typeString) : null;
