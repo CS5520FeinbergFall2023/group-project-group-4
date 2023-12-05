@@ -1,7 +1,7 @@
 package edu.northeastern.groupproject_outandabout.ui.plan;
 import android.os.Parcel;
 import android.os.Parcelable;
-
+import edu.northeastern.groupproject_outandabout.ActivityType;
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
@@ -17,10 +17,11 @@ public class ActivityOption implements Serializable, Parcelable {
     final String address;
     final String websiteUri;
     final float rating;
-    private final String type;
+    private ActivityType type;
+    private String selectedTime;
     private boolean isSelected;
 
-    public ActivityOption(String name, String id, String address, String websiteUri, float rating, String type) {
+    public ActivityOption(String name, String id, String address, String websiteUri, float rating, ActivityType type) {
         this.name = name;
         this.id = id;
         this.address = address;
@@ -28,28 +29,32 @@ public class ActivityOption implements Serializable, Parcelable {
         this.rating = rating;
         this.type = type;
         this.isSelected = false;
+        this.selectedTime = "";
     }
 
-    // Rest of your getters
+    // Getters and setters
     public String getName() { return this.name; }
     public String getAddress() { return this.address; }
     public float getRating() { return this.rating; }
-
-    public String getType() { return this.type; }
-
-    public boolean isSelected() {
-        return isSelected;
-    }
-
-    public void setSelected(boolean selected) {
-        isSelected = selected;
-    }
+    // Getter and setter for selected type
+    public ActivityType getSelectedType() { return type; }
+    public void setSelectedType(ActivityType selectedType) { type = selectedType; }
+    // Getter and setter for selected time
+    public String getSelectedTime() { return selectedTime; }
+    public void setSelectedTime(String selectedTime) { this.selectedTime = selectedTime; }
+    public boolean isSelected() { return isSelected; }
+    public void setSelected(boolean selected) { isSelected = selected; }
 
     // Parcelable implementation
 
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    // Method to determine if this instance is a placeholder
+    public boolean isPlaceholder() {
+        return type == ActivityType.NONE || type == null;
     }
 
     @Override
@@ -59,7 +64,8 @@ public class ActivityOption implements Serializable, Parcelable {
         dest.writeString(address);
         dest.writeString(websiteUri);
         dest.writeFloat(rating);
-        dest.writeString(type);
+        dest.writeString(type != null ? type.name() : null);
+        dest.writeString(selectedTime);
         dest.writeByte((byte) (isSelected ? 1 : 0)); // Handling boolean for Parcelable
     }
 
@@ -81,7 +87,9 @@ public class ActivityOption implements Serializable, Parcelable {
         address = in.readString();
         websiteUri = in.readString();
         rating = in.readFloat();
-        type = in.readString();
-        isSelected = in.readByte() != 0; // Handling boolean for Parcelable
+        String typeString = in.readString();
+        type = typeString != null ? ActivityType.valueOf(typeString) : null;
+        selectedTime = in.readString();
+        isSelected = in.readByte() != 0;
     }
 }

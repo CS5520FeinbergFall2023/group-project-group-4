@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.widget.Button;
 
@@ -64,12 +66,13 @@ public class OptionsActivity extends AppCompatActivity {
                 }
             }
 
-            // Currently logs selected item to the Logcat
-            // To be changed later to pass selected item to create plan with
-            String selectedItemInfo = "Selected Item: " + selectedOption.getName() +
-                    "\nAddress: " + selectedOption.getAddress() +
-                    "\nRating: " + selectedOption.getRating();
-            Log.d("OptionsActivity", selectedItemInfo);
+            if (selectedOption != null) {
+                Intent intent = new Intent(this, SwipeActivity.class);
+                intent.putExtra("SelectedActivity", (Parcelable) selectedOption);
+                startActivity(intent);
+            } else {
+                // Handle the case where no activity is selected
+            }
         });
     }
 }

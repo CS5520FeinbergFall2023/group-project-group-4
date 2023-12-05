@@ -107,7 +107,7 @@ public class SwipeActivity extends AppCompatActivity {
             float rating = 4.0f;
 
             // ADDED EMPTY STRING FOR TYPE FIELD TO TEST IF APP WOULD BUILD
-            ActivityOption activityOption = new ActivityOption(name, id, address, websiteUri, rating, "");
+            ActivityOption activityOption = new ActivityOption(name, id, address, websiteUri, rating, ActivityType.NONE);
             dummyData.add(activityOption);
         }
 
