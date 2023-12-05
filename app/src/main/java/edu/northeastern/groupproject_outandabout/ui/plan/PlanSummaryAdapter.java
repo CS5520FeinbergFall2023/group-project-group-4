@@ -162,7 +162,7 @@ public class PlanSummaryAdapter extends RecyclerView.Adapter<PlanSummaryAdapter.
                 case "Outdoors":
                     return ActivityType.OUTDOORS;
                 default:
-                    return ActivityType.NONE; // Default or placeholder value
+                    return ActivityType.NONE;
             }
         }
     }
