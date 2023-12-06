@@ -63,6 +63,18 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         return removedActivities;
     }
 
+    public void setActivityOptions(List<ActivityOption> activityOptions) {
+        this.activityOptions = activityOptions;
+    }
+
+    public void setSavedActivities(List<ActivityOption> savedActivities) {
+        this.savedActivities = savedActivities;
+    }
+
+    public void setRemovedActivities(List<ActivityOption> removedActivities) {
+        this.removedActivities = removedActivities;
+    }
+
     public class CardViewHolder extends RecyclerView.ViewHolder {
         private TextView infoTextView;
         private Button leftButton;
@@ -89,7 +101,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         private void performSwipe(int direction) {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                // Trigger the swipe action programmatically
+                // Trigger the swipe action programmatically with the correct adapter reference
                 new ItemTouchHelperCallback(direction, CardAdapter.this).onSwiped(this, direction);
             }
         }
@@ -117,6 +129,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             int position = viewHolder.getAdapterPosition();
+
             if (position < activityOptions.size()) {
                 ActivityOption swipedItem = activityOptions.remove(position);
 
@@ -128,9 +141,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
                 activityOptions.add(0, swipedItem);
                 adapter.notifyItemMoved(position, 0);
-            }
 
-            updateButtonState();
+                updateButtonState();
+            }
         }
     }
 
