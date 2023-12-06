@@ -43,6 +43,14 @@ public class LoginActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
+        // Check if user was signed in already
+        if (mAuth.getCurrentUser() != null) {
+            // User already signed in so redirect
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
@@ -53,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Register button
         final Button registerButton = binding.register;
+        assert registerButton != null;
         registerButton.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
@@ -60,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Continue without logging in button
         final Button continueWithoutLogin = binding.continueWithoutLogin;
+        assert continueWithoutLogin != null;
         continueWithoutLogin.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
@@ -137,6 +147,20 @@ public class LoginActivity extends AppCompatActivity {
             loadingProgressBar.setVisibility(View.VISIBLE);
             signIn(usernameEditText.getText().toString().trim(), passwordEditText.getText().toString().trim());
         });
+    }
+
+    // in case the logout doesn't occur
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() != null) {
+            // User already signed in so redirect
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     private void signIn(String email, String password) {
