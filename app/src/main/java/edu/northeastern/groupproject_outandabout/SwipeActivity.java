@@ -5,21 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.widget.Button;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import edu.northeastern.groupproject_outandabout.ui.plan.ActivityOption;
 
 /**
  * This is the activity where users swipe through the given activity options
  */
-public class SwipeActivity extends AppCompatActivity {
+public class SwipeActivity extends AppCompatActivity implements CardAdapter.ButtonStateListener {
     private static final int REQUEST_CODE_OPTIONS_ACTIVITY = 100;
     private List<ActivityOption> activities;
     private List<ActivityOption> savedActivities;
@@ -61,10 +58,15 @@ public class SwipeActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.activityCards);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new CardAdapter(activities);
+        adapter = new CardAdapter(activities, savedActivities, removedActivities, this);
         recyclerView.setAdapter(adapter);
 
-        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        ItemTouchHelper.Callback callback = new ItemTouchHelper.Callback() {
+            @Override
+            public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                return makeMovementFlags(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
+            }
+
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -73,8 +75,12 @@ public class SwipeActivity extends AppCompatActivity {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
-                if (position < activities.size()) {
-                    ActivityOption swipedItem = activities.remove(position);
+                List<ActivityOption> activityOptions = adapter.getActivityOptions();
+                List<ActivityOption> savedActivities = adapter.getSavedActivities();
+                List<ActivityOption> removedActivities = adapter.getRemovedActivities();
+
+                if (position < activityOptions.size()) {
+                    ActivityOption swipedItem = activityOptions.remove(position);
 
                     if (direction == ItemTouchHelper.LEFT) {
                         removedActivities.add(swipedItem);
@@ -82,15 +88,14 @@ public class SwipeActivity extends AppCompatActivity {
                         savedActivities.add(swipedItem);
                     }
 
-                    activities.add(0, swipedItem);
+                    activityOptions.add(0, swipedItem);
                     adapter.notifyItemMoved(position, 0);
+                    updateButtonState();
                 }
-
-                updateButtonState();
             }
         };
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
@@ -134,5 +139,10 @@ public class SwipeActivity extends AppCompatActivity {
             dummyData.add(activityOption);
         }
         return dummyData;
+    }
+
+    @Override
+    public void onUpdateButtonState() {
+        updateButtonState();
     }
 }
