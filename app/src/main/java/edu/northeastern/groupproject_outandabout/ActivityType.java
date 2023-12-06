@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
  * to their plans.
  */
 public enum ActivityType {
+    NONE,  // For no selection or a placeholder
     RESTAURANT,
     ENTERTAINMENT,
     NIGHTLIFE,
@@ -24,6 +25,8 @@ public enum ActivityType {
                 return "Nightlife";
             case OUTDOORS:
                 return "Outdoors";
+            case NONE:
+                return "";
             default:
                 return "";
         }

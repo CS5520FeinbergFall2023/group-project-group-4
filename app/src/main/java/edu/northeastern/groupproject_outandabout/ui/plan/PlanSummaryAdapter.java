@@ -1,71 +1,115 @@
 package edu.northeastern.groupproject_outandabout.ui.plan;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
-import java.util.List;
-import edu.northeastern.groupproject_outandabout.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.northeastern.groupproject_outandabout.ActivityType;
+import edu.northeastern.groupproject_outandabout.R;
 
 public class PlanSummaryAdapter extends RecyclerView.Adapter<PlanSummaryAdapter.PlanViewHolder> {
 
-    private List<ActivityOption> activities;
+    private List<ActivityBuilderSlot> activitySlots;
 
-    public PlanSummaryAdapter(List<ActivityOption> activities) {
-        this.activities = activities;
-    }
 
-    // New method to add activities
-    public void addActivities(List<ActivityOption> newActivities) {
-        activities.addAll(newActivities);
-        notifyDataSetChanged();  // Notify the adapter that the data set has changed
+    public PlanSummaryAdapter(List<ActivityBuilderSlot> activitySlots) {
+        this.activitySlots = activitySlots;
     }
 
     @Override
     public PlanViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.plan_summary_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_row, parent, false);
         return new PlanViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(PlanViewHolder holder, int position) {
-        ActivityOption activity = activities.get(position);
-        holder.activityNameTextView.setText(activity.getName());
+        ActivityBuilderSlot slot = activitySlots.get(position);
+        holder.activityLabel.setText("Activity " + (position + 1));
+        setupSpinners(holder, slot);
+    }
 
-        // Set up a listener for the EditText
-        holder.activityTimeEditText.addTextChangedListener(new TextWatcher() {
+    private void setupSpinners(PlanViewHolder holder, ActivityBuilderSlot slot) {
+        ArrayAdapter<CharSequence> timeAdapter = ArrayAdapter.createFromResource(holder.itemView.getContext(),
+                R.array.time_options, android.R.layout.simple_spinner_item);
+        timeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        holder.timeSpinner.setAdapter(timeAdapter);
+
+        ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(holder.itemView.getContext(),
+                R.array.type_options, android.R.layout.simple_spinner_item);
+        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        holder.typeSpinner.setAdapter(typeAdapter);
+
+        // Set the current selection for type spinner
+        String typeString = slot.getType().toString();
+        int typePosition = typeAdapter.getPosition(typeString);
+        holder.typeSpinner.setSelection(typePosition >= 0 ? typePosition : 0);
+
+        // Set the current selection for time spinner
+        int timePosition = timeAdapter.getPosition(slot.getTimeslot());
+        holder.timeSpinner.setSelection(timePosition >= 0 ? timePosition : 0);
+
+        holder.typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedTypeString = parent.getItemAtPosition(position).toString();
+                ActivityType selectedType = ActivityType.valueOf(selectedTypeString);
+                slot.setType(selectedType);
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // Here, you can handle the time input, validate it, or store it
-                // For example, you might want to update a map with activity IDs and their corresponding times
+            public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
+        holder.timeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedTime = parent.getItemAtPosition(position).toString();
+                slot.setTimeslot(selectedTime);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+
+        });
+
+
     }
+
 
     @Override
     public int getItemCount() {
-        return activities.size();
+        return activitySlots.size();
+    }
+
+    public List<ActivityBuilderSlot> getSelectedSlots() {
+        return new ArrayList<>(activitySlots);
     }
 
     static class PlanViewHolder extends RecyclerView.ViewHolder {
-        TextView activityNameTextView;
-        EditText activityTimeEditText;
+        TextView activityLabel;
+        Spinner timeSpinner;
+        Spinner typeSpinner;
 
         PlanViewHolder(View itemView) {
             super(itemView);
-            activityNameTextView = itemView.findViewById(R.id.activityNameTextView);
-            activityTimeEditText = itemView.findViewById(R.id.activityTimeEditText);
+            activityLabel = itemView.findViewById(R.id.activityLabel);
+            timeSpinner = itemView.findViewById(R.id.timeSpinner);
+            typeSpinner = itemView.findViewById(R.id.typeSpinner);
         }
+
+
     }
+
 }
+
