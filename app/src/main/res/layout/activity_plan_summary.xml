@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Plan Name"
-        android:inputType="text"/>
+        android:inputType="text"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/planSummaryRecyclerView"
