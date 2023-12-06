@@ -1,17 +1,10 @@
 package edu.northeastern.groupproject_outandabout.ui.login;
 
-/**
- * Class exposing authenticated user details to the UI.
- */
-class LoggedInUserView {
-    private String displayName;
-    //... other data fields that may be accessible to the UI
+import java.io.Serializable;
 
-    LoggedInUserView(String displayName) {
-        this.displayName = displayName;
+class LoggedInUserView implements Serializable {
+
+    LoggedInUserView(String ignoredDisplayName, String ignoredEmail) {
     }
 
-    String getDisplayName() {
-        return displayName;
-    }
 }
