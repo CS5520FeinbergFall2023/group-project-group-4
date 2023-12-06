@@ -13,6 +13,8 @@ import android.widget.Button;
 import java.util.List;
 
 import edu.northeastern.groupproject_outandabout.ui.plan.ActivityOption;
+import edu.northeastern.groupproject_outandabout.ui.plan.Plan;
+import edu.northeastern.groupproject_outandabout.ui.plan.PlanSummaryActivity;
 
 /**
  * This clas shows the user either the liked or disliked activities and allows
@@ -67,9 +69,18 @@ public class OptionsActivity extends AppCompatActivity {
             }
 
             if (selectedOption != null) {
-                Intent returnIntent = new Intent();
-                returnIntent.putExtra("SelectedActivity", (Parcelable) selectedOption);
-                setResult(RESULT_OK, returnIntent);
+                // Create an Intent to start PlanSummaryActivity
+                Intent intent = new Intent(OptionsActivity.this, PlanSummaryActivity.class);
+
+                // Create a Plan object and add the selected activity to it
+                Plan plan = new Plan();
+                plan.addSelectedActivity(selectedOption);
+
+                // Put the Plan object as an extra in the Intent
+                intent.putExtra("currentPlan", plan);
+
+                // Start the PlanSummaryActivity
+                startActivity(intent);
                 finish();
             } else {
                 // Handle the case where no activity is selected

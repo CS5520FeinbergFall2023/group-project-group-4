@@ -20,8 +20,8 @@ import edu.northeastern.groupproject_outandabout.SwipeActivity;
 public class InitialPlanActivity extends AppCompatActivity {
 
     private RecyclerView initialPlanRecyclerView;
-    private PlanSummaryAdapter adapter;
-    private List<ActivityOption> selectedActivities;
+    private PlanSummaryAdapter adapter; // Update this adapter to work with ActivityBuilderSlot
+    private List<ActivityBuilderSlot> plannedActivities; // Changed to ActivityBuilderSlot
     private static final int REQUEST_CODE_SWIPE_ACTIVITY = 1;
 
     @Override
@@ -32,15 +32,13 @@ public class InitialPlanActivity extends AppCompatActivity {
         initialPlanRecyclerView = findViewById(R.id.initialPlanRecyclerView);
         initialPlanRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Initialize with one placeholder activity
-        selectedActivities = new ArrayList<>();
-        selectedActivities.add(new ActivityOption("Activity 1", "",0, ActivityType.NONE));
-
-        adapter = new PlanSummaryAdapter(selectedActivities);
+        plannedActivities = new ArrayList<>();
+        plannedActivities.add(new ActivityBuilderSlot(ActivityType.NONE, ""));
+        adapter = new PlanSummaryAdapter(plannedActivities);
         initialPlanRecyclerView.setAdapter(adapter);
 
         setupAddActivitiesButton();
-        setupFinalizePlanButton();
+        //setupFinalizePlanButton();
         setupGeneratePlanButton();
     }
 
@@ -48,34 +46,27 @@ public class InitialPlanActivity extends AppCompatActivity {
     private void setupAddActivitiesButton() {
         FloatingActionButton addActivitiesButton = findViewById(R.id.addActivitiesButton);
         addActivitiesButton.setOnClickListener(v -> {
-            // Add a new placeholder activity
-            int newActivityNumber = selectedActivities.size() + 1;
-            selectedActivities.add(new ActivityOption("Activity " + newActivityNumber, "", 0, ActivityType.NONE));
+            plannedActivities.add(new ActivityBuilderSlot(ActivityType.NONE, ""));
             adapter.notifyDataSetChanged();
         });
     }
 
-
-    private void setupFinalizePlanButton() {
-        Button finalizePlanButton = findViewById(R.id.finalizePlanButton);
-        finalizePlanButton.setOnClickListener(v -> {
-            // Create an AlertDialog.Builder
-            new AlertDialog.Builder(InitialPlanActivity.this)
-                    .setTitle("Finalize Plan") // Set Dialog Title
-                    .setMessage("Are you sure you want to finalize this plan?") // Set the message
-
-                    // Add the buttons
-                    .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                        // User clicked "Yes" button, navigate to PlanSummaryActivity
-                        Intent intent = new Intent(InitialPlanActivity.this, PlanSummaryActivity.class);
-                        intent.putExtra("selectedActivities", new ArrayList<>(adapter.getSelectedActivities()));
-                        startActivity(intent);
-                    })
-                    .setNegativeButton(android.R.string.no, null) // No option will close dialogue box
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
-        });
-    }
+//    private void setupFinalizePlanButton() {
+//        Button finalizePlanButton = findViewById(R.id.finalizePlanButton);
+//        finalizePlanButton.setOnClickListener(v -> {
+//            new AlertDialog.Builder(InitialPlanActivity.this)
+//                    .setTitle("Finalize Plan")
+//                    .setMessage("Are you sure you want to finalize this plan?")
+//                    .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+//                        Intent intent = new Intent(InitialPlanActivity.this, PlanSummaryActivity.class);
+//                        intent.putExtra("plannedActivities", new ArrayList<>(adapter.getSelectedSlots()));
+//                        startActivity(intent);
+//                    })
+//                    .setNegativeButton(android.R.string.no, null)
+//                    .setIcon(android.R.drawable.ic_dialog_alert)
+//                    .show();
+//        });
+//    }
 
 
     private void setupGeneratePlanButton() {
@@ -83,12 +74,12 @@ public class InitialPlanActivity extends AppCompatActivity {
         generatePlanButton.setOnClickListener(v -> {
             Intent intent = new Intent(InitialPlanActivity.this, SwipeActivity.class);
 
-            // Collecting selected types and times
             ArrayList<String> selectedTypes = new ArrayList<>();
             ArrayList<String> selectedTimes = new ArrayList<>();
-            for (ActivityOption option : selectedActivities) {
-                selectedTypes.add(option.getSelectedType().name());
-                selectedTimes.add(option.getSelectedTime());
+            for (ActivityBuilderSlot slot : plannedActivities) {
+                // Assuming getType() returns an ActivityType enum
+                selectedTypes.add(slot.getType().toString());
+                selectedTimes.add(slot.getTimeslot());
             }
 
             intent.putStringArrayListExtra("selectedTypes", selectedTypes);
@@ -98,17 +89,4 @@ public class InitialPlanActivity extends AppCompatActivity {
         });
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_SWIPE_ACTIVITY && resultCode == RESULT_OK) {
-            ActivityOption selectedActivity = data.getParcelableExtra("SelectedActivity");
-            if (selectedActivity != null) {
-                // Update your activities list
-                selectedActivities.set(0, selectedActivity);//Updating first
-                adapter.notifyDataSetChanged();
-            }
-        }
-    }
 }

@@ -9,16 +9,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.appcompat.app.AppCompatActivity;
 import edu.northeastern.groupproject_outandabout.R;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class PlanSummaryActivity extends AppCompatActivity {
 
     private RecyclerView planSummaryRecyclerView;
-    private PlanSummaryAdapter adapter;
+    private ActivitySummaryAdapter adapter;  // Change to ActivitySummaryAdapter
     private Button savePlanButton;
     private Button exportPlanButton;
     private Button regeneratePlanButton;
+    private Plan currentPlan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +30,8 @@ public class PlanSummaryActivity extends AppCompatActivity {
         exportPlanButton = findViewById(R.id.exportPlanButton);
         regeneratePlanButton = findViewById(R.id.regeneratePlanButton);
 
-        List<ActivityOption> selectedActivities = getSelectedActivities();
-        adapter = new PlanSummaryAdapter(selectedActivities);
+        currentPlan = getPlan();
+        adapter = new ActivitySummaryAdapter(currentPlan.getSelectedActivities());  // Use ActivitySummaryAdapter
         planSummaryRecyclerView.setAdapter(adapter);
 
         setupButtons();
@@ -59,16 +57,16 @@ public class PlanSummaryActivity extends AppCompatActivity {
     }
 
     private void savePlan() {
-        // Logic need to save plan to database
+        // Logic needed to save plan to database
     }
 
     private void exportPlan() {
-        // Logic need to export plan here
+        // Logic needed to export plan
     }
 
-    private List<ActivityOption> getSelectedActivities() {
-        // Retrieve the list of selected activities from the Intent
-        List<ActivityOption> selectedActivities = (List<ActivityOption>) getIntent().getSerializableExtra("selectedActivities");
-        return selectedActivities != null ? selectedActivities : new ArrayList<>();
+    private Plan getPlan() {
+        // Retrieve the Plan object from the Intent
+        Plan plan = (Plan) getIntent().getSerializableExtra("currentPlan");
+        return plan != null ? plan : new Plan(); // Return a new Plan if none was passed
     }
 }
