@@ -1,0 +1,164 @@
+{
+  "places": [
+    {
+      "displayName": {
+        "text": "Tasty Bites",
+        "languageCode": "en"
+      },
+      "formattedAddress": "123 Delicious St, Boston, MA, USA",
+      "rating": 4.7
+    },
+    {
+      "displayName": {
+        "text": "Cuisine Central",
+        "languageCode": "en"
+      },
+      "formattedAddress": "456 Savory Ave, Boston, MA, USA",
+      "rating": 4.2
+    },
+    {
+      "displayName": {
+        "text": "Food Haven",
+        "languageCode": "en"
+      },
+      "formattedAddress": "789 Flavorful Rd, Boston, MA, USA",
+      "rating": 4.5
+    },
+    {
+      "displayName": {
+        "text": "Treat Spot",
+        "languageCode": "en"
+      },
+      "formattedAddress": "321 Yummy Lane, Boston, MA, USA",
+      "rating": 4.8
+    },
+    {
+      "displayName": {
+        "text": "Flavor Junction",
+        "languageCode": "en"
+      },
+      "formattedAddress": "876 Tantalizing Blvd, Boston, MA, USA",
+      "rating": 4.1
+    },
+    {
+      "displayName": {
+        "text": "Delish Delight",
+        "languageCode": "en"
+      },
+      "formattedAddress": "543 Tasteful Rd, Boston, MA, USA",
+      "rating": 4.6
+    },
+    {
+      "displayName": {
+        "text": "Yum Yum Eatery",
+        "languageCode": "en"
+      },
+      "formattedAddress": "567 Tasty Blvd, Boston, MA, USA",
+      "rating": 4.6
+    },
+    {
+      "displayName": {
+        "text": "Savor Street",
+        "languageCode": "en"
+      },
+      "formattedAddress": "234 Yum Ave, Boston, MA, USA",
+      "rating": 4.3
+    },
+    {
+      "displayName": {
+        "text": "Tasty Treats",
+        "languageCode": "en"
+      },
+      "formattedAddress": "890 Delightful St, Boston, MA, USA",
+      "rating": 4.4
+    },
+    {
+      "displayName": {
+        "text": "Yummy Grub",
+        "languageCode": "en"
+      },
+      "formattedAddress": "432 Flavor Ave, Boston, MA, USA",
+      "rating": 4.2
+    },
+    {
+      "displayName": {
+        "text": "Savory Eats",
+        "languageCode": "en"
+      },
+      "formattedAddress": "987 Tasty Rd, Boston, MA, USA",
+      "rating": 4.9
+    },
+    {
+      "displayName": {
+        "text": "Flavorful Feasts",
+        "languageCode": "en"
+      },
+      "formattedAddress": "654 Delicious Blvd, Boston, MA, USA",
+      "rating": 4.7
+    },
+    {
+      "displayName": {
+        "text": "Tantalizing Treats",
+        "languageCode": "en"
+      },
+      "formattedAddress": "219 Yum Lane, Boston, MA, USA",
+      "rating": 4.5
+    },
+    {
+      "displayName": {
+        "text": "Delightful Dishes",
+        "languageCode": "en"
+      },
+      "formattedAddress": "876 Savorful St, Boston, MA, USA",
+      "rating": 4.6
+    },
+    {
+      "displayName": {
+        "text": "Taste Haven",
+        "languageCode": "en"
+      },
+      "formattedAddress": "543 Yummy Ave, Boston, MA, USA",
+      "rating": 4.2
+    },
+    {
+      "displayName": {
+        "text": "Yummy Eats",
+        "languageCode": "en"
+      },
+      "formattedAddress": "109 Tasty Rd, Boston, MA, USA",
+      "rating": 4.3
+    },
+    {
+      "displayName": {
+        "text": "Flavorful Bites",
+        "languageCode": "en"
+      },
+      "formattedAddress": "210 Savory Blvd, Boston, MA, USA",
+      "rating": 4.8
+    },
+    {
+      "displayName": {
+        "text": "Savory Treats",
+        "languageCode": "en"
+      },
+      "formattedAddress": "678 Delicious Rd, Boston, MA, USA",
+      "rating": 4.4
+    },
+    {
+      "displayName": {
+        "text": "Tasty Delights",
+        "languageCode": "en"
+      },
+      "formattedAddress": "345 Flavorful St, Boston, MA, USA",
+      "rating": 4.5
+    },
+    {
+      "displayName": {
+        "text": "Delicious Cuisine",
+        "languageCode": "en"
+      },
+      "formattedAddress": "876 Yum Ave, Boston, MA, USA",
+      "rating": 4.7
+    }
+  ]
+}

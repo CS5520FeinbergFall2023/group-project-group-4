@@ -76,7 +76,7 @@ public class OpenStreetMapCaller {
      * @param type The type of points of interests contained in the response (Restaurant, Entertainment, etc.)
      * @return ArrayList of ActivityOption objects for each point of interest in API response.
      */
-    public ArrayList<ActivityOption> parseApiResponse(String response, ActivityType type) {
+    public static ArrayList<ActivityOption> parseApiResponse(String response, ActivityType type) {
         ArrayList<ActivityOption> activityOptions = new ArrayList<>();
 
         JSONObject jsonResponse;
@@ -122,7 +122,7 @@ public class OpenStreetMapCaller {
                 }
 
                 // OSM does not provide rating data, set negative as indicator that the field is n/a
-                float rating = -1f;
+                String rating = "n/a";
 
                 ActivityOption option = new ActivityOption(name, address, rating, type);
                 activityOptions.add(option);

@@ -15,6 +15,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.northeastern.groupproject_outandabout.api.GooglePlacesCaller;
 import edu.northeastern.groupproject_outandabout.ui.plan.ActivityOption;
 
 /**
@@ -36,13 +37,6 @@ public class SwipeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe);
 
-        // Retrieve the passed types and times
-        List<String> selectedTypes = getIntent().getStringArrayListExtra("selectedTypes");
-        List<String> selectedTimes = getIntent().getStringArrayListExtra("selectedTimes");
-
-        // Use these parameters to filter API calls
-        activities = fetchDataBasedOnParameters(selectedTypes, selectedTimes);
-
         savedActivities = new ArrayList<>();
         removedActivities = new ArrayList<>();
 
@@ -58,7 +52,7 @@ public class SwipeActivity extends AppCompatActivity {
             startOptionsActivityForResult(removedActivities);
         });
 
-        activities = generateDummyData();
+        activities = parseApiResponse(); //generateDummyData();
 
         recyclerView = findViewById(R.id.activityCards);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -114,16 +108,6 @@ public class SwipeActivity extends AppCompatActivity {
             setResult(RESULT_OK, returnIntent);
             finish();
         }
-
-        /* Sahil's original
-        if (requestCode == REQUEST_CODE_OPTIONS_ACTIVITY && resultCode == RESULT_OK) {
-            Intent returnIntent = new Intent();
-            ActivityOption selectedActivity = data.getParcelableExtra("SelectedActivity");
-            returnIntent.putExtra("SelectedActivity", (Parcelable) selectedActivity);
-            setResult(RESULT_OK, returnIntent);
-            finish();
-        }
-         //*/
     }
 
     private void updateButtonState() {
@@ -131,9 +115,12 @@ public class SwipeActivity extends AppCompatActivity {
         removedButton.setEnabled(!removedActivities.isEmpty());
     }
 
-    private List<ActivityOption> fetchDataBasedOnParameters(List<String> types, List<String> times) {
-        //Need to implement api filtering logic here based on types and times
-        return generateDummyData(); // Placeholder for your data fetching logic
+    private List<ActivityOption> parseApiResponse() {
+        Intent intent = getIntent();
+        String apiResponse = intent.getStringExtra("Response");
+
+        return GooglePlacesCaller.parseApiResponse(apiResponse, ActivityType.RESTAURANT);
+        //return generateDummyData(); // Placeholder for your data fetching logic
     }
 
     private List<ActivityOption> generateDummyData() {
@@ -141,7 +128,7 @@ public class SwipeActivity extends AppCompatActivity {
         for (int i = 0; i < 20; i++) {
             String name = "Activity " + (i + 1);
             String address = "Address " + (i + 1);
-            float rating = 4.0f;
+            String rating = "4.0";
             ActivityOption activityOption = new ActivityOption(name, address, rating, ActivityType.NONE);
             dummyData.add(activityOption);
         }
