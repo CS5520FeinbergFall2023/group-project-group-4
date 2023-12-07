@@ -15,6 +15,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="user_email">User Email</string>
 
     <string-array name="time_options">
         <item>Morning</item>

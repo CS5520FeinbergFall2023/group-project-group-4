@@ -5,19 +5,19 @@ package edu.northeastern.groupproject_outandabout.data.model;
  */
 public class LoggedInUser {
 
-    private String userId;
-    private String displayName;
+    private final String displayName;
+    private final String email;
 
-    public LoggedInUser(String userId, String displayName) {
-        this.userId = userId;
+    public LoggedInUser(String ignoredUserId, String displayName, String email) {
         this.displayName = displayName;
-    }
-
-    public String getUserId() {
-        return userId;
+        this.email = email;
     }
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }
