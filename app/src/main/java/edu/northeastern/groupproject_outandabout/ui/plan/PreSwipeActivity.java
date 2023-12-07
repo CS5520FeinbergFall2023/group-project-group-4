@@ -21,7 +21,7 @@ public class PreSwipeActivity extends AppCompatActivity {
 
     private Plan plan;
     private int searchActivityIndex = 0;
-    private Handler threadHandler = new Handler();
+    private final Handler threadHandler = new Handler();
 
     private static final int REQUEST_CODE_SWIPE_ACTIVITY = 200;
 
@@ -86,7 +86,8 @@ public class PreSwipeActivity extends AppCompatActivity {
         Button randomizeButton = findViewById(R.id.randomizeButton);
         randomizeButton.setOnClickListener(view -> {
             // Make API call and pass the response as a String to SwipeActivity
-            Thread apiThread = new Thread(new RandomSearchRunnable(""));
+            String searchQuery = formatRandomGoogleApiQuery();
+            Thread apiThread = new Thread(new RandomSearchRunnable(searchQuery));
             apiThread.start();
         });
     }
@@ -101,16 +102,28 @@ public class PreSwipeActivity extends AppCompatActivity {
 
     /**
      * Helper method to format the Google Places API search query for a random activity search
+     * //TODO: Implement logic to get correct search location and activity type
      */
     private String formatRandomGoogleApiQuery() {
-        return "";
+        return "{\n" +
+                "  \"includedTypes\": [\"restaurant\"],\n" +
+                "  \"maxResultCount\": 3,\n" +
+                "  \"locationRestriction\": {\n" +
+                "    \"circle\": {\n" +
+                "      \"center\": {\n" +
+                "        \"latitude\": 37.7937,\n" +
+                "        \"longitude\": -122.3965},\n" +
+                "      \"radius\": 500.0\n" +
+                "    }\n" +
+                "  }\n" +
+                "}";
     }
 
     /**
      * Runnable class used for API random search thread
      */
     class RandomSearchRunnable implements Runnable {
-        private String searchQuery;
+        private final String searchQuery;
 
         public RandomSearchRunnable(String searchQuery) {
             this.searchQuery = searchQuery;
@@ -120,20 +133,8 @@ public class PreSwipeActivity extends AppCompatActivity {
             long startTime = System.currentTimeMillis();
             threadHandler.post(() -> searchLoadingWheel.setVisibility(View.VISIBLE));
 
-            this.searchQuery = "{\n" +
-                    "  \"includedTypes\": [\"restaurant\"],\n" +
-                    "  \"maxResultCount\": 3,\n" +
-                    "  \"locationRestriction\": {\n" +
-                    "    \"circle\": {\n" +
-                    "      \"center\": {\n" +
-                    "        \"latitude\": 37.7937,\n" +
-                    "        \"longitude\": -122.3965},\n" +
-                    "      \"radius\": 500.0\n" +
-                    "    }\n" +
-                    "  }\n" +
-                    "}";
-
-            String response = GooglePlacesCaller.fetchPoiData(this.searchQuery);
+            // MOCK RESPONSE USED FOR NOW TO TEST PARSING LOGIC
+            String response = GooglePlacesCaller.getMockApiResponse();//GooglePlacesCaller.fetchPoiData(this.searchQuery);
 
             // Show user loading wheel for at least 1 sec
             while (System.currentTimeMillis() - startTime < 1000) {/*wait*/}

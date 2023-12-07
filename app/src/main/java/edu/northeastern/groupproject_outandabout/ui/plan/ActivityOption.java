@@ -14,12 +14,12 @@ import java.io.Serializable;
 public class ActivityOption implements Serializable, Parcelable {
     final String name;
     final String address;
-    final float rating;
+    final String rating;
     private ActivityType type;
     private String selectedTime;
     private boolean isSelected;
 
-    public ActivityOption(String name, String address, float rating, ActivityType type) {
+    public ActivityOption(String name, String address, String rating, ActivityType type) {
         this.name = name;
         this.address = address;
         this.rating = rating;
@@ -31,7 +31,7 @@ public class ActivityOption implements Serializable, Parcelable {
     // Getters and setters
     public String getName() { return this.name; }
     public String getAddress() { return this.address; }
-    public float getRating() { return this.rating; }
+    public String getRating() { return this.rating; }
     // Getter and setter for selected type
     public ActivityType getSelectedType() { return type; }
     public void setSelectedType(ActivityType selectedType) { type = selectedType; }
@@ -42,7 +42,6 @@ public class ActivityOption implements Serializable, Parcelable {
     public void setSelected(boolean selected) { isSelected = selected; }
 
     // Parcelable implementation
-
     @Override
     public int describeContents() {
         return 0;
@@ -57,7 +56,7 @@ public class ActivityOption implements Serializable, Parcelable {
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(address);
-        dest.writeFloat(rating);
+        dest.writeString(rating);
         dest.writeString(type != null ? type.name() : null);
         dest.writeString(selectedTime);
         dest.writeByte((byte) (isSelected ? 1 : 0)); // Handling boolean for Parcelable
@@ -78,7 +77,7 @@ public class ActivityOption implements Serializable, Parcelable {
     private ActivityOption(Parcel in) {
         name = in.readString();
         address = in.readString();
-        rating = in.readFloat();
+        rating = in.readString();
         String typeString = in.readString();
         type = typeString != null ? ActivityType.valueOf(typeString) : null;
         selectedTime = in.readString();
