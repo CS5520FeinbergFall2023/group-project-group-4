@@ -66,7 +66,7 @@ public class PlanSummaryActivity extends AppCompatActivity {
 
     private Plan getPlan() {
         // Retrieve the Plan object from the Intent
-        Plan plan = (Plan) getIntent().getSerializableExtra("currentPlan");
+        Plan plan = (Plan) getIntent().getSerializableExtra("Plan");
         return plan != null ? plan : new Plan(); // Return a new Plan if none was passed
     }
 }
