@@ -1,6 +1,5 @@
 package edu.northeastern.groupproject_outandabout.ui.plan;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -15,7 +14,6 @@ import java.util.List;
 
 import edu.northeastern.groupproject_outandabout.ActivityType;
 import edu.northeastern.groupproject_outandabout.R;
-import edu.northeastern.groupproject_outandabout.SwipeActivity;
 
 public class InitialPlanActivity extends AppCompatActivity {
 
@@ -72,6 +70,18 @@ public class InitialPlanActivity extends AppCompatActivity {
     private void setupGeneratePlanButton() {
         Button generatePlanButton = findViewById(R.id.generatePlanButton);
         generatePlanButton.setOnClickListener(v -> {
+
+            Intent intent = new Intent(InitialPlanActivity.this, PreSwipeActivity.class);
+
+            Plan plan = new Plan();
+            for (ActivityBuilderSlot slot : plannedActivities) {
+                plan.addActivitySlot(slot);
+            }
+
+            intent.putExtra("Plan", plan);
+            startActivity(intent);
+
+            /* Sahil's Original
             Intent intent = new Intent(InitialPlanActivity.this, SwipeActivity.class);
 
             ArrayList<String> selectedTypes = new ArrayList<>();
@@ -86,6 +96,7 @@ public class InitialPlanActivity extends AppCompatActivity {
             intent.putStringArrayListExtra("selectedTimes", selectedTimes);
 
             startActivityForResult(intent, REQUEST_CODE_SWIPE_ACTIVITY);
+            */
         });
     }
 

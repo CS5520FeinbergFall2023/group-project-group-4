@@ -30,7 +30,7 @@ public class ApiTestActivity extends AppCompatActivity {
                         "area[\"name\"=\"United States\"]->.usa;\n" +
                         "area[\"name\"=\"Boston\"]->.boston;\n" +
                         "node[\"amenity\"=\"restaurant\"](area.usa)(area.boston);\n" +
-                        "out 5;";
+                        "out 50;";
 
                 String response = OpenStreetMapCaller.fetchPoiData(testQuery);
                 Log.d("OSM API RESPONSE: ", response);
