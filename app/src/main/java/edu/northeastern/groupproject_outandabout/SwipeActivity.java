@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.widget.Button;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,6 +104,18 @@ public class SwipeActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        // If ActivityOption was selected in OptionActivity and returned, return it to PreSwipe Activity
+        if (requestCode == REQUEST_CODE_OPTIONS_ACTIVITY && resultCode == RESULT_OK
+            && data.hasExtra("SelectedActivity")) {
+            Intent returnIntent = new Intent();
+            ActivityOption selectedActivity = (ActivityOption)data.getSerializableExtra("SelectedActivity");
+            returnIntent.putExtra("SelectedActivity", (Serializable)selectedActivity);
+            setResult(RESULT_OK, returnIntent);
+            finish();
+        }
+
+        /* Sahil's original
         if (requestCode == REQUEST_CODE_OPTIONS_ACTIVITY && resultCode == RESULT_OK) {
             Intent returnIntent = new Intent();
             ActivityOption selectedActivity = data.getParcelableExtra("SelectedActivity");
@@ -110,6 +123,7 @@ public class SwipeActivity extends AppCompatActivity {
             setResult(RESULT_OK, returnIntent);
             finish();
         }
+         //*/
     }
 
     private void updateButtonState() {
@@ -126,9 +140,7 @@ public class SwipeActivity extends AppCompatActivity {
         List<ActivityOption> dummyData = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
             String name = "Activity " + (i + 1);
-            String id = "ID " + (i + 1);
             String address = "Address " + (i + 1);
-            String websiteUri = "https://example.com/" + (i + 1);
             float rating = 4.0f;
             ActivityOption activityOption = new ActivityOption(name, address, rating, ActivityType.NONE);
             dummyData.add(activityOption);

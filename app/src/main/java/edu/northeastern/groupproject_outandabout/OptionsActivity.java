@@ -10,6 +10,7 @@ import android.os.Parcelable;
 import android.util.Log;
 import android.widget.Button;
 
+import java.io.Serializable;
 import java.util.List;
 
 import edu.northeastern.groupproject_outandabout.ui.plan.ActivityOption;
@@ -69,6 +70,13 @@ public class OptionsActivity extends AppCompatActivity {
             }
 
             if (selectedOption != null) {
+
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("SelectedActivity", (Serializable)selectedOption);
+                setResult(RESULT_OK, returnIntent);
+                finish();
+
+                /* Sahil/Rupert Original
                 // Create an Intent to start PlanSummaryActivity
                 Intent intent = new Intent(OptionsActivity.this, PlanSummaryActivity.class);
 
@@ -82,6 +90,7 @@ public class OptionsActivity extends AppCompatActivity {
                 // Start the PlanSummaryActivity
                 startActivity(intent);
                 finish();
+                 */
             } else {
                 // Handle the case where no activity is selected
             }
