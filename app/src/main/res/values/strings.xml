@@ -15,4 +15,19 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="user_email">User Email</string>
+
+    <string-array name="time_options">
+        <item>Morning</item>
+        <item>Afternoon</item>
+        <item>Evening</item>
+        <item>Night</item>
+    </string-array>
+
+    <string-array name="type_options">
+        <item>RESTAURANT</item>
+        <item>ENTERTAINMENT</item>
+        <item>NIGHTLIFE</item>
+        <item>OUTDOORS</item>
+    </string-array>
 </resources>

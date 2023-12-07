@@ -13,9 +13,9 @@ import edu.northeastern.groupproject_outandabout.R;
 
 public class LoginViewModel extends ViewModel {
 
-    private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
-    private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
-    private LoginRepository loginRepository;
+    private final MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
+    private final MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
+    private final LoginRepository loginRepository;
 
     LoginViewModel(LoginRepository loginRepository) {
         this.loginRepository = loginRepository;
@@ -30,16 +30,27 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void login(String username, String password) {
-        // can be launched in a separate asynchronous job
-        Result<LoggedInUser> result = loginRepository.login(username, password);
+        Result result = loginRepository.login(username, password);
 
         if (result instanceof Result.Success) {
-            LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
-            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
+            Result.Success successResult = (Result.Success) result;
+            Object data = successResult.getData();
+
+            if (data instanceof LoggedInUser) {
+                LoggedInUser loggedInUser = (LoggedInUser) data;
+                String email = loggedInUser.getEmail(); // Ensure getEmail() is defined in LoggedInUser
+                String displayName = loggedInUser.getDisplayName();
+                loginResult.setValue(new LoginResult(new LoggedInUserView(displayName, email)));
+            } else {
+                // Handle the case where data is not an instance of LoggedInUser
+                loginResult.setValue(new LoginResult(R.string.login_failed));
+            }
         } else {
             loginResult.setValue(new LoginResult(R.string.login_failed));
         }
     }
+
+
 
     public void loginDataChanged(String username, String password) {
         if (!isUserNameValid(username)) {

@@ -16,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import edu.northeastern.groupproject_outandabout.ActivityType;
 import edu.northeastern.groupproject_outandabout.BuildConfig;
 import edu.northeastern.groupproject_outandabout.ui.plan.ActivityOption;
 
@@ -26,7 +27,7 @@ public class GooglePlacesCaller {
 
     final static String API_URL = "https://places.googleapis.com/v1/places:searchNearby";
     final static String API_KEY = BuildConfig.GOOGLE_API_KEY;
-    final static String FIELD_MASKS = "places.displayName";
+    final static String FIELD_MASKS = "places.displayName, places.formattedAddress, places.rating";
 
     /**
      * Handles POST request to Google Places API Nearby Search (new) using the given parameters
@@ -86,24 +87,25 @@ public class GooglePlacesCaller {
      * @param type The type of points of interests contained in the response (Restaurant, Entertainment, etc.)
      * @return ArrayList of ActivityOption objects for each point of interest in API response.
      */
-    public ArrayList<ActivityOption> parseApiResponse(String response, String type) {
+    public ArrayList<ActivityOption> parseApiResponse(String response, ActivityType type) {
         ArrayList<ActivityOption> activityOptions = new ArrayList<>();
 
-        JSONArray jsonResponse;
+        JSONObject jsonResponse;
         try {
             // Convert response to JSON
-            jsonResponse = new JSONArray(response);
+            jsonResponse = new JSONObject(response);
+            JSONArray responseElements = jsonResponse.getJSONArray("places");
 
             // Populate arraylist with POI ActivityOption objects
             for(int i = 0; i < jsonResponse.length(); i++) {
-                JSONObject pointOfInterest = jsonResponse.getJSONObject(i);
+                JSONObject pointOfInterest = responseElements.getJSONObject(i);
 
-                //TODO Figure out and update api response formatting to get these fields
-                String name = "";
-                String address = "";
-                float rating = 0f;
+                //TODO Test that this correctly gets the correct info
+                String name = pointOfInterest.getJSONObject("displayName").optString("text", "n/a");
+                String address = pointOfInterest.optString("formattedAddress", "n/a");
+                String rating = pointOfInterest.optString("rating", "-1");
 
-                ActivityOption option = new ActivityOption(name, "", address, "", rating, type);
+                ActivityOption option = new ActivityOption(name, address, Float.parseFloat(rating), type);
                 activityOptions.add(option);
             }
         }

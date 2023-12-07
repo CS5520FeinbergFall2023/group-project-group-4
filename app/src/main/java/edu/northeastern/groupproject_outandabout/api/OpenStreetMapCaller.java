@@ -16,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import edu.northeastern.groupproject_outandabout.ActivityType;
 import edu.northeastern.groupproject_outandabout.ui.plan.ActivityOption;
 
 /**
@@ -75,24 +76,55 @@ public class OpenStreetMapCaller {
      * @param type The type of points of interests contained in the response (Restaurant, Entertainment, etc.)
      * @return ArrayList of ActivityOption objects for each point of interest in API response.
      */
-    public ArrayList<ActivityOption> parseApiResponse(String response, String type) {
+    public ArrayList<ActivityOption> parseApiResponse(String response, ActivityType type) {
         ArrayList<ActivityOption> activityOptions = new ArrayList<>();
 
-        JSONArray jsonResponse;
+        JSONObject jsonResponse;
         try {
             // Convert response to JSON
-            jsonResponse = new JSONArray(response);
+            jsonResponse = new JSONObject(response);
+            JSONArray responseElements = jsonResponse.getJSONArray("elements");
 
             // Populate arraylist with POI ActivityOption objects
             for(int i = 0; i < jsonResponse.length(); i++) {
-                JSONObject pointOfInterest = jsonResponse.getJSONObject(i);
+                JSONObject element = responseElements.getJSONObject(i);
+                JSONObject elementTags = element.getJSONObject("tags");
 
-                //TODO Figure out and update api response formatting to get these fields
-                String name = "";
+                //TODO Test that this correctly gets the correct info
+                String name = elementTags.optString("name", "n/a");
+
                 String address = "";
-                float rating = 0f;
+                address += elementTags.optString("addr:housenumber", "");
+                address += " " + elementTags.optString("addr:street", "");
 
-                ActivityOption option = new ActivityOption(name, "", address, "", rating, type);
+                // Check if at least Street and street number available, if not give lat/long instead
+                if(address.length() > 1) {
+                    // If the rest of the address is available then add it
+                    String city = elementTags.optString("addr:city", "");
+                    String state = elementTags.optString("addr:state", "");
+                    String postcode = elementTags.optString("addr:postcode", "");
+
+                    if (!city.isEmpty()) {
+                        address += ", " + city;
+                    }
+                    if (!state.isEmpty()) {
+                        address += " " + state;
+                    }
+                    if (!postcode.isEmpty()) {
+                        address += " " + postcode;
+                    }
+                }
+                // Address info is unavailable, set as the lat/long
+                else {
+                    String latitude = element.optString("lat", "n/a");
+                    String longitude = element.optString("lon", "n/a");
+                    address = latitude + ", " + longitude;
+                }
+
+                // OSM does not provide rating data, set negative as indicator that the field is n/a
+                float rating = -1f;
+
+                ActivityOption option = new ActivityOption(name, address, rating, type);
                 activityOptions.add(option);
             }
         }
