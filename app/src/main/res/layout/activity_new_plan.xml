@@ -5,21 +5,50 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/welcomeMessage"
+        android:id="@+id/welcomeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to the Plan Creator!"
+        android:text="Welcome to Out and About!"
         android:textSize="24sp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"/>
+        android:layout_marginTop="16dp" />
 
     <Button
-        android:id="@+id/startPlanningButton"
+        android:id="@+id/startByCurrentLocationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start Planning"
-        android:layout_below="@id/welcomeMessage"
+        android:layout_below="@id/welcomeTextView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="32dp"
+        android:text="Start Plan by Current Location" />
+
+    <Button
+        android:id="@+id/startByInputLocationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/startByCurrentLocationButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Start Plan by Input Location" />
+
+    <!-- Loading wheel when location info is being retrieved -->
+    <ProgressBar
+        android:id="@+id/locationLoadingWheel"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_below="@id/startByInputLocationButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"/>
+    <TextView
+        android:id="@+id/fetchingLocationTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:text="Fetching Current Location..."
+        android:layout_below="@id/locationLoadingWheel"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"/>
 
 </RelativeLayout>
