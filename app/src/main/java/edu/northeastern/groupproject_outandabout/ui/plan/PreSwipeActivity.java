@@ -24,6 +24,7 @@ public class PreSwipeActivity extends AppCompatActivity {
     private final Handler threadHandler = new Handler();
 
     private static final int REQUEST_CODE_SWIPE_ACTIVITY = 200;
+    private static final int REQUEST_CODE_CUSTOMIZE_ACTIVITY = 300;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +47,15 @@ public class PreSwipeActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // If ActivityOption was selected and returned, add to plan
-        if (requestCode == REQUEST_CODE_SWIPE_ACTIVITY && resultCode == RESULT_OK
+        // If customized search query API response returned from Customize Activity, launch swiping activity
+        if (requestCode == REQUEST_CODE_CUSTOMIZE_ACTIVITY && resultCode == RESULT_OK
+                && data.hasExtra("Response")) {
+            Intent intent = new Intent(this, SwipeActivity.class);
+            intent.putExtra("Response", data.getStringExtra("Response"));
+            startActivityForResult(intent, REQUEST_CODE_SWIPE_ACTIVITY);
+        }
+        // If ActivityOption was selected and returned from swiping, add to plan
+        else if (requestCode == REQUEST_CODE_SWIPE_ACTIVITY && resultCode == RESULT_OK
                 && data.hasExtra("SelectedActivity")) {
             ActivityOption selectedActivity = (ActivityOption)data.getSerializableExtra("SelectedActivity");
 
@@ -96,7 +104,9 @@ public class PreSwipeActivity extends AppCompatActivity {
         // Customize Search Button
         Button customizeButton = findViewById(R.id.customizeButton);
         customizeButton.setOnClickListener(view -> {
-            //TODO: Implement Customize Search Activity/Features
+            Intent intent = new Intent(this, CustomizeSearchActivity.class);
+            intent.putExtra("ActivityType", this.plan.getActivitySlots().get(searchActivityIndex).getType());
+            startActivityForResult(intent, REQUEST_CODE_CUSTOMIZE_ACTIVITY);
         });
     }
 
