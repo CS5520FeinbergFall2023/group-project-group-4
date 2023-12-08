@@ -18,9 +18,8 @@ import edu.northeastern.groupproject_outandabout.R;
 public class InitialPlanActivity extends AppCompatActivity {
 
     private RecyclerView initialPlanRecyclerView;
-    private PlanSummaryAdapter adapter; // Update this adapter to work with ActivityBuilderSlot
-    private List<ActivityBuilderSlot> plannedActivities; // Changed to ActivityBuilderSlot
-    private static final int REQUEST_CODE_SWIPE_ACTIVITY = 1;
+    private PlanSummaryAdapter adapter;
+    private List<ActivityBuilderSlot> plannedActivities;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +35,9 @@ public class InitialPlanActivity extends AppCompatActivity {
         initialPlanRecyclerView.setAdapter(adapter);
 
         setupAddActivitiesButton();
-        //setupFinalizePlanButton();
+        setupRemoveActivitiesButton();
         setupGeneratePlanButton();
     }
-
 
     private void setupAddActivitiesButton() {
         FloatingActionButton addActivitiesButton = findViewById(R.id.addActivitiesButton);
@@ -49,55 +47,35 @@ public class InitialPlanActivity extends AppCompatActivity {
         });
     }
 
-//    private void setupFinalizePlanButton() {
-//        Button finalizePlanButton = findViewById(R.id.finalizePlanButton);
-//        finalizePlanButton.setOnClickListener(v -> {
-//            new AlertDialog.Builder(InitialPlanActivity.this)
-//                    .setTitle("Finalize Plan")
-//                    .setMessage("Are you sure you want to finalize this plan?")
-//                    .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-//                        Intent intent = new Intent(InitialPlanActivity.this, PlanSummaryActivity.class);
-//                        intent.putExtra("plannedActivities", new ArrayList<>(adapter.getSelectedSlots()));
-//                        startActivity(intent);
-//                    })
-//                    .setNegativeButton(android.R.string.no, null)
-//                    .setIcon(android.R.drawable.ic_dialog_alert)
-//                    .show();
-//        });
-//    }
-
+    private void setupRemoveActivitiesButton() {
+        FloatingActionButton removeActivitiesButton = findViewById(R.id.removeActivitiesButton);
+        removeActivitiesButton.setOnClickListener(v -> {
+            if (plannedActivities.size() > 1) {
+                plannedActivities.remove(plannedActivities.size() - 1);
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
 
     private void setupGeneratePlanButton() {
         Button generatePlanButton = findViewById(R.id.generatePlanButton);
         generatePlanButton.setOnClickListener(v -> {
-
             Intent intent = new Intent(InitialPlanActivity.this, PreSwipeActivity.class);
-
             Plan plan = new Plan();
             for (ActivityBuilderSlot slot : plannedActivities) {
                 plan.addActivitySlot(slot);
             }
 
-            intent.putExtra("Plan", plan);
-            startActivity(intent);
-
-            /* Sahil's Original
-            Intent intent = new Intent(InitialPlanActivity.this, SwipeActivity.class);
-
-            ArrayList<String> selectedTypes = new ArrayList<>();
-            ArrayList<String> selectedTimes = new ArrayList<>();
-            for (ActivityBuilderSlot slot : plannedActivities) {
-                // Assuming getType() returns an ActivityType enum
-                selectedTypes.add(slot.getType().toString());
-                selectedTimes.add(slot.getTimeslot());
+            // Retrieve location data if available
+            if (getIntent().hasExtra("latitude") && getIntent().hasExtra("longitude")) {
+                double latitude = getIntent().getDoubleExtra("latitude", 0);
+                double longitude = getIntent().getDoubleExtra("longitude", 0);
+                plan.setLatitude(latitude);
+                plan.setLongitude(longitude);
             }
 
-            intent.putStringArrayListExtra("selectedTypes", selectedTypes);
-            intent.putStringArrayListExtra("selectedTimes", selectedTimes);
-
-            startActivityForResult(intent, REQUEST_CODE_SWIPE_ACTIVITY);
-            */
+            intent.putExtra("Plan", plan);
+            startActivity(intent);
         });
     }
-
 }
