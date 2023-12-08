@@ -1,0 +1,39 @@
+{
+  "places": [
+    {
+      "formattedAddress": "304 Western Ave, Brighton, MA 02135, USA",
+
+      "rating": 4.5,
+
+      "displayName": {
+        "text": "Spring Shabu-Shabu",
+
+        "languageCode": "en"
+      }
+    },
+
+    {
+      "formattedAddress": "1700 Beacon St, Brookline, MA 02446, USA",
+
+      "rating": 4.5,
+
+      "displayName": {
+        "text": "Barcelona Wine Bar",
+
+        "languageCode": "en"
+      }
+    },
+
+    {
+      "formattedAddress": "101 Bond Sq, Watertown, MA 02472, USA",
+
+      "rating": 4.1,
+
+      "displayName": {
+        "text": "Kura Revolving Sushi Bar",
+
+        "languageCode": "en"
+      }
+    }
+  ]
+}
