@@ -2,12 +2,17 @@ package edu.northeastern.groupproject_outandabout.ui.plan;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import edu.northeastern.groupproject_outandabout.R;
 import edu.northeastern.groupproject_outandabout.util.FirebaseDatabaseUtil;
 import edu.northeastern.groupproject_outandabout.util.PlanExportUtil;
@@ -32,6 +37,16 @@ public class PlanSummaryActivity extends AppCompatActivity {
         savePlanButton = findViewById(R.id.savePlanButton);
         exportPlanButton = findViewById(R.id.exportPlanButton);
         regeneratePlanButton = findViewById(R.id.regeneratePlanButton);
+
+        // Check if user is logged in
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            // show the save button
+            savePlanButton.setVisibility(View.VISIBLE);
+        } else {
+            // hide the save button
+            savePlanButton.setVisibility(View.GONE);
+        }
 
         currentPlan = getPlan();
         adapter = new ActivitySummaryAdapter(currentPlan.getSelectedActivities());

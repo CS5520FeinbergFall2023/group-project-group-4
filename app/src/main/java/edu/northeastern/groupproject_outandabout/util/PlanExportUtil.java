@@ -10,7 +10,11 @@ public class PlanExportUtil {
 
     // Converts the Plan object into a shareable text format
     public static String convertPlanToText(Plan plan) {
+
+        // using string builder to create plan string
         StringBuilder sb = new StringBuilder();
+
+        // Extract Plan name
         sb.append("Plan Name: ").append(plan.getName()).append("\n");
 
         // Extract ActivityBuilderSlot details

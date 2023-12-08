@@ -117,49 +117,49 @@ public class GooglePlacesCaller {
     }
 
     public static String getMockApiResponse() {
-        //*
-        return "{\n" +
-                "  \"places\": [\n" +
-                "    {\n" +
-                "      \"formattedAddress\": \"304 Western Ave, Brighton, MA 02135, USA\",\n" +
-                "\n" +
-                "      \"rating\": 4.5,\n" +
-                "\n" +
-                "      \"displayName\": {\n" +
-                "        \"text\": \"Spring Shabu-Shabu\",\n" +
-                "\n" +
-                "        \"languageCode\": \"en\"\n" +
-                "      }\n" +
-                "    },\n" +
-                "\n" +
-                "    {\n" +
-                "      \"formattedAddress\": \"1700 Beacon St, Brookline, MA 02446, USA\",\n" +
-                "\n" +
-                "      \"rating\": 4.5,\n" +
-                "\n" +
-                "      \"displayName\": {\n" +
-                "        \"text\": \"Barcelona Wine Bar\",\n" +
-                "\n" +
-                "        \"languageCode\": \"en\"\n" +
-                "      }\n" +
-                "    },\n" +
-                "\n" +
-                "    {\n" +
-                "      \"formattedAddress\": \"101 Bond Sq, Watertown, MA 02472, USA\",\n" +
-                "\n" +
-                "      \"rating\": 4.1,\n" +
-                "\n" +
-                "      \"displayName\": {\n" +
-                "        \"text\": \"Kura Revolving Sushi Bar\",\n" +
-                "\n" +
-                "        \"languageCode\": \"en\"\n" +
-                "      }\n" +
-                "    }\n" +
-                "  ]\n" +
-                "}";
 
-         //*/
-        /*
+//        return "{\n" +
+//                "  \"places\": [\n" +
+//                "    {\n" +
+//                "      \"formattedAddress\": \"304 Western Ave, Brighton, MA 02135, USA\",\n" +
+//                "\n" +
+//                "      \"rating\": 4.5,\n" +
+//                "\n" +
+//                "      \"displayName\": {\n" +
+//                "        \"text\": \"Spring Shabu-Shabu\",\n" +
+//                "\n" +
+//                "        \"languageCode\": \"en\"\n" +
+//                "      }\n" +
+//                "    },\n" +
+//                "\n" +
+//                "    {\n" +
+//                "      \"formattedAddress\": \"1700 Beacon St, Brookline, MA 02446, USA\",\n" +
+//                "\n" +
+//                "      \"rating\": 4.5,\n" +
+//                "\n" +
+//                "      \"displayName\": {\n" +
+//                "        \"text\": \"Barcelona Wine Bar\",\n" +
+//                "\n" +
+//                "        \"languageCode\": \"en\"\n" +
+//                "      }\n" +
+//                "    },\n" +
+//                "\n" +
+//                "    {\n" +
+//                "      \"formattedAddress\": \"101 Bond Sq, Watertown, MA 02472, USA\",\n" +
+//                "\n" +
+//                "      \"rating\": 4.1,\n" +
+//                "\n" +
+//                "      \"displayName\": {\n" +
+//                "        \"text\": \"Kura Revolving Sushi Bar\",\n" +
+//                "\n" +
+//                "        \"languageCode\": \"en\"\n" +
+//                "      }\n" +
+//                "    }\n" +
+//                "  ]\n" +
+//                "}";
+
+
+
         return "{\n" +
                 "  \"places\": [\n" +
                 "    {\n" +
@@ -325,7 +325,7 @@ public class GooglePlacesCaller {
                 "  ]\n" +
                 "}\n";
 
-         */
+
     }
 
     private static String convertStreamToString(InputStream inputStream) {
