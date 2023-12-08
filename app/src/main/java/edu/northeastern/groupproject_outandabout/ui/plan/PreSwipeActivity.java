@@ -1,7 +1,10 @@
 package edu.northeastern.groupproject_outandabout.ui.plan;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -73,6 +76,24 @@ public class PreSwipeActivity extends AppCompatActivity {
                 updateCurrSearchText();
             }
         }
+    }
+
+    /**
+     * Exit confirmation added to back press
+     */
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setMessage("Exit Plan Building? Selected Activities will be lost.")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
     }
 
     /**
