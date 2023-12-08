@@ -28,6 +28,17 @@ public class ActivityOption implements Serializable, Parcelable {
         this.selectedTime = "";
     }
 
+    @Override
+    public String toString() {
+        return "Name: " + name +
+                ", Address: " + address +
+                ", Rating: " + rating +
+                ", Type: " + (type != null ? type.name() : "N/A") +
+                ", Selected Time: " + selectedTime +
+                ", Is Selected: " + isSelected;
+    }
+
+
     // Getters and setters
     public String getName() { return this.name; }
     public String getAddress() { return this.address; }

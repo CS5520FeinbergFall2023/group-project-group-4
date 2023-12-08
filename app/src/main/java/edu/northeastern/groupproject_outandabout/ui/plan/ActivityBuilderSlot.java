@@ -18,6 +18,12 @@ public class ActivityBuilderSlot implements Serializable {
         this.timeslot = timeslot;
     }
 
+    @Override
+    public String toString() {
+        return "Type: " + (type != null ? type.name() : "N/A") +
+                ", Timeslot: " + (timeslot != null ? timeslot : "N/A");
+    }
+
     public ActivityType getType() { return this.type; }
     public String getTimeslot() { return this.timeslot; }
 

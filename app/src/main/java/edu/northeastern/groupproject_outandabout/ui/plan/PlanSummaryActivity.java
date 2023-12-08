@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.appcompat.app.AppCompatActivity;
 import edu.northeastern.groupproject_outandabout.R;
 import edu.northeastern.groupproject_outandabout.util.FirebaseDatabaseUtil;
+import edu.northeastern.groupproject_outandabout.util.PlanExportUtil;
 
 public class PlanSummaryActivity extends AppCompatActivity {
 
@@ -64,6 +65,8 @@ public class PlanSummaryActivity extends AppCompatActivity {
             @Override
             public void onSuccess() {
                 Toast.makeText(PlanSummaryActivity.this, "New plan saved successfully!", Toast.LENGTH_SHORT).show();
+                savePlanButton.setEnabled(false);
+
             }
 
             @Override
@@ -74,8 +77,8 @@ public class PlanSummaryActivity extends AppCompatActivity {
     }
 
     private void exportPlan() {
-        // Logic needed to export plan
-    }
+        String planDetails = PlanExportUtil.convertPlanToText(currentPlan);
+        PlanExportUtil.sharePlan(this, planDetails);    }
 
     private Plan getPlan() {
         // Retrieve the Plan object from the Intent
