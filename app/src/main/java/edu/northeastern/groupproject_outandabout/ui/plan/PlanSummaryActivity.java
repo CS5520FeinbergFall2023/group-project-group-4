@@ -12,7 +12,7 @@ import edu.northeastern.groupproject_outandabout.R;
 public class PlanSummaryActivity extends AppCompatActivity {
 
     private RecyclerView planSummaryRecyclerView;
-    private ActivitySummaryAdapter adapter;  // Change to ActivitySummaryAdapter
+    private ActivitySummaryAdapter adapter;
     private Button savePlanButton;
     private Button exportPlanButton;
     private Button regeneratePlanButton;
@@ -31,7 +31,7 @@ public class PlanSummaryActivity extends AppCompatActivity {
         regeneratePlanButton = findViewById(R.id.regeneratePlanButton);
 
         currentPlan = getPlan();
-        adapter = new ActivitySummaryAdapter(currentPlan.getSelectedActivities());  // Use ActivitySummaryAdapter
+        adapter = new ActivitySummaryAdapter(currentPlan.getSelectedActivities());
         planSummaryRecyclerView.setAdapter(adapter);
 
         setupButtons();
