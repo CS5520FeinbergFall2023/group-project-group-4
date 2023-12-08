@@ -87,7 +87,7 @@ public class GooglePlacesCaller {
      * @param type The type of points of interests contained in the response (Restaurant, Entertainment, etc.)
      * @return ArrayList of ActivityOption objects for each point of interest in API response.
      */
-    public ArrayList<ActivityOption> parseApiResponse(String response, ActivityType type) {
+    public static ArrayList<ActivityOption> parseApiResponse(String response, ActivityType type) {
         ArrayList<ActivityOption> activityOptions = new ArrayList<>();
 
         JSONObject jsonResponse;
@@ -97,15 +97,14 @@ public class GooglePlacesCaller {
             JSONArray responseElements = jsonResponse.getJSONArray("places");
 
             // Populate arraylist with POI ActivityOption objects
-            for(int i = 0; i < jsonResponse.length(); i++) {
+            for(int i = 0; i < responseElements.length(); i++) {
                 JSONObject pointOfInterest = responseElements.getJSONObject(i);
 
-                //TODO Test that this correctly gets the correct info
                 String name = pointOfInterest.getJSONObject("displayName").optString("text", "n/a");
                 String address = pointOfInterest.optString("formattedAddress", "n/a");
-                String rating = pointOfInterest.optString("rating", "-1");
+                String rating = pointOfInterest.optString("rating", "n/a");
 
-                ActivityOption option = new ActivityOption(name, address, Float.parseFloat(rating), type);
+                ActivityOption option = new ActivityOption(name, address, rating, type);
                 activityOptions.add(option);
             }
         }
@@ -114,6 +113,173 @@ public class GooglePlacesCaller {
         }
 
         return activityOptions;
+    }
+
+    public static String getMockApiResponse() {
+        return "{\n" +
+                "  \"places\": [\n" +
+                "    {\n" +
+                "      \"displayName\": {\n" +
+                "        \"text\": \"Tasty Bites\",\n" +
+                "        \"languageCode\": \"en\"\n" +
+                "      },\n" +
+                "      \"formattedAddress\": \"123 Delicious St, Boston, MA, USA\",\n" +
+                "      \"rating\": 4.7\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"displayName\": {\n" +
+                "        \"text\": \"Cuisine Central\",\n" +
+                "        \"languageCode\": \"en\"\n" +
+                "      },\n" +
+                "      \"formattedAddress\": \"456 Savory Ave, Boston, MA, USA\",\n" +
+                "      \"rating\": 4.2\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"displayName\": {\n" +
+                "        \"text\": \"Food Haven\",\n" +
+                "        \"languageCode\": \"en\"\n" +
+                "      },\n" +
+                "      \"formattedAddress\": \"789 Flavorful Rd, Boston, MA, USA\",\n" +
+                "      \"rating\": 4.5\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"displayName\": {\n" +
+                "        \"text\": \"Treat Spot\",\n" +
+                "        \"languageCode\": \"en\"\n" +
+                "      },\n" +
+                "      \"formattedAddress\": \"321 Yummy Lane, Boston, MA, USA\",\n" +
+                "      \"rating\": 4.8\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"displayName\": {\n" +
+                "        \"text\": \"Flavor Junction\",\n" +
+                "        \"languageCode\": \"en\"\n" +
+                "      },\n" +
+                "      \"formattedAddress\": \"876 Tantalizing Blvd, Boston, MA, USA\",\n" +
+                "      \"rating\": 4.1\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"displayName\": {\n" +
+                "        \"text\": \"Delish Delight\",\n" +
+                "        \"languageCode\": \"en\"\n" +
+                "      },\n" +
+                "      \"formattedAddress\": \"543 Tasteful Rd, Boston, MA, USA\",\n" +
+                "      \"rating\": 4.6\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"displayName\": {\n" +
+                "        \"text\": \"Yum Yum Eatery\",\n" +
+                "        \"languageCode\": \"en\"\n" +
+                "      },\n" +
+                "      \"formattedAddress\": \"567 Tasty Blvd, Boston, MA, USA\",\n" +
+                "      \"rating\": 4.6\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"displayName\": {\n" +
+                "        \"text\": \"Savor Street\",\n" +
+                "        \"languageCode\": \"en\"\n" +
+                "      },\n" +
+                "      \"formattedAddress\": \"234 Yum Ave, Boston, MA, USA\",\n" +
+                "      \"rating\": 4.3\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"displayName\": {\n" +
+                "        \"text\": \"Tasty Treats\",\n" +
+                "        \"languageCode\": \"en\"\n" +
+                "      },\n" +
+                "      \"formattedAddress\": \"890 Delightful St, Boston, MA, USA\",\n" +
+                "      \"rating\": 4.4\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"displayName\": {\n" +
+                "        \"text\": \"Yummy Grub\",\n" +
+                "        \"languageCode\": \"en\"\n" +
+                "      },\n" +
+                "      \"formattedAddress\": \"432 Flavor Ave, Boston, MA, USA\",\n" +
+                "      \"rating\": 4.2\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"displayName\": {\n" +
+                "        \"text\": \"Savory Eats\",\n" +
+                "        \"languageCode\": \"en\"\n" +
+                "      },\n" +
+                "      \"formattedAddress\": \"987 Tasty Rd, Boston, MA, USA\",\n" +
+                "      \"rating\": 4.9\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"displayName\": {\n" +
+                "        \"text\": \"Flavorful Feasts\",\n" +
+                "        \"languageCode\": \"en\"\n" +
+                "      },\n" +
+                "      \"formattedAddress\": \"654 Delicious Blvd, Boston, MA, USA\",\n" +
+                "      \"rating\": 4.7\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"displayName\": {\n" +
+                "        \"text\": \"Tantalizing Treats\",\n" +
+                "        \"languageCode\": \"en\"\n" +
+                "      },\n" +
+                "      \"formattedAddress\": \"219 Yum Lane, Boston, MA, USA\",\n" +
+                "      \"rating\": 4.5\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"displayName\": {\n" +
+                "        \"text\": \"Delightful Dishes\",\n" +
+                "        \"languageCode\": \"en\"\n" +
+                "      },\n" +
+                "      \"formattedAddress\": \"876 Savorful St, Boston, MA, USA\",\n" +
+                "      \"rating\": 4.6\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"displayName\": {\n" +
+                "        \"text\": \"Taste Haven\",\n" +
+                "        \"languageCode\": \"en\"\n" +
+                "      },\n" +
+                "      \"formattedAddress\": \"543 Yummy Ave, Boston, MA, USA\",\n" +
+                "      \"rating\": 4.2\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"displayName\": {\n" +
+                "        \"text\": \"Yummy Eats\",\n" +
+                "        \"languageCode\": \"en\"\n" +
+                "      },\n" +
+                "      \"formattedAddress\": \"109 Tasty Rd, Boston, MA, USA\",\n" +
+                "      \"rating\": 4.3\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"displayName\": {\n" +
+                "        \"text\": \"Flavorful Bites\",\n" +
+                "        \"languageCode\": \"en\"\n" +
+                "      },\n" +
+                "      \"formattedAddress\": \"210 Savory Blvd, Boston, MA, USA\",\n" +
+                "      \"rating\": 4.8\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"displayName\": {\n" +
+                "        \"text\": \"Savory Treats\",\n" +
+                "        \"languageCode\": \"en\"\n" +
+                "      },\n" +
+                "      \"formattedAddress\": \"678 Delicious Rd, Boston, MA, USA\",\n" +
+                "      \"rating\": 4.4\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"displayName\": {\n" +
+                "        \"text\": \"Tasty Delights\",\n" +
+                "        \"languageCode\": \"en\"\n" +
+                "      },\n" +
+                "      \"formattedAddress\": \"345 Flavorful St, Boston, MA, USA\",\n" +
+                "      \"rating\": 4.5\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"displayName\": {\n" +
+                "        \"text\": \"Delicious Cuisine\",\n" +
+                "        \"languageCode\": \"en\"\n" +
+                "      },\n" +
+                "      \"formattedAddress\": \"876 Yum Ave, Boston, MA, USA\",\n" +
+                "      \"rating\": 4.7\n" +
+                "    }\n" +
+                "  ]\n" +
+                "}\n";
     }
 
     private static String convertStreamToString(InputStream inputStream) {
