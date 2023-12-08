@@ -22,19 +22,31 @@
         android:layout_above="@id/generatePlanButton"
         android:layout_marginTop="8dp" />
 
-    <!-- Floating Action Button for adding activities -->
+    <!-- Floating Action Button for adding and removing activities -->
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addActivitiesButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:src="@android:drawable/ic_input_add"
         app:backgroundTint="@color/fab_background_color" />
 
-    <!-- Button for generating the plan -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/removeActivitiesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@id/addActivitiesButton"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@android:drawable/ic_delete"
+        app:backgroundTint="@color/fab_background_color" />
+
+
     <Button
         android:id="@+id/generatePlanButton"
         android:layout_width="wrap_content"

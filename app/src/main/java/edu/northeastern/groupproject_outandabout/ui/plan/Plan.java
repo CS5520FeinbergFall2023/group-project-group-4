@@ -12,6 +12,8 @@ public class Plan implements Serializable {
     private String name;
     private ArrayList<ActivityBuilderSlot> activityBuilderSlots;
     private ArrayList<ActivityOption> selectedActivities;
+    private double latitude;
+    private double longitude;
 
     public Plan() {
 
@@ -24,7 +26,12 @@ public class Plan implements Serializable {
     public ArrayList<ActivityBuilderSlot> getActivitySlots() { return this.activityBuilderSlots; }
     public ArrayList<ActivityOption> getSelectedActivities() { return this.selectedActivities; }
 
+    public double getLatitude() { return latitude; }
+    public double getLongitude() { return longitude; }
+
     public void setName(String name) { this.name = name; }
+    public void setLatitude(double latitude) { this.latitude = latitude; }
+    public void setLongitude(double longitude) { this.longitude = longitude; }
     public void addActivitySlot(ActivityBuilderSlot slot) { this.activityBuilderSlots.add(slot); }
     public void addSelectedActivity(ActivityOption option) { this.selectedActivities.add(option); }
     public void removeActivitySlot(int index) { this.activityBuilderSlots.remove(index); }
