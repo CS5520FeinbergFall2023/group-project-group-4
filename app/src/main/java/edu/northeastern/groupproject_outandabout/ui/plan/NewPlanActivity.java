@@ -29,6 +29,7 @@ public class NewPlanActivity extends AppCompatActivity implements LocationListen
             checkLocationPermission();
         });
 
+        //This is placeholder
         findViewById(R.id.startByInputLocationButton).setOnClickListener(v -> {
             Intent intent = new Intent(NewPlanActivity.this, InitialPlanActivity.class);
             // Indication that user will input location
