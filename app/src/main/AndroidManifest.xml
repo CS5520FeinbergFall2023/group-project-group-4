@@ -13,6 +13,9 @@
         android:theme="@style/Theme.GroupProjectOutAndAbout"
         tools:targetApi="31">
         <activity
+            android:name=".ui.plan.CustomizeSearchActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.plan.PreSwipeActivity"
             android:exported="false" />
         <activity
