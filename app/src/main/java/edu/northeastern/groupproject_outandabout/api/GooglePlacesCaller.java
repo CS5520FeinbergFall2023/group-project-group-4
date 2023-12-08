@@ -14,6 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import edu.northeastern.groupproject_outandabout.ActivityType;
@@ -27,7 +28,7 @@ public class GooglePlacesCaller {
 
     final static String API_URL = "https://places.googleapis.com/v1/places:searchNearby";
     final static String API_KEY = BuildConfig.GOOGLE_API_KEY;
-    final static String FIELD_MASKS = "places.displayName, places.formattedAddress, places.rating";
+    final static String FIELD_MASKS = "places.displayName,places.formattedAddress,places.rating";
 
     /**
      * Handles POST request to Google Places API Nearby Search (new) using the given parameters
@@ -87,8 +88,8 @@ public class GooglePlacesCaller {
      * @param type The type of points of interests contained in the response (Restaurant, Entertainment, etc.)
      * @return ArrayList of ActivityOption objects for each point of interest in API response.
      */
-    public static ArrayList<ActivityOption> parseApiResponse(String response, ActivityType type) {
-        ArrayList<ActivityOption> activityOptions = new ArrayList<>();
+    public static List<ActivityOption> parseApiResponse(String response, ActivityType type) {
+        List<ActivityOption> activityOptions = new ArrayList<>();
 
         JSONObject jsonResponse;
         try {
@@ -116,6 +117,49 @@ public class GooglePlacesCaller {
     }
 
     public static String getMockApiResponse() {
+        //*
+        return "{\n" +
+                "  \"places\": [\n" +
+                "    {\n" +
+                "      \"formattedAddress\": \"304 Western Ave, Brighton, MA 02135, USA\",\n" +
+                "\n" +
+                "      \"rating\": 4.5,\n" +
+                "\n" +
+                "      \"displayName\": {\n" +
+                "        \"text\": \"Spring Shabu-Shabu\",\n" +
+                "\n" +
+                "        \"languageCode\": \"en\"\n" +
+                "      }\n" +
+                "    },\n" +
+                "\n" +
+                "    {\n" +
+                "      \"formattedAddress\": \"1700 Beacon St, Brookline, MA 02446, USA\",\n" +
+                "\n" +
+                "      \"rating\": 4.5,\n" +
+                "\n" +
+                "      \"displayName\": {\n" +
+                "        \"text\": \"Barcelona Wine Bar\",\n" +
+                "\n" +
+                "        \"languageCode\": \"en\"\n" +
+                "      }\n" +
+                "    },\n" +
+                "\n" +
+                "    {\n" +
+                "      \"formattedAddress\": \"101 Bond Sq, Watertown, MA 02472, USA\",\n" +
+                "\n" +
+                "      \"rating\": 4.1,\n" +
+                "\n" +
+                "      \"displayName\": {\n" +
+                "        \"text\": \"Kura Revolving Sushi Bar\",\n" +
+                "\n" +
+                "        \"languageCode\": \"en\"\n" +
+                "      }\n" +
+                "    }\n" +
+                "  ]\n" +
+                "}";
+
+         //*/
+        /*
         return "{\n" +
                 "  \"places\": [\n" +
                 "    {\n" +
@@ -280,6 +324,8 @@ public class GooglePlacesCaller {
                 "    }\n" +
                 "  ]\n" +
                 "}\n";
+
+         */
     }
 
     private static String convertStreamToString(InputStream inputStream) {

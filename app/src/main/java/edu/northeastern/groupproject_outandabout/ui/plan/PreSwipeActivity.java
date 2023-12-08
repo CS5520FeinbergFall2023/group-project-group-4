@@ -1,15 +1,20 @@
 package edu.northeastern.groupproject_outandabout.ui.plan;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import edu.northeastern.groupproject_outandabout.ActivityType;
 import edu.northeastern.groupproject_outandabout.R;
 import edu.northeastern.groupproject_outandabout.SwipeActivity;
 import edu.northeastern.groupproject_outandabout.api.GooglePlacesCaller;
@@ -25,6 +30,8 @@ public class PreSwipeActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_SWIPE_ACTIVITY = 200;
     private static final int REQUEST_CODE_CUSTOMIZE_ACTIVITY = 300;
+
+    private static final float DEFAULT_SEARCH_RADIUS_MI = 2.0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +83,24 @@ public class PreSwipeActivity extends AppCompatActivity {
     }
 
     /**
+     * Exit confirmation added to back press
+     */
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setMessage("Exit Plan Building? Selected Activities will be lost.")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
+
+    /**
      * Updates the textview to display the activity slot the user is currently searching for
      */
     private void updateCurrSearchText() {
@@ -115,19 +140,47 @@ public class PreSwipeActivity extends AppCompatActivity {
      * //TODO: Implement logic to get correct search location and activity type
      */
     private String formatRandomGoogleApiQuery() {
+        // Determine "includedTypes" to add to query based on what type of activity is being searched
+        ActivityType searchType = this.plan.getActivitySlots().get(searchActivityIndex).getType();
+        String includedTypes = "";
+        switch (searchType) {
+            case RESTAURANT:
+                includedTypes = "[\"restaurant\"]";
+                break;
+            case ENTERTAINMENT:
+                break;
+            case NIGHTLIFE:
+                break;
+            case OUTDOORS:
+                break;
+            default:
+        }
+
+        // Get plan latitude and longitude
+        String searchLat = Double.toString(this.plan.getLatitude());
+        String searchLong = Double.toString(this.plan.getLongitude());
+
+        // Set default search radius
+        String searchRadius = Float.toString(milesToMeters(DEFAULT_SEARCH_RADIUS_MI));
+
         return "{\n" +
-                "  \"includedTypes\": [\"restaurant\"],\n" +
+                "  \"includedTypes\": " + includedTypes + ",\n" +
                 "  \"maxResultCount\": 3,\n" +
                 "  \"locationRestriction\": {\n" +
                 "    \"circle\": {\n" +
                 "      \"center\": {\n" +
-                "        \"latitude\": 37.7937,\n" +
-                "        \"longitude\": -122.3965},\n" +
-                "      \"radius\": 500.0\n" +
+                "        \"latitude\": " + searchLat + ",\n" +
+                "        \"longitude\": " + searchLong + "},\n" +
+                "      \"radius\": " + searchRadius + "\n" +
                 "    }\n" +
                 "  }\n" +
                 "}";
     }
+
+    /**
+     *  Helper function to convert miles into meters used to set search query radius
+     */
+    private float milesToMeters(float miles) { return miles * 1609.34f; }
 
     /**
      * Runnable class used for API random search thread
@@ -144,7 +197,8 @@ public class PreSwipeActivity extends AppCompatActivity {
             threadHandler.post(() -> searchLoadingWheel.setVisibility(View.VISIBLE));
 
             // MOCK RESPONSE USED FOR NOW TO TEST PARSING LOGIC
-            String response = GooglePlacesCaller.getMockApiResponse();//GooglePlacesCaller.fetchPoiData(this.searchQuery);
+            //String response = GooglePlacesCaller.fetchPoiData(this.searchQuery);
+            String response = GooglePlacesCaller.getMockApiResponse();
 
             // Show user loading wheel for at least 1 sec
             while (System.currentTimeMillis() - startTime < 1000) {/*wait*/}
