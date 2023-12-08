@@ -3,11 +3,13 @@ package edu.northeastern.groupproject_outandabout.ui.plan;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.appcompat.app.AppCompatActivity;
 import edu.northeastern.groupproject_outandabout.R;
+import edu.northeastern.groupproject_outandabout.util.FirebaseDatabaseUtil;
 
 public class PlanSummaryActivity extends AppCompatActivity {
 
@@ -57,7 +59,18 @@ public class PlanSummaryActivity extends AppCompatActivity {
     }
 
     private void savePlan() {
-        // Logic needed to save plan to database
+        FirebaseDatabaseUtil firebaseDbUtil = new FirebaseDatabaseUtil();
+        firebaseDbUtil.savePlan(currentPlan, new FirebaseDatabaseUtil.DatabaseOperationCallback() {
+            @Override
+            public void onSuccess() {
+                Toast.makeText(PlanSummaryActivity.this, "New plan saved successfully!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(String error) {
+                Toast.makeText(PlanSummaryActivity.this, "Failed to save new plan: " + error, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void exportPlan() {

@@ -49,23 +49,18 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+
+    // Firebase
     implementation("com.google.firebase:firebase-auth:22.3.0")
     implementation ("com.firebaseui:firebase-ui-auth:7.2.0")
-
-    // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
-
-
-    // TODO: Add the dependencies for Firebase products we want to use
-    // do we want google login?
     implementation("com.google.firebase:firebase-analytics")
 
-
     implementation("com.google.android.material:material:1.4.0")
-
     implementation("androidx.annotation:annotation:1.6.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    implementation("com.google.firebase:firebase-database:20.3.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
