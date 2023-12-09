@@ -20,10 +20,11 @@
         android:id="@+id/btnNewPlan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="284dp"
         android:text="Start New Plan"
-        app:layout_constraintTop_toBottomOf="@+id/welcomeMessage"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcomeMessage" />
 
     <Button
         android:id="@+id/apiTestButton"
