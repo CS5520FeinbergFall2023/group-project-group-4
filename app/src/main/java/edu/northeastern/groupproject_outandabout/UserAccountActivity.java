@@ -1,30 +1,31 @@
 package edu.northeastern.groupproject_outandabout;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
 import java.util.List;
 
-import edu.northeastern.groupproject_outandabout.ui.plan.Plan;
-import edu.northeastern.groupproject_outandabout.ui.plan.PlanListAdapter;
+import edu.northeastern.groupproject_outandabout.ui.plan.ActivityOption;
 import edu.northeastern.groupproject_outandabout.util.FirebaseDatabaseUtil;
-
-// ... other imports
+import edu.northeastern.groupproject_outandabout.util.FirebaseDatabaseUtil.SimplePlan;
+import edu.northeastern.groupproject_outandabout.util.PlanAdapter;
 
 public class UserAccountActivity extends AppCompatActivity {
 
+    private TextView userEmailTextView;
+    private TextView welcomeTextView;
     private RecyclerView plansRecyclerView;
-    private PlanListAdapter planListAdapter;
+    private PlanAdapter planAdapter;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -32,35 +33,39 @@ public class UserAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_account);
 
-        TextView userEmailTextView = findViewById(R.id.userEmailTextView);
-        plansRecyclerView = findViewById(R.id.plansRecyclerView); // Add this line
+        userEmailTextView = findViewById(R.id.userEmailTextView);
+        welcomeTextView = findViewById(R.id.welcomeTextView);
+        plansRecyclerView = findViewById(R.id.plansRecyclerView);
+
+        plansRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        planAdapter = new PlanAdapter(new ArrayList<>());
+        plansRecyclerView.setAdapter(planAdapter);
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             userEmailTextView.setText(currentUser.getEmail());
             userEmailTextView.setVisibility(View.VISIBLE);
-            loadUserPlans(); // Load plans for the user
+            welcomeTextView.setText("Welcome " + currentUser.getDisplayName() + "!");
+            fetchUserPlans();
         } else {
             userEmailTextView.setText("No user is signed in.");
+            welcomeTextView.setVisibility(View.GONE);
         }
     }
 
-    private void loadUserPlans() {
-        FirebaseDatabaseUtil firebaseDbUtil = new FirebaseDatabaseUtil();
-        firebaseDbUtil.fetchPlansForUser(new FirebaseDatabaseUtil.DatabaseReadCallback() {
+    private void fetchUserPlans() {
+        FirebaseDatabaseUtil dbUtil = new FirebaseDatabaseUtil();
+        dbUtil.fetchPlansForUser(new FirebaseDatabaseUtil.DatabaseReadCallback() {
             @Override
-            public void onSuccess(List<Plan> plans) {
-                planListAdapter = new PlanListAdapter(plans, plan -> {
-                    // Handle plan click event here
-                    // For example, start a new activity with the plan details
-                });
-                plansRecyclerView.setLayoutManager(new LinearLayoutManager(UserAccountActivity.this));
-                plansRecyclerView.setAdapter(planListAdapter);
+            public void onSuccess(List<SimplePlan> plans) {
+                runOnUiThread(() -> planAdapter.updatePlans(plans));
             }
 
             @Override
             public void onFailure(Exception e) {
-                // Handle the error
+                runOnUiThread(() -> {
+                    // Handle failure case, maybe show a toast or a placeholder text
+                });
             }
         });
     }
