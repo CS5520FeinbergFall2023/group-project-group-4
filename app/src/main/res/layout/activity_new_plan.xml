@@ -31,4 +31,24 @@
         android:layout_marginTop="16dp"
         android:text="Start Plan by Input Location" />
 
+    <!-- Loading wheel when location info is being retrieved -->
+    <ProgressBar
+        android:id="@+id/locationLoadingWheel"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_below="@id/startByInputLocationButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"/>
+    <TextView
+        android:id="@+id/fetchingLocationTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:text="Fetching Current Location..."
+        android:layout_below="@id/locationLoadingWheel"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"/>
+
 </RelativeLayout>

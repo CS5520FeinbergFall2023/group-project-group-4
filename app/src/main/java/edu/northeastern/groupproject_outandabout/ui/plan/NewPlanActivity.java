@@ -7,6 +7,9 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +19,10 @@ import android.content.Context;
 import edu.northeastern.groupproject_outandabout.R;
 
 public class NewPlanActivity extends AppCompatActivity implements LocationListener {
+
+    private ProgressBar locationLoadingWheel;
+    private TextView fetchingLocationTV;
+
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 100;
     private LocationManager locationManager;
 
@@ -24,6 +31,9 @@ public class NewPlanActivity extends AppCompatActivity implements LocationListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_plan);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        locationLoadingWheel = findViewById(R.id.locationLoadingWheel);
+        fetchingLocationTV = findViewById(R.id.fetchingLocationTV);
 
         findViewById(R.id.startByCurrentLocationButton).setOnClickListener(v -> {
             checkLocationPermission();
@@ -52,12 +62,20 @@ public class NewPlanActivity extends AppCompatActivity implements LocationListen
     private void retrieveLocation() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
+            // Make loading wheel and text visible while waiting for GPS
+            locationLoadingWheel.setVisibility(View.VISIBLE);
+            fetchingLocationTV.setVisibility(View.VISIBLE);
+
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
         }
     }
 
     @Override
     public void onLocationChanged(Location location) {
+        // Hide loading wheel and text
+        locationLoadingWheel.setVisibility(View.INVISIBLE);
+        fetchingLocationTV.setVisibility(View.INVISIBLE);
+
         // Stop updates after getting current location
         locationManager.removeUpdates((LocationListener) this);
 
