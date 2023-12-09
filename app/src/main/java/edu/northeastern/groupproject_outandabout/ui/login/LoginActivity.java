@@ -16,7 +16,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
+        // Replaced with TextInputEditText for material 3 design
         final TextInputEditText usernameEditText = (TextInputEditText) binding.username;
         final TextInputEditText passwordEditText = (TextInputEditText) binding.password;
         final Button loginButton = binding.login;
