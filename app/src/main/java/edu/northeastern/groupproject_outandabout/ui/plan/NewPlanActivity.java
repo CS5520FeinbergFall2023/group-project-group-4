@@ -41,7 +41,7 @@ public class NewPlanActivity extends AppCompatActivity implements LocationListen
 
         findViewById(R.id.startByInputLocationButton).setOnClickListener(v -> {
             Intent intent = new Intent(NewPlanActivity.this, InitialPlanActivity.class);
-            // Indication that user will input location
+            // Flag to indicate inputting a location
             intent.putExtra("inputLocation", true);
             startActivity(intent);
         });
