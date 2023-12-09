@@ -2,7 +2,9 @@ package edu.northeastern.groupproject_outandabout.ui.plan;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +22,7 @@ public class InitialPlanActivity extends AppCompatActivity {
     private RecyclerView initialPlanRecyclerView;
     private PlanSummaryAdapter adapter;
     private List<ActivityBuilderSlot> plannedActivities;
+    private EditText locationInputEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,8 @@ public class InitialPlanActivity extends AppCompatActivity {
         setContentView(R.layout.activity_initial_plan);
 
         initialPlanRecyclerView = findViewById(R.id.initialPlanRecyclerView);
+        locationInputEditText = findViewById(R.id.locationInputEditText);
+
         initialPlanRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         plannedActivities = new ArrayList<>();
@@ -37,6 +42,7 @@ public class InitialPlanActivity extends AppCompatActivity {
         setupAddActivitiesButton();
         setupRemoveActivitiesButton();
         setupGeneratePlanButton();
+        handleLocationInput();
     }
 
     private void setupAddActivitiesButton() {
@@ -72,10 +78,20 @@ public class InitialPlanActivity extends AppCompatActivity {
                 double longitude = getIntent().getDoubleExtra("longitude", 0);
                 plan.setLatitude(latitude);
                 plan.setLongitude(longitude);
+            } else if (getIntent().getBooleanExtra("inputLocation", false)) {
+                String inputLocation = locationInputEditText.getText().toString();
+                plan.setInputLocation(inputLocation); // Add a field and a setter for inputLocation in Plan class
             }
 
             intent.putExtra("Plan", plan);
             startActivity(intent);
         });
+    }
+
+    private void handleLocationInput() {
+        // Showing the location input field if user is expected to input a location
+        if (getIntent().getBooleanExtra("inputLocation", false)) {
+            locationInputEditText.setVisibility(View.VISIBLE);
+        }
     }
 }

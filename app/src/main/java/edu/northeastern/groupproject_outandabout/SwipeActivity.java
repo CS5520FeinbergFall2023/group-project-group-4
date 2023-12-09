@@ -8,8 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.Log;
 import android.widget.Button;
 
 import java.io.Serializable;
@@ -53,7 +51,7 @@ public class SwipeActivity extends AppCompatActivity {
             startOptionsActivityForResult(removedActivities);
         });
 
-        activities = parseApiResponse(); //generateDummyData();
+        activities = generateDummyData(); //parseApiResponse(); //
 
         recyclerView = findViewById(R.id.activityCards);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -121,12 +119,11 @@ public class SwipeActivity extends AppCompatActivity {
         String apiResponse = intent.getStringExtra("Response");
 
         return GooglePlacesCaller.parseApiResponse(apiResponse, ActivityType.RESTAURANT);
-        //return generateDummyData(); // Placeholder for your data fetching logic
     }
 
     private List<ActivityOption> generateDummyData() {
         List<ActivityOption> dummyData = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 3; i++) {
             String name = "Activity " + (i + 1);
             String address = "Address " + (i + 1);
             String rating = "4.0";
