@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.android.material.textfield.TextInputEditText;
 
 import edu.northeastern.groupproject_outandabout.MainActivity;
 import edu.northeastern.groupproject_outandabout.R;
@@ -54,8 +55,8 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
-        final EditText usernameEditText = binding.username;
-        final EditText passwordEditText = binding.password;
+        final TextInputEditText usernameEditText = (TextInputEditText) binding.username;
+        final TextInputEditText passwordEditText = (TextInputEditText) binding.password;
         final Button loginButton = binding.login;
         final ProgressBar loadingProgressBar = binding.loading;
 
