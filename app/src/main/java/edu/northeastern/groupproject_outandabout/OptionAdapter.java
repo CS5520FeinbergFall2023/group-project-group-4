@@ -48,7 +48,7 @@ public class OptionAdapter extends RecyclerView.Adapter<OptionAdapter.CardViewHo
         });
 
         if (activityOption.isSelected()) {
-            holder.itemView.setBackgroundColor(Color.YELLOW);
+            holder.itemView.setBackgroundResource(R.drawable.selected_background);
         } else {
             holder.itemView.setBackgroundColor(Color.TRANSPARENT);
         }
@@ -70,8 +70,8 @@ public class OptionAdapter extends RecyclerView.Adapter<OptionAdapter.CardViewHo
 
         public void bind(ActivityOption activityOption) {
             String info = activityOption.getName() + "\n" +
-                    activityOption.getAddress() + "\n" +
-                    "Rating: " + activityOption.getRating();
+                    activityOption.getRating() + "\n" +
+                    "Rating: " + activityOption.getAddress();
 
             infoTextView.setText(info);
         }

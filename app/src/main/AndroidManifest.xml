@@ -18,15 +18,19 @@
 
         <activity
             android:name=".ui.plan.CustomizeSearchActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ui.plan.PreSwipeActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".UserAccountActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ui.login.LoginActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,27 +40,35 @@
         </activity>
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".OptionsActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".SwipeActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ApiTestActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ui.login.RegisterActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ui.plan.NewPlanActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ui.plan.InitialPlanActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ui.plan.PlanSummaryActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
     </application>
 

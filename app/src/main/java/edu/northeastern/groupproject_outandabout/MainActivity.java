@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             // singed in user display their name
-            String welcomeText = "Welcome, " + currentUser.getEmail();
+            String welcomeText = currentUser.getEmail() + "!";
             welcomeMessage.setText(welcomeText);
             welcomeMessage.setVisibility(View.VISIBLE);
             logoutButton.setVisibility(View.VISIBLE);

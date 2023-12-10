@@ -5,13 +5,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ public class InitialPlanActivity extends AppCompatActivity {
     private RecyclerView initialPlanRecyclerView;
     private PlanSummaryAdapter adapter;
     private List<ActivityBuilderSlot> plannedActivities;
-    private EditText locationInputEditText;
+    private TextInputEditText locationInputEditText;
     private boolean isInputLocation;
 
     private Handler threadHandler = new Handler();
@@ -43,7 +43,8 @@ public class InitialPlanActivity extends AppCompatActivity {
         initialPlanRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         plannedActivities = new ArrayList<>();
-        plannedActivities.add(new ActivityBuilderSlot(ActivityType.NONE, "", "AM"));
+        // Add the first slot with default values
+        plannedActivities.add(new ActivityBuilderSlot(ActivityType.NONE, "12:00", "AM"));
         adapter = new PlanSummaryAdapter(plannedActivities);
         initialPlanRecyclerView.setAdapter(adapter);
 
@@ -56,7 +57,8 @@ public class InitialPlanActivity extends AppCompatActivity {
     private void setupAddActivitiesButton() {
         FloatingActionButton addActivitiesButton = findViewById(R.id.addActivitiesButton);
         addActivitiesButton.setOnClickListener(v -> {
-            plannedActivities.add(new ActivityBuilderSlot(ActivityType.NONE, "", "AM"));
+            // Add a new slot with default values
+            plannedActivities.add(new ActivityBuilderSlot(ActivityType.NONE, "12:00", "AM"));
             adapter.notifyDataSetChanged();
         });
     }
@@ -76,7 +78,7 @@ public class InitialPlanActivity extends AppCompatActivity {
         generatePlanButton.setOnClickListener(v -> {
             // User clicks but hasn't entered a location
             if (isInputLocation && locationInputEditText.getText().toString().trim().isEmpty()) {
-                Toast.makeText(InitialPlanActivity.this, "Please enter a location", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Please enter a location", Toast.LENGTH_LONG).show();
                 return;
             }
 

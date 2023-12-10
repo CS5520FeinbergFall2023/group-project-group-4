@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.android.material.textfield.TextInputEditText;
 
 import edu.northeastern.groupproject_outandabout.R;
 
@@ -25,9 +26,10 @@ public class RegisterActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        final EditText editTextEmail = findViewById(R.id.editTextEmail);
-        final EditText editTextPassword = findViewById(R.id.editTextPassword);
-        final EditText editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
+        // Updated to TextInputEditText for material 3 design
+        final TextInputEditText editTextEmail = findViewById(R.id.editTextEmail);
+        final TextInputEditText editTextPassword = findViewById(R.id.editTextPassword);
+        final TextInputEditText editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
         Button buttonRegister = findViewById(R.id.buttonRegister);
 
         buttonRegister.setOnClickListener(v -> {

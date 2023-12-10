@@ -16,10 +16,12 @@
         <!-- Activity Label at the top of each row -->
         <TextView
             android:id="@+id/activityLabel"
+            android:fontFamily="@font/engagement"
+            android:textColor="@color/md_theme_light_primary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Activity 1"
-            android:textStyle="bold"
+            android:textSize="32sp"
             android:paddingBottom="4dp"/>
 
         <!-- Container for Time and AM/PM selection -->
@@ -31,11 +33,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/md_theme_light_primary"
                 android:text="Select Time:"
                 android:layout_gravity="center_vertical"/>
 
             <Spinner
                 android:id="@+id/timeSpinner"
+                android:textColor="@color/md_theme_light_primary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
@@ -59,11 +63,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/md_theme_light_primary"
                 android:text="Select Activity Type:"
                 android:layout_gravity="center_vertical"/>
 
             <Spinner
                 android:id="@+id/typeSpinner"
+                android:textColor="@color/md_theme_light_primary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

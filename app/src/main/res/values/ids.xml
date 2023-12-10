@@ -2,4 +2,5 @@
 <resources>
     <item name="logoutButton" type="id" />
     <item name="userAccountButton" type="id" />
+    <item name="cardView" type="id" />
 </resources>

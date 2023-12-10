@@ -31,4 +31,12 @@ public enum ActivityType {
                 return "";
         }
     }
+    public static ActivityType fromString(String typeString) {
+        for (ActivityType type : ActivityType.values()) {
+            if (type.toString().equalsIgnoreCase(typeString)) {
+                return type;
+            }
+        }
+        return NONE; // Default case
+    }
 }

@@ -1,7 +1,12 @@
 package edu.northeastern.groupproject_outandabout.ui.plan;
 
+import android.content.Context;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import edu.northeastern.groupproject_outandabout.ActivityType;
+import edu.northeastern.groupproject_outandabout.R;
 
 /**
  * This class represents the plan that user is building throughout the app progression
