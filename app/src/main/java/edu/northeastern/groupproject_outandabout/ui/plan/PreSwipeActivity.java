@@ -65,6 +65,9 @@ public class PreSwipeActivity extends AppCompatActivity {
                 && data.hasExtra("SelectedActivity")) {
             ActivityOption selectedActivity = (ActivityOption)data.getSerializableExtra("SelectedActivity");
 
+            String timeslot = this.plan.getActivitySlots().get(searchActivityIndex).getTimeslot();
+            selectedActivity.setSelectedTime(timeslot);
+
             this.plan.addSelectedActivity(selectedActivity);
             this.searchActivityIndex++;
 
@@ -130,6 +133,8 @@ public class PreSwipeActivity extends AppCompatActivity {
         customizeButton.setOnClickListener(view -> {
             Intent intent = new Intent(this, CustomizeSearchActivity.class);
             intent.putExtra("ActivityType", this.plan.getActivitySlots().get(searchActivityIndex).getType());
+            intent.putExtra("Latitude", this.plan.getLatitude());
+            intent.putExtra("Longitude", this.plan.getLongitude());
             startActivityForResult(intent, REQUEST_CODE_CUSTOMIZE_ACTIVITY);
         });
     }

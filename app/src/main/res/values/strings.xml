@@ -40,15 +40,4 @@
         <item>10.0</item>
     </string-array>
 
-    <string-array name="min_Rating_Options">
-        <item>Any</item>
-        <item>1.0</item>
-        <item>1.5</item>
-        <item>2.0</item>
-        <item>2.5</item>
-        <item>3.0</item>
-        <item>3.5</item>
-        <item>4.0</item>
-        <item>4.5</item>
-    </string-array>
 </resources>
