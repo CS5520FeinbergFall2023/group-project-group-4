@@ -117,7 +117,7 @@ public class GooglePlacesCaller {
     }
 
     public static String getMockApiResponse() {
-        //*
+        /*
         return "{\n" +
                 "  \"places\": [\n" +
                 "    {\n" +
@@ -158,8 +158,8 @@ public class GooglePlacesCaller {
                 "  ]\n" +
                 "}";
 
-         //*/
-        /*
+         */
+        //*
         return "{\n" +
                 "  \"places\": [\n" +
                 "    {\n" +
@@ -325,7 +325,7 @@ public class GooglePlacesCaller {
                 "  ]\n" +
                 "}\n";
 
-         */
+         //*/
     }
 
     private static String convertStreamToString(InputStream inputStream) {

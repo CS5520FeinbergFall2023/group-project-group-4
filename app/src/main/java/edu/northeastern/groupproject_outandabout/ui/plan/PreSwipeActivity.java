@@ -54,12 +54,11 @@ public class PreSwipeActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // If customized search query API response returned from Customize Activity, launch swiping activity
+        // If customized search query returned from Customize Activity, call api and launch swiping activity
         if (requestCode == REQUEST_CODE_CUSTOMIZE_ACTIVITY && resultCode == RESULT_OK
-                && data.hasExtra("Response")) {
-            Intent intent = new Intent(this, SwipeActivity.class);
-            intent.putExtra("Response", data.getStringExtra("Response"));
-            startActivityForResult(intent, REQUEST_CODE_SWIPE_ACTIVITY);
+                && data.hasExtra("CustomQuery")) {
+            Thread apiThread = new Thread(new ApiSearchRunnable(data.getStringExtra("CustomQuery")));
+            apiThread.start();
         }
         // If ActivityOption was selected and returned from swiping, add to plan
         else if (requestCode == REQUEST_CODE_SWIPE_ACTIVITY && resultCode == RESULT_OK
@@ -120,7 +119,7 @@ public class PreSwipeActivity extends AppCompatActivity {
         randomizeButton.setOnClickListener(view -> {
             // Make API call and pass the response as a String to SwipeActivity
             String searchQuery = formatRandomGoogleApiQuery();
-            Thread apiThread = new Thread(new RandomSearchRunnable(searchQuery));
+            Thread apiThread = new Thread(new ApiSearchRunnable(searchQuery));
             apiThread.start();
         });
     }
@@ -183,12 +182,12 @@ public class PreSwipeActivity extends AppCompatActivity {
     private float milesToMeters(float miles) { return miles * 1609.34f; }
 
     /**
-     * Runnable class used for API random search thread
+     * Runnable class used for to run an API search in a thread
      */
-    class RandomSearchRunnable implements Runnable {
+    class ApiSearchRunnable implements Runnable {
         private final String searchQuery;
 
-        public RandomSearchRunnable(String searchQuery) {
+        public ApiSearchRunnable(String searchQuery) {
             this.searchQuery = searchQuery;
         }
         @Override
