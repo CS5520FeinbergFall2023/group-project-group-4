@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -32,6 +31,7 @@ public class PreSwipeActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_CUSTOMIZE_ACTIVITY = 300;
 
     private static final float DEFAULT_SEARCH_RADIUS_MI = 2.0f;
+    private static final float LOCATION_INPUT_SEARCH_RADIUS = 8.0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +65,7 @@ public class PreSwipeActivity extends AppCompatActivity {
                 && data.hasExtra("SelectedActivity")) {
             ActivityOption selectedActivity = (ActivityOption)data.getSerializableExtra("SelectedActivity");
 
-            String timeslot = this.plan.getActivitySlots().get(searchActivityIndex).getTimeslot();
+            String timeslot = this.plan.getActivitySlots().get(searchActivityIndex).getCompleteTime();
             selectedActivity.setSelectedTime(timeslot);
 
             this.plan.addSelectedActivity(selectedActivity);
@@ -108,7 +108,7 @@ public class PreSwipeActivity extends AppCompatActivity {
     private void updateCurrSearchText() {
         this.currSearchActivityTV.setText("Activity " + (searchActivityIndex+1) + ": "
                 + this.plan.getActivitySlots().get(searchActivityIndex).getType().toString() + " @ "
-                + this.plan.getActivitySlots().get(searchActivityIndex).getTimeslot());
+                + this.plan.getActivitySlots().get(searchActivityIndex).getCompleteTime());
     }
 
     private void setUpButtons() {
@@ -135,13 +135,13 @@ public class PreSwipeActivity extends AppCompatActivity {
             intent.putExtra("ActivityType", this.plan.getActivitySlots().get(searchActivityIndex).getType());
             intent.putExtra("Latitude", this.plan.getLatitude());
             intent.putExtra("Longitude", this.plan.getLongitude());
+            intent.putExtra("isInputLocation", this.plan.getIsInputLocation());
             startActivityForResult(intent, REQUEST_CODE_CUSTOMIZE_ACTIVITY);
         });
     }
 
     /**
      * Helper method to format the Google Places API search query for a random activity search
-     * //TODO: Implement logic to get correct search location and activity type
      */
     private String formatRandomGoogleApiQuery() {
         // Determine "includedTypes" to add to query based on what type of activity is being searched
@@ -171,7 +171,8 @@ public class PreSwipeActivity extends AppCompatActivity {
         String searchLong = Double.toString(this.plan.getLongitude());
 
         // Set default search radius
-        String searchRadius = Float.toString(milesToMeters(DEFAULT_SEARCH_RADIUS_MI));
+        float searchRadiusf = this.plan.getIsInputLocation()?LOCATION_INPUT_SEARCH_RADIUS:DEFAULT_SEARCH_RADIUS_MI;
+        String searchRadius = Float.toString(milesToMeters(searchRadiusf));
 
         return "{\n" +
                 "  \"includedTypes\": " + includedTypes + ",\n" +

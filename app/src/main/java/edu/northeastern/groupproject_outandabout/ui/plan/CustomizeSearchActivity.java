@@ -11,6 +11,7 @@ import androidx.gridlayout.widget.GridLayout;
 
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +50,12 @@ public class CustomizeSearchActivity extends AppCompatActivity {
         searchLong = intent.getDoubleExtra("Longitude", 0);
         currType = (ActivityType)intent.getSerializableExtra("ActivityType");
         setLayoutByType(currType);
+
+        // Hide radius option if location input search
+        Boolean isInputLocation = intent.getBooleanExtra("isInputLocation", false);
+        if(isInputLocation) {
+            findViewById(R.id.searchRadiusContainer).setVisibility(View.GONE);
+        }
 
         // Setup search radius spinner
         setUpSearchRadiusSpinner();
