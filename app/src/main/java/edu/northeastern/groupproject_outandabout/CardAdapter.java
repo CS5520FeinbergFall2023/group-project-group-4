@@ -62,17 +62,17 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             String address = activityOption.getAddress();
 
             if (activityOption.getSelectedType() == ActivityType.RESTAURANT) {
-                Drawable restaurantDrawable = ContextCompat.getDrawable(itemView.getContext(), R.drawable.restaurant);
-                iconImage.setImageDrawable(restaurantDrawable);
+                Drawable drawable = ContextCompat.getDrawable(itemView.getContext(), R.drawable.restaurant);
+                iconImage.setImageDrawable(drawable);
             } else if (activityOption.getSelectedType() == ActivityType.ENTERTAINMENT) {
-                Drawable restaurantDrawable = ContextCompat.getDrawable(itemView.getContext(), R.drawable.entertainment);
-                iconImage.setImageDrawable(restaurantDrawable);
+                Drawable drawable = ContextCompat.getDrawable(itemView.getContext(), R.drawable.entertainment);
+                iconImage.setImageDrawable(drawable);
             } else if (activityOption.getSelectedType() == ActivityType.NIGHTLIFE) {
-                Drawable restaurantDrawable = ContextCompat.getDrawable(itemView.getContext(), R.drawable.nightlife);
-                iconImage.setImageDrawable(restaurantDrawable);
+                Drawable drawable = ContextCompat.getDrawable(itemView.getContext(), R.drawable.nightlife);
+                iconImage.setImageDrawable(drawable);
             } else if (activityOption.getSelectedType() == ActivityType.OUTDOORS) {
-                Drawable restaurantDrawable = ContextCompat.getDrawable(itemView.getContext(), R.drawable.outdoors);
-                iconImage.setImageDrawable(restaurantDrawable);
+                Drawable drawable = ContextCompat.getDrawable(itemView.getContext(), R.drawable.outdoors);
+                iconImage.setImageDrawable(drawable);
             }
 
             nameTextView.setText(name);

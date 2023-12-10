@@ -45,7 +45,7 @@ public class UserAccountActivity extends AppCompatActivity {
         if (currentUser != null) {
             userEmailTextView.setText(currentUser.getEmail());
             userEmailTextView.setVisibility(View.VISIBLE);
-            welcomeTextView.setText("Welcome " + currentUser.getDisplayName() + "!");
+            welcomeTextView.setText("Saved Plans");
             fetchUserPlans();
         } else {
             userEmailTextView.setText("No user is signed in.");

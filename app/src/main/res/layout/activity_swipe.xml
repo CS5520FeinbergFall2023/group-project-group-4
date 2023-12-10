@@ -6,26 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".SwipeActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/activityCards"
-        android:layout_width="393dp"
-        android:layout_height="710dp"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:overScrollMode="never"
-        android:padding="16dp"
-        app:layoutManager="LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:fontFamily="@font/engagement"
+        android:text="Swipe Activities"
+        android:textColor="@color/md_theme_light_primary"
+        android:textSize="48sp"
+        app:layout_constraintBottom_toTopOf="@+id/activityCards"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        tools:listitem="@layout/card_item" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="381dp"
-        android:layout_height="175dp"
+        android:layout_width="376dp"
+        android:layout_height="140dp"
         android:layout_marginTop="420dp"
 
         app:cardCornerRadius="8dp"
@@ -65,4 +63,18 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/activityCards"
+        android:layout_width="393dp"
+        android:layout_height="710dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:padding="16dp"
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="111dp"
+        tools:listitem="@layout/card_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>

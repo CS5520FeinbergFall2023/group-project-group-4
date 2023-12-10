@@ -44,11 +44,11 @@ public class SwipeActivity extends AppCompatActivity {
         updateButtonState();
 
         savedButton.setOnClickListener(view -> {
-            startOptionsActivityForResult(savedActivities);
+            startOptionsActivityForResult(savedActivities, true);
         });
 
         removedButton.setOnClickListener(view -> {
-            startOptionsActivityForResult(removedActivities);
+            startOptionsActivityForResult(removedActivities, false);
         });
 
         activities = generateDummyData(); // parseApiResponse(); //
@@ -88,9 +88,10 @@ public class SwipeActivity extends AppCompatActivity {
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-    private void startOptionsActivityForResult(List<ActivityOption> activities) {
+    private void startOptionsActivityForResult(List<ActivityOption> activities, boolean likeFlag) {
         Intent intent = new Intent(this, OptionsActivity.class);
         intent.putParcelableArrayListExtra("activityList", new ArrayList<>(activities));
+        intent.putExtra("likeFlag", likeFlag);
         startActivityForResult(intent, REQUEST_CODE_OPTIONS_ACTIVITY);
     }
 
@@ -123,11 +124,11 @@ public class SwipeActivity extends AppCompatActivity {
 
     private List<ActivityOption> generateDummyData() {
         List<ActivityOption> dummyData = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 10; i++) {
             String name = "Activity " + (i + 1);
             String address = "Address " + (i + 1);
             String rating = "4.0";
-            ActivityOption activityOption = new ActivityOption(name, address, rating, ActivityType.OUTDOORS);
+            ActivityOption activityOption = new ActivityOption(name, address, rating, ActivityType.NIGHTLIFE);
             dummyData.add(activityOption);
         }
         return dummyData;

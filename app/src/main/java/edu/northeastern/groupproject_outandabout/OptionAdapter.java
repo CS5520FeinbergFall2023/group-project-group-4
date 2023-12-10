@@ -70,8 +70,8 @@ public class OptionAdapter extends RecyclerView.Adapter<OptionAdapter.CardViewHo
 
         public void bind(ActivityOption activityOption) {
             String info = activityOption.getName() + "\n" +
-                    activityOption.getAddress() + "\n" +
-                    "Rating: " + activityOption.getRating();
+                    activityOption.getRating() + "\n" +
+                    "Rating: " + activityOption.getAddress();
 
             infoTextView.setText(info);
         }
