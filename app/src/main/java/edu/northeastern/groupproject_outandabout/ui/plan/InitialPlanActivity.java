@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +24,7 @@ public class InitialPlanActivity extends AppCompatActivity {
     private PlanSummaryAdapter adapter;
     private List<ActivityBuilderSlot> plannedActivities;
     private EditText locationInputEditText;
+    private boolean isInputLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +33,12 @@ public class InitialPlanActivity extends AppCompatActivity {
 
         initialPlanRecyclerView = findViewById(R.id.initialPlanRecyclerView);
         locationInputEditText = findViewById(R.id.locationInputEditText);
+        isInputLocation = getIntent().getBooleanExtra("inputLocation", false);
 
         initialPlanRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         plannedActivities = new ArrayList<>();
-        plannedActivities.add(new ActivityBuilderSlot(ActivityType.NONE, ""));
+        plannedActivities.add(new ActivityBuilderSlot(ActivityType.NONE, "", "AM"));
         adapter = new PlanSummaryAdapter(plannedActivities);
         initialPlanRecyclerView.setAdapter(adapter);
 
@@ -48,7 +51,7 @@ public class InitialPlanActivity extends AppCompatActivity {
     private void setupAddActivitiesButton() {
         FloatingActionButton addActivitiesButton = findViewById(R.id.addActivitiesButton);
         addActivitiesButton.setOnClickListener(v -> {
-            plannedActivities.add(new ActivityBuilderSlot(ActivityType.NONE, ""));
+            plannedActivities.add(new ActivityBuilderSlot(ActivityType.NONE, "", "AM"));
             adapter.notifyDataSetChanged();
         });
     }
@@ -66,6 +69,11 @@ public class InitialPlanActivity extends AppCompatActivity {
     private void setupGeneratePlanButton() {
         Button generatePlanButton = findViewById(R.id.generatePlanButton);
         generatePlanButton.setOnClickListener(v -> {
+            if (isInputLocation && locationInputEditText.getText().toString().trim().isEmpty()) {
+                Toast.makeText(InitialPlanActivity.this, "Please enter a location", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             Intent intent = new Intent(InitialPlanActivity.this, PreSwipeActivity.class);
             Plan plan = new Plan();
             for (ActivityBuilderSlot slot : plannedActivities) {
@@ -78,9 +86,9 @@ public class InitialPlanActivity extends AppCompatActivity {
                 double longitude = getIntent().getDoubleExtra("longitude", 0);
                 plan.setLatitude(latitude);
                 plan.setLongitude(longitude);
-            } else if (getIntent().getBooleanExtra("inputLocation", false)) {
+            } else if (isInputLocation) {
                 String inputLocation = locationInputEditText.getText().toString();
-                plan.setInputLocation(inputLocation); // Add a field and a setter for inputLocation in Plan class
+                plan.setInputLocation(inputLocation);
             }
 
             intent.putExtra("Plan", plan);
@@ -89,8 +97,7 @@ public class InitialPlanActivity extends AppCompatActivity {
     }
 
     private void handleLocationInput() {
-        // Showing the location input field if user is expected to input a location
-        if (getIntent().getBooleanExtra("inputLocation", false)) {
+        if (isInputLocation) {
             locationInputEditText.setVisibility(View.VISIBLE);
         }
     }
