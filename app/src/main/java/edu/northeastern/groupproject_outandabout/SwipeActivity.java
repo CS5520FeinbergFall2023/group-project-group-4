@@ -51,7 +51,7 @@ public class SwipeActivity extends AppCompatActivity {
             startOptionsActivityForResult(removedActivities);
         });
 
-        activities = generateDummyData(); //parseApiResponse(); //
+        activities = generateDummyData(); // parseApiResponse(); //
 
         recyclerView = findViewById(R.id.activityCards);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -127,7 +127,7 @@ public class SwipeActivity extends AppCompatActivity {
             String name = "Activity " + (i + 1);
             String address = "Address " + (i + 1);
             String rating = "4.0";
-            ActivityOption activityOption = new ActivityOption(name, address, rating, ActivityType.NONE);
+            ActivityOption activityOption = new ActivityOption(name, address, rating, ActivityType.OUTDOORS);
             dummyData.add(activityOption);
         }
         return dummyData;

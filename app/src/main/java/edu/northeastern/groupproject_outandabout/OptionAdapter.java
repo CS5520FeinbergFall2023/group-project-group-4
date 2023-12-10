@@ -48,7 +48,7 @@ public class OptionAdapter extends RecyclerView.Adapter<OptionAdapter.CardViewHo
         });
 
         if (activityOption.isSelected()) {
-            holder.itemView.setBackgroundColor(Color.YELLOW);
+            holder.itemView.setBackgroundResource(R.drawable.selected_background);
         } else {
             holder.itemView.setBackgroundColor(Color.TRANSPARENT);
         }

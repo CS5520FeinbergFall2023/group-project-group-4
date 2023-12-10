@@ -1,10 +1,13 @@
 package edu.northeastern.groupproject_outandabout;
 
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
@@ -40,19 +43,41 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     }
 
     public class CardViewHolder extends RecyclerView.ViewHolder {
-        private TextView infoTextView;
+        private TextView addressTextView;
+        private TextView nameTextView;
+        private TextView ratingTextView;
+        private ImageView iconImage;
 
         public CardViewHolder(@NonNull View itemView) {
             super(itemView);
-            infoTextView = itemView.findViewById(R.id.infoTextView);
+            nameTextView = itemView.findViewById(R.id.nameTextView);
+            ratingTextView = itemView.findViewById(R.id.ratingTextView);
+            addressTextView = itemView.findViewById(R.id.addressTextView);
+            iconImage = itemView.findViewById(R.id.activityIcon);
         }
 
         public void bind(ActivityOption activityOption) {
-            String info = activityOption.getName() + "\n" +
-                    activityOption.getAddress() + "\n" +
-                    "Rating: " + activityOption.getRating();
+            String name = activityOption.getName();
+            String rating = "Rating: " + activityOption.getRating();
+            String address = activityOption.getAddress();
 
-            infoTextView.setText(info);
+            if (activityOption.getSelectedType() == ActivityType.RESTAURANT) {
+                Drawable restaurantDrawable = ContextCompat.getDrawable(itemView.getContext(), R.drawable.restaurant);
+                iconImage.setImageDrawable(restaurantDrawable);
+            } else if (activityOption.getSelectedType() == ActivityType.ENTERTAINMENT) {
+                Drawable restaurantDrawable = ContextCompat.getDrawable(itemView.getContext(), R.drawable.entertainment);
+                iconImage.setImageDrawable(restaurantDrawable);
+            } else if (activityOption.getSelectedType() == ActivityType.NIGHTLIFE) {
+                Drawable restaurantDrawable = ContextCompat.getDrawable(itemView.getContext(), R.drawable.nightlife);
+                iconImage.setImageDrawable(restaurantDrawable);
+            } else if (activityOption.getSelectedType() == ActivityType.OUTDOORS) {
+                Drawable restaurantDrawable = ContextCompat.getDrawable(itemView.getContext(), R.drawable.outdoors);
+                iconImage.setImageDrawable(restaurantDrawable);
+            }
+
+            nameTextView.setText(name);
+            ratingTextView.setText(rating);
+            addressTextView.setText(address);
         }
     }
 }
