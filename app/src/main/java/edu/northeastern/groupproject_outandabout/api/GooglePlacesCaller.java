@@ -39,7 +39,7 @@ public class GooglePlacesCaller {
      */
     public static String fetchPoiData(String parameters) {
 
-        String apiKey = "ENTER_API_KEY_HERE"; // Replace with API_KEY to use. USE SPARINGLY WHILE TESTING
+        String apiKey = API_KEY;//"ENTER_API_KEY_HERE"; // Replace with API_KEY to use. USE SPARINGLY WHILE TESTING
 
         URL url = null;
         try {
@@ -105,7 +105,7 @@ public class GooglePlacesCaller {
                 String address = pointOfInterest.optString("formattedAddress", "n/a");
                 String rating = pointOfInterest.optString("rating", "n/a");
 
-                ActivityOption option = new ActivityOption(name, address, rating, type);
+                ActivityOption option = new ActivityOption(name, address.replaceAll("\\R", ""), rating, type);
                 activityOptions.add(option);
             }
         }
@@ -117,49 +117,6 @@ public class GooglePlacesCaller {
     }
 
     public static String getMockApiResponse() {
-
-//        return "{\n" +
-//                "  \"places\": [\n" +
-//                "    {\n" +
-//                "      \"formattedAddress\": \"304 Western Ave, Brighton, MA 02135, USA\",\n" +
-//                "\n" +
-//                "      \"rating\": 4.5,\n" +
-//                "\n" +
-//                "      \"displayName\": {\n" +
-//                "        \"text\": \"Spring Shabu-Shabu\",\n" +
-//                "\n" +
-//                "        \"languageCode\": \"en\"\n" +
-//                "      }\n" +
-//                "    },\n" +
-//                "\n" +
-//                "    {\n" +
-//                "      \"formattedAddress\": \"1700 Beacon St, Brookline, MA 02446, USA\",\n" +
-//                "\n" +
-//                "      \"rating\": 4.5,\n" +
-//                "\n" +
-//                "      \"displayName\": {\n" +
-//                "        \"text\": \"Barcelona Wine Bar\",\n" +
-//                "\n" +
-//                "        \"languageCode\": \"en\"\n" +
-//                "      }\n" +
-//                "    },\n" +
-//                "\n" +
-//                "    {\n" +
-//                "      \"formattedAddress\": \"101 Bond Sq, Watertown, MA 02472, USA\",\n" +
-//                "\n" +
-//                "      \"rating\": 4.1,\n" +
-//                "\n" +
-//                "      \"displayName\": {\n" +
-//                "        \"text\": \"Kura Revolving Sushi Bar\",\n" +
-//                "\n" +
-//                "        \"languageCode\": \"en\"\n" +
-//                "      }\n" +
-//                "    }\n" +
-//                "  ]\n" +
-//                "}";
-
-
-
         return "{\n" +
                 "  \"places\": [\n" +
                 "    {\n" +
@@ -325,7 +282,7 @@ public class GooglePlacesCaller {
                 "  ]\n" +
                 "}\n";
 
-
+         //*/
     }
 
     private static String convertStreamToString(InputStream inputStream) {
