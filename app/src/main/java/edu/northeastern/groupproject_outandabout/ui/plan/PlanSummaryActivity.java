@@ -2,12 +2,21 @@ package edu.northeastern.groupproject_outandabout.ui.plan;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import edu.northeastern.groupproject_outandabout.R;
+import edu.northeastern.groupproject_outandabout.util.FirebaseDatabaseUtil;
+import edu.northeastern.groupproject_outandabout.util.PlanExportUtil;
 
 public class PlanSummaryActivity extends AppCompatActivity {
 
@@ -29,6 +38,16 @@ public class PlanSummaryActivity extends AppCompatActivity {
         savePlanButton = findViewById(R.id.savePlanButton);
         exportPlanButton = findViewById(R.id.exportPlanButton);
         regeneratePlanButton = findViewById(R.id.regeneratePlanButton);
+
+        // Check if user is logged in
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            // show the save button
+            savePlanButton.setVisibility(View.VISIBLE);
+        } else {
+            // hide the save button
+            savePlanButton.setVisibility(View.GONE);
+        }
 
         currentPlan = getPlan();
         adapter = new ActivitySummaryAdapter(currentPlan.getSelectedActivities());
@@ -57,12 +76,34 @@ public class PlanSummaryActivity extends AppCompatActivity {
     }
 
     private void savePlan() {
-        // Logic needed to save plan to database
+        EditText planNameEditText = findViewById(R.id.planNameEditText);
+        String planName = planNameEditText.getText().toString().trim();
+
+        if (planName.isEmpty()) {
+            Toast.makeText(PlanSummaryActivity.this, "Please enter the plan name", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        currentPlan.setName(planName);
+
+        FirebaseDatabaseUtil firebaseDbUtil = new FirebaseDatabaseUtil();
+        firebaseDbUtil.savePlan(currentPlan, new FirebaseDatabaseUtil.DatabaseOperationCallback() {
+            @Override
+            public void onSuccess() {
+                Toast.makeText(PlanSummaryActivity.this, "New plan saved successfully!", Toast.LENGTH_SHORT).show();
+                savePlanButton.setEnabled(false);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                Toast.makeText(PlanSummaryActivity.this, "Failed to save new plan: " + error, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void exportPlan() {
-        // Logic needed to export plan
-    }
+        String planDetails = PlanExportUtil.convertPlanToText(currentPlan);
+        PlanExportUtil.sharePlan(this, planDetails);    }
 
     private Plan getPlan() {
         // Retrieve the Plan object from the Intent

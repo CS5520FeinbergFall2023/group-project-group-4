@@ -19,6 +19,17 @@ public class ActivityOption implements Serializable, Parcelable {
     private String selectedTime;
     private boolean isSelected;
 
+    // Public no-argument constructor for Firebase
+    public ActivityOption() {
+        // Initialize with default values or leave it empty
+        this.name = "";
+        this.address = "";
+        this.rating = "";
+        this.type = ActivityType.NONE; // Assuming ActivityType.NONE is a valid default
+        this.isSelected = false;
+        this.selectedTime = "";
+    }
+
     public ActivityOption(String name, String address, String rating, ActivityType type) {
         this.name = name;
         this.address = address;
@@ -27,6 +38,17 @@ public class ActivityOption implements Serializable, Parcelable {
         this.isSelected = false;
         this.selectedTime = "";
     }
+
+    @Override
+    public String toString() {
+        return "Name: " + name +
+                ", Address: " + address +
+                ", Rating: " + rating +
+                ", Type: " + (type != null ? type.name() : "N/A") +
+                ", Selected Time: " + selectedTime +
+                ", Is Selected: " + isSelected;
+    }
+
 
     // Getters and setters
     public String getName() { return this.name; }
