@@ -94,14 +94,30 @@ public class PlanSummaryAdapter extends RecyclerView.Adapter<PlanSummaryAdapter.
 
         holder.typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int selectedPosition, long id) {
-                ActivityType selectedType = convertStringToActivityType(typeAdapter.getItem(selectedPosition).toString(), context);
-                activitySlots.get(position).setType(selectedType);
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedTypeString = parent.getItemAtPosition(position).toString();
+                slot.setType(convertStringToActivityType(selectedTypeString));
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
+
+    }
+
+    private ActivityType convertStringToActivityType(String typeString) {
+        switch (typeString) {
+            case "Restaurant":
+                return ActivityType.RESTAURANT;
+            case "Entertainment":
+                return ActivityType.ENTERTAINMENT;
+            case "Nightlife":
+                return ActivityType.NIGHTLIFE;
+            case "Outdoors":
+                return ActivityType.OUTDOORS;
+            default:
+                return ActivityType.NONE;
+        }
     }
 
     private int getTypePosition(ArrayAdapter<CharSequence> typeAdapter, ActivityBuilderSlot slot) {
@@ -109,19 +125,6 @@ public class PlanSummaryAdapter extends RecyclerView.Adapter<PlanSummaryAdapter.
         return typeAdapter.getPosition(typeString);
     }
 
-    private ActivityType convertStringToActivityType(String typeString, Context context) {
-        String[] typeOptions = context.getResources().getStringArray(R.array.type_options);
-        if (typeString.equals(typeOptions[0])) {
-            return ActivityType.RESTAURANT;
-        } else if (typeString.equals(typeOptions[1])) {
-            return ActivityType.ENTERTAINMENT;
-        } else if (typeString.equals(typeOptions[2])) {
-            return ActivityType.NIGHTLIFE;
-        } else if (typeString.equals(typeOptions[3])) {
-            return ActivityType.OUTDOORS;
-        }
-        return ActivityType.NONE;
-    }
 
     @Override
     public int getItemCount() {

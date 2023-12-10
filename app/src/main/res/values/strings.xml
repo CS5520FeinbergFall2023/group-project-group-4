@@ -75,11 +75,12 @@
 
 
     <string-array name="type_options">
-        <item>RESTAURANT</item>
-        <item>ENTERTAINMENT</item>
-        <item>NIGHTLIFE</item>
-        <item>OUTDOORS</item>
+        <item>Restaurant</item>
+        <item>Entertainment</item>
+        <item>Nightlife</item>
+        <item>Outdoors</item>
     </string-array>
+
 
     <string-array name="search_Radius_Options">
         <item>0.5</item>
