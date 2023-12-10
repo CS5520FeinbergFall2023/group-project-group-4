@@ -55,17 +55,13 @@ dependencies {
     // Firebase
     implementation("com.google.firebase:firebase-auth:22.3.0")
     implementation ("com.firebaseui:firebase-ui-auth:7.2.0")
-
-    // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
-
-
-    // TODO: Add the dependencies for Firebase products we want to use
-    // do we want google login?
     implementation("com.google.firebase:firebase-analytics")
 
 
+
     implementation("com.google.android.material:material:1.5.0")
+
 
     implementation("androidx.annotation:annotation:1.6.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
