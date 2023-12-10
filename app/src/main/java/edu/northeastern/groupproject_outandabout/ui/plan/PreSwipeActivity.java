@@ -54,17 +54,19 @@ public class PreSwipeActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // If customized search query API response returned from Customize Activity, launch swiping activity
+        // If customized search query returned from Customize Activity, call api and launch swiping activity
         if (requestCode == REQUEST_CODE_CUSTOMIZE_ACTIVITY && resultCode == RESULT_OK
-                && data.hasExtra("Response")) {
-            Intent intent = new Intent(this, SwipeActivity.class);
-            intent.putExtra("Response", data.getStringExtra("Response"));
-            startActivityForResult(intent, REQUEST_CODE_SWIPE_ACTIVITY);
+                && data.hasExtra("CustomQuery")) {
+            Thread apiThread = new Thread(new ApiSearchRunnable(data.getStringExtra("CustomQuery")));
+            apiThread.start();
         }
         // If ActivityOption was selected and returned from swiping, add to plan
         else if (requestCode == REQUEST_CODE_SWIPE_ACTIVITY && resultCode == RESULT_OK
                 && data.hasExtra("SelectedActivity")) {
             ActivityOption selectedActivity = (ActivityOption)data.getSerializableExtra("SelectedActivity");
+
+            String timeslot = this.plan.getActivitySlots().get(searchActivityIndex).getTimeslot();
+            selectedActivity.setSelectedTime(timeslot);
 
             this.plan.addSelectedActivity(selectedActivity);
             this.searchActivityIndex++;
@@ -120,7 +122,7 @@ public class PreSwipeActivity extends AppCompatActivity {
         randomizeButton.setOnClickListener(view -> {
             // Make API call and pass the response as a String to SwipeActivity
             String searchQuery = formatRandomGoogleApiQuery();
-            Thread apiThread = new Thread(new RandomSearchRunnable(searchQuery));
+            Thread apiThread = new Thread(new ApiSearchRunnable(searchQuery));
             apiThread.start();
         });
     }
@@ -131,6 +133,8 @@ public class PreSwipeActivity extends AppCompatActivity {
         customizeButton.setOnClickListener(view -> {
             Intent intent = new Intent(this, CustomizeSearchActivity.class);
             intent.putExtra("ActivityType", this.plan.getActivitySlots().get(searchActivityIndex).getType());
+            intent.putExtra("Latitude", this.plan.getLatitude());
+            intent.putExtra("Longitude", this.plan.getLongitude());
             startActivityForResult(intent, REQUEST_CODE_CUSTOMIZE_ACTIVITY);
         });
     }
@@ -148,10 +152,16 @@ public class PreSwipeActivity extends AppCompatActivity {
                 includedTypes = "[\"restaurant\"]";
                 break;
             case ENTERTAINMENT:
+                includedTypes = "[\"amusement_center\", \"aquarium\", \"bowling_alley\", \"cultural_center\", " +
+                    "\"event_venue\", \"historical_landmark\", \"movie_theater\", \"museum\", \"performing_arts_theater\", " +
+                    "\"tourist_attraction\", \"visitor_center\", \"zoo\"]";
                 break;
             case NIGHTLIFE:
+                includedTypes = "[\"bar\", \"casino\", \"night_club\"]";
                 break;
             case OUTDOORS:
+                includedTypes = "[\"amusement_park\", \"dog_park\", \"golf_course\", \"hiking_area\", " +
+                        "\"marina\", \"national_park\", \"park\", \"ski_resort\", \"sports_club\"]";
                 break;
             default:
         }
@@ -165,7 +175,7 @@ public class PreSwipeActivity extends AppCompatActivity {
 
         return "{\n" +
                 "  \"includedTypes\": " + includedTypes + ",\n" +
-                "  \"maxResultCount\": 3,\n" +
+                "  \"maxResultCount\": 20,\n" +
                 "  \"locationRestriction\": {\n" +
                 "    \"circle\": {\n" +
                 "      \"center\": {\n" +
@@ -183,12 +193,12 @@ public class PreSwipeActivity extends AppCompatActivity {
     private float milesToMeters(float miles) { return miles * 1609.34f; }
 
     /**
-     * Runnable class used for API random search thread
+     * Runnable class used for to run an API search in a thread
      */
-    class RandomSearchRunnable implements Runnable {
+    class ApiSearchRunnable implements Runnable {
         private final String searchQuery;
 
-        public RandomSearchRunnable(String searchQuery) {
+        public ApiSearchRunnable(String searchQuery) {
             this.searchQuery = searchQuery;
         }
         @Override
@@ -196,8 +206,8 @@ public class PreSwipeActivity extends AppCompatActivity {
             long startTime = System.currentTimeMillis();
             threadHandler.post(() -> searchLoadingWheel.setVisibility(View.VISIBLE));
 
-            // MOCK RESPONSE USED FOR NOW TO TEST PARSING LOGIC
             //String response = GooglePlacesCaller.fetchPoiData(this.searchQuery);
+            // USE MOCK RESPONSE TO TEST PARSING LOGIC
             String response = GooglePlacesCaller.getMockApiResponse();
 
             // Show user loading wheel for at least 1 sec

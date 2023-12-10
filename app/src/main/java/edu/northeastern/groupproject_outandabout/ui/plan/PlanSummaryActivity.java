@@ -1,5 +1,7 @@
 package edu.northeastern.groupproject_outandabout.ui.plan;
 
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.appcompat.app.AppCompatActivity;
@@ -68,8 +71,8 @@ public class PlanSummaryActivity extends AppCompatActivity {
         });
 
         regeneratePlanButton.setOnClickListener(v -> {
-            // Go back to InitialPlanActivity
-            Intent intent = new Intent(this, InitialPlanActivity.class);
+            // Go back to NewPlanActivity
+            Intent intent = new Intent(this, NewPlanActivity.class);
             startActivity(intent);
             finish(); // Close this activity
         });
@@ -109,5 +112,26 @@ public class PlanSummaryActivity extends AppCompatActivity {
         // Retrieve the Plan object from the Intent
         Plan plan = (Plan) getIntent().getSerializableExtra("Plan");
         return plan != null ? plan : new Plan(); // Return a new Plan if none was passed
+    }
+
+    /**
+     * Exit confirmation added to back press
+     */
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, NewPlanActivity.class);
+        new AlertDialog.Builder(this)
+                .setMessage("Exit Plan Summary?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Go back to NewPlanActivity
+                        startActivity(intent);
+                        finish(); // Close this activity
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
     }
 }
