@@ -435,7 +435,7 @@ public class CustomizeSearchActivity extends AppCompatActivity {
         if(!includedTypes.isEmpty()) {
             String customQuery = "{\n" +
                     "  \"includedTypes\": [" + includedTypes + "],\n" +
-                    "  \"maxResultCount\": 5,\n" +
+                    "  \"maxResultCount\": 20,\n" +
                     "  \"locationRestriction\": {\n" +
                     "    \"circle\": {\n" +
                     "      \"center\": {\n" +
