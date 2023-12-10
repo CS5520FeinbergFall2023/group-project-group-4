@@ -14,14 +14,14 @@ public class Plan implements Serializable {
     private ArrayList<ActivityOption> selectedActivities;
     private double latitude;
     private double longitude;
-    private String inputLocation;
+    private boolean isInputLocation;
 
     public Plan() {
 
         this.name = "";
         this.activityBuilderSlots = new ArrayList<>();
         this.selectedActivities = new ArrayList<>();
-        this.inputLocation = "";
+        this.isInputLocation = false;
     }
 
     public String getName() { return this.name; }
@@ -31,8 +31,8 @@ public class Plan implements Serializable {
     public double getLatitude() { return latitude; }
     public double getLongitude() { return longitude; }
 
-    public void setInputLocation(String inputLocation) { this.inputLocation = inputLocation; }
-    public String getInputLocation() { return inputLocation; }
+    public void setIsInputLocation(boolean isInputLocation) { this.isInputLocation = isInputLocation; }
+    public Boolean getIsInputLocation() { return isInputLocation; }
 
     public void setName(String name) { this.name = name; }
     public void setLatitude(double latitude) { this.latitude = latitude; }

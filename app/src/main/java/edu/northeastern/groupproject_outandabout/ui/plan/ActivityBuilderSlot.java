@@ -39,4 +39,6 @@ public class ActivityBuilderSlot implements Serializable {
     public void setAmpm(String ampm) {
         this.ampm = ampm;
     }
+
+    public String getCompleteTime() { return this.timeslot + this.ampm; }
 }

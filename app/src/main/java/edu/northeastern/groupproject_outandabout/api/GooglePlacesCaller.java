@@ -9,9 +9,11 @@ import org.json.JSONObject;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,7 @@ import edu.northeastern.groupproject_outandabout.ui.plan.ActivityOption;
 public class GooglePlacesCaller {
 
     final static String API_URL = "https://places.googleapis.com/v1/places:searchNearby";
+    final static String GEOCODING_ENDPOINT = "https://maps.googleapis.com/maps/api/geocode/json";
     final static String API_KEY = BuildConfig.GOOGLE_API_KEY;
     final static String FIELD_MASKS = "places.displayName,places.formattedAddress,places.rating";
 
@@ -114,6 +117,82 @@ public class GooglePlacesCaller {
         }
 
         return activityOptions;
+    }
+
+    /**
+     * Takes an address and calls Google Geocoding API to return its latitude and longitude as well as
+     * a boolean flag determining if search found results (1) or if there were no results (-1)
+     */
+    public static double[] geocodeAddress(String address) {
+        double[] latLong = new double[3];
+        String apiKey = API_KEY;
+
+        String formattedAddress = "";
+        // Replace spaces of address with "%"
+        try {
+            formattedAddress = URLEncoder.encode(address, "UTF-8");
+        }
+        catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        String geocodingURL = GEOCODING_ENDPOINT + "?address=" + formattedAddress + "&key=" + apiKey;
+
+        // Make API call and get response
+        URL url = null;
+        try {
+            url = new URL(geocodingURL);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        String response = "none"; // Initialize default value
+        try {
+            // Open connection for POST request
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setDoOutput(true);
+
+            // Get request response
+            try {
+                InputStream inputStream = conn.getInputStream();
+                response = convertStreamToString(inputStream);
+            }
+            catch (FileNotFoundException e) {
+                String errorMessage = convertStreamToString(conn.getErrorStream());
+                Log.d("GOOGLE_PLACES_CALLER_ERROR", "geocodeAddress:\n" + errorMessage);
+            }
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
+        Log.d("GEO RESPONSE", "geocodeAddress: " + response);
+
+        // Parse response to get latitude/longitude data
+        JSONObject jsonResponse;
+        try {
+            jsonResponse = new JSONObject(response);
+            // Check response status
+            String status = jsonResponse.optString("status", "n/a");
+            if(status.equals("OK")) {
+                latLong[0] = 1;
+
+                JSONArray results = jsonResponse.getJSONArray("results");
+                JSONObject result = results.getJSONObject(0);
+                result = result.getJSONObject("geometry");
+                JSONObject coordinates = result.getJSONObject("location");
+
+                latLong[1] = coordinates.optDouble("lat", 0);
+                latLong[2] = coordinates.optDouble("lng", 0);
+            }
+            else {
+                latLong[0] = -1; // Error or no results found
+            }
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("LAT/LONG", "geocodeAddress: lat/long :" + latLong[0] + ": " + latLong[1] + ", " + latLong[2]);
+        return latLong;
     }
 
     public static String getMockApiResponse() {
