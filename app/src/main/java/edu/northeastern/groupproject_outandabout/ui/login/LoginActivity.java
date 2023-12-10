@@ -182,7 +182,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUiWithUser(FirebaseUser user) {
         if (user != null) {
-            String welcome = getString(R.string.welcome) + user.getEmail(); // or getDisplayName(), if set
+            String welcome = getString(R.string.welcome) + " " + user.getEmail(); // or getDisplayName(), if set
             Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
             // Navigate to MainActivity or other activity
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
