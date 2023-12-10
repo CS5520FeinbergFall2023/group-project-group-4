@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -75,13 +76,22 @@ public class PlanSummaryActivity extends AppCompatActivity {
     }
 
     private void savePlan() {
+        EditText planNameEditText = findViewById(R.id.planNameEditText);
+        String planName = planNameEditText.getText().toString().trim();
+
+        if (planName.isEmpty()) {
+            Toast.makeText(PlanSummaryActivity.this, "Please enter the plan name", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        currentPlan.setName(planName);
+
         FirebaseDatabaseUtil firebaseDbUtil = new FirebaseDatabaseUtil();
         firebaseDbUtil.savePlan(currentPlan, new FirebaseDatabaseUtil.DatabaseOperationCallback() {
             @Override
             public void onSuccess() {
                 Toast.makeText(PlanSummaryActivity.this, "New plan saved successfully!", Toast.LENGTH_SHORT).show();
                 savePlanButton.setEnabled(false);
-
             }
 
             @Override
