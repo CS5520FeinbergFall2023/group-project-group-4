@@ -38,7 +38,8 @@ public class InitialPlanActivity extends AppCompatActivity {
         initialPlanRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         plannedActivities = new ArrayList<>();
-        plannedActivities.add(new ActivityBuilderSlot(ActivityType.NONE, "", "AM"));
+        // Add the first slot with default values
+        plannedActivities.add(new ActivityBuilderSlot(ActivityType.NONE, "12:00", "AM"));
         adapter = new PlanSummaryAdapter(plannedActivities);
         initialPlanRecyclerView.setAdapter(adapter);
 
@@ -51,7 +52,8 @@ public class InitialPlanActivity extends AppCompatActivity {
     private void setupAddActivitiesButton() {
         FloatingActionButton addActivitiesButton = findViewById(R.id.addActivitiesButton);
         addActivitiesButton.setOnClickListener(v -> {
-            plannedActivities.add(new ActivityBuilderSlot(ActivityType.NONE, "", "AM"));
+            // Add a new slot with default values
+            plannedActivities.add(new ActivityBuilderSlot(ActivityType.NONE, "12:00", "AM"));
             adapter.notifyDataSetChanged();
         });
     }
@@ -70,17 +72,16 @@ public class InitialPlanActivity extends AppCompatActivity {
         Button generatePlanButton = findViewById(R.id.generatePlanButton);
         generatePlanButton.setOnClickListener(v -> {
             if (isInputLocation && locationInputEditText.getText().toString().trim().isEmpty()) {
-                Toast.makeText(InitialPlanActivity.this, "Please enter a location", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please enter a location", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            Intent intent = new Intent(InitialPlanActivity.this, PreSwipeActivity.class);
+            Intent intent = new Intent(this, PreSwipeActivity.class);
             Plan plan = new Plan();
             for (ActivityBuilderSlot slot : plannedActivities) {
                 plan.addActivitySlot(slot);
             }
 
-            // Retrieve location data if available
             if (getIntent().hasExtra("latitude") && getIntent().hasExtra("longitude")) {
                 double latitude = getIntent().getDoubleExtra("latitude", 0);
                 double longitude = getIntent().getDoubleExtra("longitude", 0);
