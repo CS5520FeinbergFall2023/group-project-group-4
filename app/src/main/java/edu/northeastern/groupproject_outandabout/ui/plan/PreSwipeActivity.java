@@ -152,10 +152,16 @@ public class PreSwipeActivity extends AppCompatActivity {
                 includedTypes = "[\"restaurant\"]";
                 break;
             case ENTERTAINMENT:
+                includedTypes = "[\"amusement_center\", \"aquarium\", \"bowling_alley\", \"cultural_center\", " +
+                    "\"event_venue\", \"historical_landmark\", \"movie_theater\", \"museum\", \"performing_arts_theater\", " +
+                    "\"tourist_attraction\", \"visitor_center\", \"zoo\"]";
                 break;
             case NIGHTLIFE:
+                includedTypes = "[\"bar\", \"casino\", \"night_club\"]";
                 break;
             case OUTDOORS:
+                includedTypes = "[\"amusement_park\", \"dog_park\", \"golf_course\", \"hiking_area\", " +
+                        "\"marina\", \"national_park\", \"park\", \"ski_resort\", \"sports_club\"]";
                 break;
             default:
         }
@@ -169,7 +175,7 @@ public class PreSwipeActivity extends AppCompatActivity {
 
         return "{\n" +
                 "  \"includedTypes\": " + includedTypes + ",\n" +
-                "  \"maxResultCount\": 3,\n" +
+                "  \"maxResultCount\": 20,\n" +
                 "  \"locationRestriction\": {\n" +
                 "    \"circle\": {\n" +
                 "      \"center\": {\n" +
@@ -200,8 +206,8 @@ public class PreSwipeActivity extends AppCompatActivity {
             long startTime = System.currentTimeMillis();
             threadHandler.post(() -> searchLoadingWheel.setVisibility(View.VISIBLE));
 
-            // MOCK RESPONSE USED FOR NOW TO TEST PARSING LOGIC
             //String response = GooglePlacesCaller.fetchPoiData(this.searchQuery);
+            // USE MOCK RESPONSE TO TEST PARSING LOGIC
             String response = GooglePlacesCaller.getMockApiResponse();
 
             // Show user loading wheel for at least 1 sec
