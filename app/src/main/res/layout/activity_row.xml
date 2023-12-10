@@ -24,7 +24,7 @@
             android:textSize="32sp"
             android:paddingBottom="4dp"/>
 
-        <!-- Container for Time selection -->
+        <!-- Container for Time and AM/PM selection -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,8 +42,16 @@
                 android:textColor="@color/md_theme_light_primary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="textEnd"/>
+                android:layout_weight="2"
+                android:textAlignment="textEnd"
+                style="@style/CustomSpinnerStyle"/>
+
+
+            <Spinner
+                android:id="@+id/ampmSpinner"
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
         </LinearLayout>
 
         <!-- Container for Activity Type selection -->
