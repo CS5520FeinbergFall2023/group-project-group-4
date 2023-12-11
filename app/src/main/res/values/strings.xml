@@ -18,16 +18,77 @@
     <string name="user_email">User Email</string>
 
     <string-array name="time_options">
-        <item>Morning</item>
-        <item>Afternoon</item>
-        <item>Evening</item>
-        <item>Night</item>
+        <item>12:00</item>
+        <item>12:30</item>
+        <item>1:00</item>
+        <item>1:30</item>
+        <item>2:00</item>
+        <item>2:30</item>
+        <item>3:00</item>
+        <item>3:30</item>
+        <item>4:00</item>
+        <item>4:30</item>
+        <item>5:00</item>
+        <item>5:30</item>
+        <item>6:00</item>
+        <item>6:30</item>
+        <item>7:00</item>
+        <item>7:30</item>
+        <item>8:00</item>
+        <item>8:30</item>
+        <item>9:00</item>
+        <item>9:30</item>
+        <item>10:00</item>
+        <item>10:30</item>
+        <item>11:00</item>
+        <item>11:30</item>
+        <item>12:00</item>
+        <item>12:30</item>
+        <item>1:00</item>
+        <item>1:30</item>
+        <item>2:00</item>
+        <item>2:30</item>
+        <item>3:0</item>
+        <item>3:30</item>
+        <item>4:00</item>
+        <item>4:30</item>
+        <item>5:00</item>
+        <item>5:30</item>
+        <item>6:00</item>
+        <item>6:30</item>
+        <item>7:00</item>
+        <item>7:30</item>
+        <item>8:00</item>
+        <item>8:30</item>
+        <item>9:00</item>
+        <item>9:30</item>
+        <item>10:00</item>
+        <item>10:30</item>
+        <item>11:00</item>
+        <item>11:30</item>
     </string-array>
 
-    <string-array name="type_options">
-        <item>RESTAURANT</item>
-        <item>ENTERTAINMENT</item>
-        <item>NIGHTLIFE</item>
-        <item>OUTDOORS</item>
+    <string-array name="ampm_options">
+        <item>AM</item>
+        <item>PM</item>
     </string-array>
+
+
+    <string-array name="type_options">
+        <item>Restaurant</item>
+        <item>Entertainment</item>
+        <item>Nightlife</item>
+        <item>Outdoors</item>
+    </string-array>
+
+
+    <string-array name="search_Radius_Options">
+        <item>0.5</item>
+        <item>1.0</item>
+        <item>2.0</item>
+        <item>3.0</item>
+        <item>5.0</item>
+        <item>10.0</item>
+    </string-array>
+
 </resources>

@@ -16,12 +16,12 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.android.material.textfield.TextInputEditText;
 
 import edu.northeastern.groupproject_outandabout.MainActivity;
 import edu.northeastern.groupproject_outandabout.R;
@@ -54,8 +54,9 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
-        final EditText usernameEditText = binding.username;
-        final EditText passwordEditText = binding.password;
+        // Replaced with TextInputEditText for material 3 design
+        final TextInputEditText usernameEditText = (TextInputEditText) binding.username;
+        final TextInputEditText passwordEditText = (TextInputEditText) binding.password;
         final Button loginButton = binding.login;
         final ProgressBar loadingProgressBar = binding.loading;
 
@@ -132,12 +133,11 @@ public class LoginActivity extends AppCompatActivity {
         usernameEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginViewModel.login(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
+                    loadingProgressBar.setVisibility(View.VISIBLE);
+                    signIn(usernameEditText.getText().toString().trim(), passwordEditText.getText().toString().trim());
                 }
                 return false;
             }
@@ -182,7 +182,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUiWithUser(FirebaseUser user) {
         if (user != null) {
-            String welcome = getString(R.string.welcome) + user.getEmail(); // or getDisplayName(), if set
+            String welcome = getString(R.string.welcome) + " " + user.getEmail(); // or getDisplayName(), if set
             Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
             // Navigate to MainActivity or other activity
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);

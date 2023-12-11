@@ -8,13 +8,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.widget.Button;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.northeastern.groupproject_outandabout.api.GooglePlacesCaller;
 import edu.northeastern.groupproject_outandabout.ui.plan.ActivityOption;
 
 /**
@@ -23,6 +23,7 @@ import edu.northeastern.groupproject_outandabout.ui.plan.ActivityOption;
 public class SwipeActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_OPTIONS_ACTIVITY = 100;
     private List<ActivityOption> activities;
+    private ActivityType activityType;
     private List<ActivityOption> savedActivities;
     private List<ActivityOption> removedActivities;
     private RecyclerView recyclerView;
@@ -36,13 +37,6 @@ public class SwipeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe);
 
-        // Retrieve the passed types and times
-        List<String> selectedTypes = getIntent().getStringArrayListExtra("selectedTypes");
-        List<String> selectedTimes = getIntent().getStringArrayListExtra("selectedTimes");
-
-        // Use these parameters to filter API calls
-        activities = fetchDataBasedOnParameters(selectedTypes, selectedTimes);
-
         savedActivities = new ArrayList<>();
         removedActivities = new ArrayList<>();
 
@@ -51,14 +45,14 @@ public class SwipeActivity extends AppCompatActivity {
         updateButtonState();
 
         savedButton.setOnClickListener(view -> {
-            startOptionsActivityForResult(savedActivities);
+            startOptionsActivityForResult(savedActivities, true);
         });
 
         removedButton.setOnClickListener(view -> {
-            startOptionsActivityForResult(removedActivities);
+            startOptionsActivityForResult(removedActivities, false);
         });
 
-        activities = generateDummyData();
+        activities = parseApiResponse();
 
         recyclerView = findViewById(R.id.activityCards);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -95,9 +89,10 @@ public class SwipeActivity extends AppCompatActivity {
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-    private void startOptionsActivityForResult(List<ActivityOption> activities) {
+    private void startOptionsActivityForResult(List<ActivityOption> activities, boolean likeFlag) {
         Intent intent = new Intent(this, OptionsActivity.class);
         intent.putParcelableArrayListExtra("activityList", new ArrayList<>(activities));
+        intent.putExtra("likeFlag", likeFlag);
         startActivityForResult(intent, REQUEST_CODE_OPTIONS_ACTIVITY);
     }
 
@@ -114,16 +109,6 @@ public class SwipeActivity extends AppCompatActivity {
             setResult(RESULT_OK, returnIntent);
             finish();
         }
-
-        /* Sahil's original
-        if (requestCode == REQUEST_CODE_OPTIONS_ACTIVITY && resultCode == RESULT_OK) {
-            Intent returnIntent = new Intent();
-            ActivityOption selectedActivity = data.getParcelableExtra("SelectedActivity");
-            returnIntent.putExtra("SelectedActivity", (Parcelable) selectedActivity);
-            setResult(RESULT_OK, returnIntent);
-            finish();
-        }
-         //*/
     }
 
     private void updateButtonState() {
@@ -131,18 +116,21 @@ public class SwipeActivity extends AppCompatActivity {
         removedButton.setEnabled(!removedActivities.isEmpty());
     }
 
-    private List<ActivityOption> fetchDataBasedOnParameters(List<String> types, List<String> times) {
-        //Need to implement api filtering logic here based on types and times
-        return generateDummyData(); // Placeholder for your data fetching logic
+    private List<ActivityOption> parseApiResponse() {
+        Intent intent = getIntent();
+        activityType = (ActivityType)intent.getSerializableExtra("ActivityType");
+        String apiResponse = intent.getStringExtra("Response");
+
+        return GooglePlacesCaller.parseApiResponse(apiResponse, activityType);
     }
 
     private List<ActivityOption> generateDummyData() {
         List<ActivityOption> dummyData = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 10; i++) {
             String name = "Activity " + (i + 1);
             String address = "Address " + (i + 1);
-            float rating = 4.0f;
-            ActivityOption activityOption = new ActivityOption(name, address, rating, ActivityType.NONE);
+            String rating = "4.0";
+            ActivityOption activityOption = new ActivityOption(name, address, rating, ActivityType.NIGHTLIFE);
             dummyData.add(activityOption);
         }
         return dummyData;

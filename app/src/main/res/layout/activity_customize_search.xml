@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.plan.CustomizeSearchActivity">
+
+    <TextView
+        android:id="@+id/customizeSearchTitleTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Customize Search"
+        android:fontFamily="@font/engagement"
+        android:textColor="@color/md_theme_light_primary"
+        android:textSize="48sp"
+        app:layout_constraintBottom_toTopOf="@+id/searchRadiusContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Search Radius Container -->
+    <LinearLayout
+        android:id="@+id/searchRadiusContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/checkboxContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customizeSearchTitleTV">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingEnd="16dp"
+            android:text="Search Radius (mi):" />
+
+        <Spinner
+            android:id="@+id/searchRadiusSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/customizeSearchButton"
+        style="@style/Widget.Material3.Button.ElevatedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/includeAllCB" />
+
+    <TextView
+        android:id="@+id/typeTestTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/checkboxContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchRadiusContainer" />
+
+    <CheckBox
+        android:id="@+id/includeAllCB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Include All"
+        app:layout_constraintBottom_toTopOf="@+id/customizeSearchButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkboxContainer" />
+
+    <!-- Container for various checkbox lists -->
+    <LinearLayout
+        android:id="@+id/checkboxContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/searchRadiusContainer"
+        app:layout_constraintBottom_toTopOf="@+id/includeAllCB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <!-- Restaurant Type Checkboxes -->
+        <androidx.gridlayout.widget.GridLayout
+            android:id="@+id/restaurantGrid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:rowCount="9"
+            app:columnCount="3">
+            <CheckBox
+                android:id="@+id/americanCB"
+                android:text="American" />
+            <CheckBox
+                android:id="@+id/bakeryCB"
+                android:text="Bakery" />
+            <CheckBox
+                android:id="@+id/barbecueCB"
+                android:text="Barbecue" />
+            <CheckBox
+                android:id="@+id/brazilianCB"
+                android:text="Brazilian" />
+            <CheckBox
+                android:id="@+id/breakfastCB"
+                android:text="Breakfast" />
+            <CheckBox
+                android:id="@+id/cafeCB"
+                android:text="Cafe" />
+            <CheckBox
+                android:id="@+id/chineseCB"
+                android:text="Chinese" />
+            <CheckBox
+                android:id="@+id/fastFoodCB"
+                android:text="Fast Food" />
+            <CheckBox
+                android:id="@+id/frenchCB"
+                android:text="French" />
+            <CheckBox
+                android:id="@+id/greekCB"
+                android:text="Greek" />
+            <CheckBox
+                android:id="@+id/indianCB"
+                android:text="Indian" />
+            <CheckBox
+                android:id="@+id/italianCB"
+                android:text="Italian" />
+            <CheckBox
+                android:id="@+id/japaneseCB"
+                android:text="Japanese" />
+            <CheckBox
+                android:id="@+id/koreanCB"
+                android:text="Korean" />
+            <CheckBox
+                android:id="@+id/mediterraneanCB"
+                android:text="Mediterranean" />
+            <CheckBox
+                android:id="@+id/mexicanCB"
+                android:text="Mexican" />
+            <CheckBox
+                android:id="@+id/middleEasternCB"
+                android:text="Middle Eastern" />
+            <CheckBox
+                android:id="@+id/pizzaCB"
+                android:text="Pizza" />
+            <CheckBox
+                android:id="@+id/ramenCB"
+                android:text="Ramen" />
+            <CheckBox
+                android:id="@+id/sandwichShopCB"
+                android:text="Sandwich Shop" />
+            <CheckBox
+                android:id="@+id/seafoodCB"
+                android:text="Seafood" />
+            <CheckBox
+                android:id="@+id/spanishCB"
+                android:text="Spanish" />
+            <CheckBox
+                android:id="@+id/steakHouseCB"
+                android:text="Steak House" />
+            <CheckBox
+                android:id="@+id/thaiCB"
+                android:text="Thai" />
+            <CheckBox
+                android:id="@+id/turkishCB"
+                android:text="Turkish" />
+            <CheckBox
+                android:id="@+id/vegetarianCB"
+                android:text="Vegetarian" />
+            <CheckBox
+                android:id="@+id/vietnameseCB"
+                android:text="Vietnamese" />
+        </androidx.gridlayout.widget.GridLayout>
+
+        <!-- Entertainment Type Checkboxes -->
+        <androidx.gridlayout.widget.GridLayout
+            android:id="@+id/entertainmentGrid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:rowCount="6"
+            app:columnCount="2">
+            <CheckBox
+                android:id="@+id/amusementCenterCB"
+                android:text="Amusement Center" />
+            <CheckBox
+                android:id="@+id/aquariumCB"
+                android:text="Aquarium" />
+            <CheckBox
+                android:id="@+id/bowlingCB"
+                android:text="Bowling" />
+            <CheckBox
+                android:id="@+id/culturalCenterCB"
+                android:text="Cultural Center" />
+            <CheckBox
+                android:id="@+id/eventVenue"
+                android:text="Event Venue" />
+            <CheckBox
+                android:id="@+id/landmarkCB"
+                android:text="Landmark" />
+            <CheckBox
+                android:id="@+id/movieTheaterCB"
+                android:text="Movie Theater" />
+            <CheckBox
+                android:id="@+id/museumCB"
+                android:text="Museum" />
+            <CheckBox
+                android:id="@+id/performingArtsCB"
+                android:text="Performing Arts" />
+            <CheckBox
+                android:id="@+id/tourismCB"
+                android:text="Tourism" />
+            <CheckBox
+                android:id="@+id/zooCB"
+                android:text="Zoo" />
+        </androidx.gridlayout.widget.GridLayout>
+
+        <!-- Nightlife Type Checkboxes -->
+        <androidx.gridlayout.widget.GridLayout
+            android:id="@+id/nightlifeGrid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:rowCount="6"
+            app:columnCount="1">
+        <CheckBox
+            android:id="@+id/barCB"
+            android:text="Bar" />
+        <CheckBox
+            android:id="@+id/casinoCB"
+            android:text="Casino" />
+        <CheckBox
+            android:id="@+id/nightclubCB"
+            android:text="Nightclub" />
+
+        </androidx.gridlayout.widget.GridLayout>
+
+        <!-- Outdoor Type Checkboxes -->
+        <androidx.gridlayout.widget.GridLayout
+            android:id="@+id/outdoorGrid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:rowCount="6"
+            app:columnCount="2">
+            <CheckBox
+                android:id="@+id/amusementParkCB"
+                android:text="Amusement Park" />
+            <CheckBox
+                android:id="@+id/dogParkCB"
+                android:text="Dog Park" />
+            <CheckBox
+                android:id="@+id/golfCourseCB"
+                android:text="Golf Course" />
+            <CheckBox
+                android:id="@+id/hikingAreaCB"
+                android:text="Hiking Area" />
+            <CheckBox
+                android:id="@+id/marinaCB"
+                android:text="Marina" />
+            <CheckBox
+                android:id="@+id/nationalParkCB"
+                android:text="National Park" />
+            <CheckBox
+                android:id="@+id/parkCB"
+                android:text="Park" />
+            <CheckBox
+                android:id="@+id/skiResortCB"
+                android:text="Ski Resort" />
+            <CheckBox
+                android:id="@+id/sportsClubCB"
+                android:text="Sports Club" />
+        </androidx.gridlayout.widget.GridLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

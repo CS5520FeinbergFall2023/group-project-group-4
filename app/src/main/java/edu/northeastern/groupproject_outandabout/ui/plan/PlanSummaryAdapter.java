@@ -1,5 +1,6 @@
 package edu.northeastern.groupproject_outandabout.ui.plan;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,6 @@ public class PlanSummaryAdapter extends RecyclerView.Adapter<PlanSummaryAdapter.
 
     private List<ActivityBuilderSlot> activitySlots;
 
-
     public PlanSummaryAdapter(List<ActivityBuilderSlot> activitySlots) {
         this.activitySlots = activitySlots;
     }
@@ -34,56 +34,95 @@ public class PlanSummaryAdapter extends RecyclerView.Adapter<PlanSummaryAdapter.
     public void onBindViewHolder(PlanViewHolder holder, int position) {
         ActivityBuilderSlot slot = activitySlots.get(position);
         holder.activityLabel.setText("Activity " + (position + 1));
-        setupSpinners(holder, slot);
+        setupSpinners(holder, slot, position);
     }
 
-    private void setupSpinners(PlanViewHolder holder, ActivityBuilderSlot slot) {
-        ArrayAdapter<CharSequence> timeAdapter = ArrayAdapter.createFromResource(holder.itemView.getContext(),
-                R.array.time_options, android.R.layout.simple_spinner_item);
+    private void setupSpinners(PlanViewHolder holder, ActivityBuilderSlot slot, int position) {
+        Context context = holder.itemView.getContext();
+
+        // Time spinner setup
+        setupTimeSpinner(context, holder, slot);
+
+        // AM/PM spinner setup
+        setupAmpmSpinner(context, holder, slot);
+
+        // Type spinner setup
+        setupTypeSpinner(context, holder, slot, position);
+    }
+
+    private void setupTimeSpinner(Context context, PlanViewHolder holder, ActivityBuilderSlot slot) {
+        ArrayAdapter<CharSequence> timeAdapter = ArrayAdapter.createFromResource(context, R.array.time_options, android.R.layout.simple_spinner_item);
         timeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         holder.timeSpinner.setAdapter(timeAdapter);
-
-        ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(holder.itemView.getContext(),
-                R.array.type_options, android.R.layout.simple_spinner_item);
-        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        holder.typeSpinner.setAdapter(typeAdapter);
-
-        // Set the current selection for type spinner
-        String typeString = slot.getType().toString();
-        int typePosition = typeAdapter.getPosition(typeString);
-        holder.typeSpinner.setSelection(typePosition >= 0 ? typePosition : 0);
-
-        // Set the current selection for time spinner
         int timePosition = timeAdapter.getPosition(slot.getTimeslot());
         holder.timeSpinner.setSelection(timePosition >= 0 ? timePosition : 0);
+
+        holder.timeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                slot.setTimeslot(parent.getItemAtPosition(position).toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+    }
+
+    private void setupAmpmSpinner(Context context, PlanViewHolder holder, ActivityBuilderSlot slot) {
+        ArrayAdapter<CharSequence> ampmAdapter = ArrayAdapter.createFromResource(context, R.array.ampm_options, android.R.layout.simple_spinner_item);
+        ampmAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        holder.ampmSpinner.setAdapter(ampmAdapter);
+        int ampmPosition = ampmAdapter.getPosition(slot.getAmpm());
+        holder.ampmSpinner.setSelection(ampmPosition >= 0 ? ampmPosition : 0);
+
+        holder.ampmSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                slot.setAmpm(parent.getItemAtPosition(position).toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+    }
+
+    private void setupTypeSpinner(Context context, PlanViewHolder holder, ActivityBuilderSlot slot, int position) {
+        ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(context, R.array.type_options, android.R.layout.simple_spinner_item);
+        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        holder.typeSpinner.setAdapter(typeAdapter);
+        holder.typeSpinner.setSelection(getTypePosition(typeAdapter, slot));
 
         holder.typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedTypeString = parent.getItemAtPosition(position).toString();
-                ActivityType selectedType = ActivityType.valueOf(selectedTypeString);
-                slot.setType(selectedType);
+                slot.setType(convertStringToActivityType(selectedTypeString));
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        holder.timeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedTime = parent.getItemAtPosition(position).toString();
-                slot.setTimeslot(selectedTime);
-            }
+    }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+    private ActivityType convertStringToActivityType(String typeString) {
+        switch (typeString) {
+            case "Restaurant":
+                return ActivityType.RESTAURANT;
+            case "Entertainment":
+                return ActivityType.ENTERTAINMENT;
+            case "Nightlife":
+                return ActivityType.NIGHTLIFE;
+            case "Outdoors":
+                return ActivityType.OUTDOORS;
+            default:
+                return ActivityType.NONE;
+        }
+    }
 
-        });
-
-
+    private int getTypePosition(ArrayAdapter<CharSequence> typeAdapter, ActivityBuilderSlot slot) {
+        String typeString = slot.getType().toString();
+        return typeAdapter.getPosition(typeString);
     }
 
 
@@ -100,16 +139,14 @@ public class PlanSummaryAdapter extends RecyclerView.Adapter<PlanSummaryAdapter.
         TextView activityLabel;
         Spinner timeSpinner;
         Spinner typeSpinner;
+        Spinner ampmSpinner;
 
         PlanViewHolder(View itemView) {
             super(itemView);
             activityLabel = itemView.findViewById(R.id.activityLabel);
             timeSpinner = itemView.findViewById(R.id.timeSpinner);
             typeSpinner = itemView.findViewById(R.id.typeSpinner);
+            ampmSpinner = itemView.findViewById(R.id.ampmSpinner);
         }
-
-
     }
-
 }
-
