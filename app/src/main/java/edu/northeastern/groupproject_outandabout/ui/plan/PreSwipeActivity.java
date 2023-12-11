@@ -207,9 +207,9 @@ public class PreSwipeActivity extends AppCompatActivity {
             long startTime = System.currentTimeMillis();
             threadHandler.post(() -> searchLoadingWheel.setVisibility(View.VISIBLE));
 
-            //String response = GooglePlacesCaller.fetchPoiData(this.searchQuery);
+            String response = GooglePlacesCaller.fetchPoiData(this.searchQuery);
             // USE MOCK RESPONSE TO TEST PARSING LOGIC
-            String response = GooglePlacesCaller.getMockApiResponse();
+            //String response = GooglePlacesCaller.getMockApiResponse();
 
             // Show user loading wheel for at least 1 sec
             while (System.currentTimeMillis() - startTime < 1000) {/*wait*/}
@@ -217,6 +217,7 @@ public class PreSwipeActivity extends AppCompatActivity {
 
             Intent intent = new Intent(PreSwipeActivity.this, SwipeActivity.class);
             intent.putExtra("Response", response);
+            intent.putExtra("ActivityType", plan.getActivitySlots().get(searchActivityIndex).getType());
             threadHandler.post(() -> startActivityForResult(intent, REQUEST_CODE_SWIPE_ACTIVITY));
         }
     }

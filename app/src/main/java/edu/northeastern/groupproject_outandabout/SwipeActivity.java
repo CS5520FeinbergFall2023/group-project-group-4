@@ -23,6 +23,7 @@ import edu.northeastern.groupproject_outandabout.ui.plan.ActivityOption;
 public class SwipeActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_OPTIONS_ACTIVITY = 100;
     private List<ActivityOption> activities;
+    private ActivityType activityType;
     private List<ActivityOption> savedActivities;
     private List<ActivityOption> removedActivities;
     private RecyclerView recyclerView;
@@ -51,7 +52,7 @@ public class SwipeActivity extends AppCompatActivity {
             startOptionsActivityForResult(removedActivities, false);
         });
 
-        activities = parseApiResponse(); // generateDummyData(); //
+        activities = parseApiResponse();
 
         recyclerView = findViewById(R.id.activityCards);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -117,9 +118,10 @@ public class SwipeActivity extends AppCompatActivity {
 
     private List<ActivityOption> parseApiResponse() {
         Intent intent = getIntent();
+        activityType = (ActivityType)intent.getSerializableExtra("ActivityType");
         String apiResponse = intent.getStringExtra("Response");
 
-        return GooglePlacesCaller.parseApiResponse(apiResponse, ActivityType.RESTAURANT);
+        return GooglePlacesCaller.parseApiResponse(apiResponse, activityType);
     }
 
     private List<ActivityOption> generateDummyData() {
