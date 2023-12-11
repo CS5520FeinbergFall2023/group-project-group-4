@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -25,6 +26,7 @@ public class PlanSummaryActivity extends AppCompatActivity {
 
     private RecyclerView planSummaryRecyclerView;
     private ActivitySummaryAdapter adapter;
+    private TextInputEditText planNameET;
     private Button savePlanButton;
     private Button exportPlanButton;
     private Button regeneratePlanButton;
@@ -38,6 +40,7 @@ public class PlanSummaryActivity extends AppCompatActivity {
         planSummaryRecyclerView = findViewById(R.id.planSummaryRecyclerView);
         planSummaryRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        planNameET = findViewById(R.id.planNameEditText);
         savePlanButton = findViewById(R.id.savePlanButton);
         exportPlanButton = findViewById(R.id.exportPlanButton);
         regeneratePlanButton = findViewById(R.id.regeneratePlanButton);
@@ -79,8 +82,7 @@ public class PlanSummaryActivity extends AppCompatActivity {
     }
 
     private void savePlan() {
-        TextInputEditText planNameEditText = findViewById(R.id.planNameEditText);
-        String planName = planNameEditText.getText().toString().trim();
+        String planName = planNameET.getText().toString().trim();
 
         if (planName.isEmpty()) {
             Toast.makeText(PlanSummaryActivity.this, "Please enter the plan name", Toast.LENGTH_SHORT).show();
@@ -105,6 +107,7 @@ public class PlanSummaryActivity extends AppCompatActivity {
     }
 
     private void exportPlan() {
+        currentPlan.setName(planNameET.getText().toString());
         String planDetails = PlanExportUtil.convertPlanToText(currentPlan);
         PlanExportUtil.sharePlan(this, planDetails);    }
 

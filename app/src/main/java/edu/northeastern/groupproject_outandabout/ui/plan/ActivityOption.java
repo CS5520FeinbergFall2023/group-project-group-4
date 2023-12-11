@@ -41,12 +41,18 @@ public class ActivityOption implements Serializable, Parcelable {
 
     @Override
     public String toString() {
+        return "- " + name + "\n- "
+                + address + "\n- "
+                + "Rating: " + rating + "\n- "
+                + "@" + selectedTime + "\n";
+        /*
         return "Name: " + name +
                 ", Address: " + address +
                 ", Rating: " + rating +
                 ", Type: " + (type != null ? type.name() : "N/A") +
                 ", Selected Time: " + selectedTime +
                 ", Is Selected: " + isSelected;
+         */
     }
 
 
