@@ -52,7 +52,7 @@ public class SwipeActivity extends AppCompatActivity {
             startOptionsActivityForResult(removedActivities, false);
         });
 
-        activities = generateDummyData();//parseApiResponse();
+        activities = parseApiResponse();
 
         recyclerView = findViewById(R.id.activityCards);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
